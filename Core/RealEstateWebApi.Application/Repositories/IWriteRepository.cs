@@ -10,6 +10,7 @@ namespace RealEstateWebApi.Application.Repositories
 {
     public interface IWriteRepository<TEntity> : IRepository<TEntity> where TEntity : class, IEntity
     {
+        Task<TEntity> AddAndSaveAsync(TEntity model);
         Task<bool> AddAsync(TEntity model);
         Task<bool> AddRangeAsync(IEnumerable<TEntity> datas);
         bool Remove(TEntity model);

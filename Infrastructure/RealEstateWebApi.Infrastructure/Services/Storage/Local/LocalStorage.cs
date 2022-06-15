@@ -30,13 +30,13 @@ namespace RealEstateWebApi.Infrastructure.Services.Storage.Local
 
         public async Task<FilePath> MoveFileAsync(string directory, string fileName, string newDirectory)
         {
-            string path = Path.Combine(directory,fileName);
+            string path = Path.Combine(directory, fileName);
             string fileNewName = await FileRenameAsync(newDirectory, fileName, HasFile);
-            string movePath = Path.Combine(newDirectory,fileNewName);
+            string movePath = Path.Combine(newDirectory, fileNewName);
 
             File.Move(path, movePath);
 
-            return new FilePath(newDirectory,fileNewName);
+            return new FilePath(newDirectory, fileNewName);
         }
 
         async Task<bool> CopyFileAsync(string path, IFormFile file)
@@ -73,6 +73,18 @@ namespace RealEstateWebApi.Infrastructure.Services.Storage.Local
 
 
             return datas;
+        }
+
+        public async Task<FilePath> UploadSingleAsync(string directory, IFormFile formFile)
+        {
+            if (!Directory.Exists(directory))
+                Directory.CreateDirectory(directory);
+
+            string fileNewName = await FileRenameAsync(directory, formFile.FileName, HasFile);
+            string path = Path.Combine(directory, fileNewName);
+            await CopyFileAsync(path, formFile);
+
+            return new FilePath(directory, fileNewName);
         }
 
         public bool HasFile(string directory, string fileName)

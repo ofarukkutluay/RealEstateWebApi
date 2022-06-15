@@ -1,11 +1,7 @@
 ﻿using AutoMapper;
 using RealEstateWebApi.Application.Features.Commands.Agent.CreateAgent;
+using RealEstateWebApi.Application.Features.Commands.Blog.CreateBlog;
 using RealEstateWebApi.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RealEstateWebApi.Application.Utilities.Mapper
 {
@@ -14,6 +10,7 @@ namespace RealEstateWebApi.Application.Utilities.Mapper
         public ApplicationMapingProfile()
         {
             CreateMap<CreateAgentRequest,Agent>();
+            CreateMap<CreateBlogRequest,Blog>();
         }
 
     }

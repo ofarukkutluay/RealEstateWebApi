@@ -55,13 +55,15 @@ namespace RealEstateWebApi.Application.Features.Commands.User.LoginUser
             AccessToken accessToken = _tokenHandler.CreateToken<AccessToken>(user, operationClaims);
 
             IEnumerable<UserLogin> userLogins = _userLoginReadRepository.GetWhere(e=>e.UserId == user.Id);
+
+            //todo Tüm kullanıcı login bilgisi silme işlemi daha sonra kaldırılıcak.
             if(userLogins.Count()>0)
                 _userLoginWriteRepository.RemoveRange(userLogins);
 
             await _userLoginWriteRepository.AddAsync(new UserLogin()
             {
                 UserId = user.Id,
-                RefreshToken = accessToken.RefreshToken,
+                RefreshToken = accessToken.RefreshToken.Split("-")[0],
                 RefreshTokenExpireDate = accessToken.Expiration.AddMinutes(5)
             });
 

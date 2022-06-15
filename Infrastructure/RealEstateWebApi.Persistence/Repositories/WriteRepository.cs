@@ -32,6 +32,17 @@ namespace RealEstateWebApi.Persistence.Repositories
             return true;
         }
 
+        public async Task<TEntity> AddAndSaveAsync(TEntity model)
+        {
+            EntityEntry<TEntity> entityEntry = await Table.AddAsync(model);
+            if (entityEntry.State == EntityState.Added)
+            {
+                await SaveAsync();
+                return entityEntry.Entity;
+            }
+            return null;
+        }
+
         public bool Remove(TEntity model)
         {
             EntityEntry<TEntity> entityEntry = Table.Remove(model);

@@ -30,6 +30,11 @@ namespace RealEstateWebApi.Infrastructure.Services.Storage.Aws
             throw new NotImplementedException();
         }
 
+        public Task<FilePath> UploadSingleAsync(string directory, IFormFile formFile)
+        {
+            throw new NotImplementedException();
+        }
+
         bool IStorage.HasFile(string directoryOrContainer, string fileName)
         {
             throw new NotImplementedException();

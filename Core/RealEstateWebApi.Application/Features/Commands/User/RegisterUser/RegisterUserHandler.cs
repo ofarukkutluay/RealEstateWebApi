@@ -63,9 +63,8 @@ namespace RealEstateWebApi.Application.Features.Commands.User.RegisterUser
                 PassSalt = passSalt,
             };
 
-            var addResult = await _userWriteRepository.AddAsync(user);
-            var saveResult = await _userWriteRepository.SaveAsync();
-            if (!addResult || saveResult <= 0)
+            var addResult = await _userWriteRepository.AddAndSaveAsync(user);
+            if (addResult==null)
             {
                 return new RegisterUserResponse()
                 {
@@ -76,7 +75,7 @@ namespace RealEstateWebApi.Application.Features.Commands.User.RegisterUser
 
             return new RegisterUserResponse
             {
-                Message = "Kullanıcı kayıt edildi",
+                Message = $"{addResult.Id} id ile kullanıcı kayıt edildi",
                 Success = true
             };
         }
