@@ -17,15 +17,15 @@ namespace RealEstateWebApi.Application.Features.Queries.Blog.GetAllBlogByClientI
             _blogReadRepository = blogReadRepository;
         }
 
-        public async Task<GetAllBlogByClientIdResponse> Handle(GetAllBlogByClientIdRequest request, CancellationToken cancellationToken)
+        public Task<GetAllBlogByClientIdResponse> Handle(GetAllBlogByClientIdRequest request, CancellationToken cancellationToken)
         {
             IEnumerable<Domain.Entities.Blog> blogs = _blogReadRepository.GetWhere(e=>e.ClientId == request.ClientId);
-            return new GetAllBlogByClientIdResponse()
+            return Task.FromResult(new GetAllBlogByClientIdResponse()
             {
                 Data = blogs,
                 Message = $"{request.ClientId} clientdan tüm blog getirildi.",
                 Success = true
-            };
+            });
         }
     }
 }

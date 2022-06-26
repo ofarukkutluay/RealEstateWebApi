@@ -63,7 +63,7 @@ namespace RealEstateWebApi.Application.Features.Commands.User.LoginUser
             await _userLoginWriteRepository.AddAsync(new UserLogin()
             {
                 UserId = user.Id,
-                RefreshToken = accessToken.RefreshToken.Split("-")[0],
+                RefreshToken = accessToken.RefreshToken,
                 RefreshTokenExpireDate = accessToken.Expiration.AddMinutes(5)
             });
 
