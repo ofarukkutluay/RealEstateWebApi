@@ -37,8 +37,15 @@ namespace RealEstateWebApi.Persistence.Repositories
             EntityEntry<TEntity> entityEntry = await Table.AddAsync(model);
             if (entityEntry.State == EntityState.Added)
             {
-                await SaveAsync();
-                return entityEntry.Entity;
+                try
+                {
+                    await SaveAsync();
+                    return entityEntry.Entity;
+                }
+                catch (Exception)
+                {
+                    return null;
+                }
             }
             return null;
         }
