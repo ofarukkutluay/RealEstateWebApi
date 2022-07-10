@@ -27,8 +27,9 @@ namespace RealEstateWebApi.Application.Features.Commands.BlogType.DeleteBlogType
                     Message = "Blog Tipi bulunamadı.",
                     Success = false,
                 };
-            var result = await _blogTypeWriteRepository.RemoveAsync(request.Id);
-            if(!result)
+            await _blogTypeWriteRepository.RemoveAsync(request.Id);
+            var result = await _blogTypeWriteRepository.SaveAsync();
+            if(result<=0)
                 return new DeleteBlogTypeResponse()
                 {
                     Message = "Db ye kayıt edilirken bir hata oluştu",

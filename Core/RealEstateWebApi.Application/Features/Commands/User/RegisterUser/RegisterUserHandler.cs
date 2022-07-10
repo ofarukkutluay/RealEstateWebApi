@@ -58,7 +58,7 @@ namespace RealEstateWebApi.Application.Features.Commands.User.RegisterUser
                 FirstName = request.FirstName.Trim(),
                 LastName = request.LastName.Trim(),
                 MobileNumber = request.MobileNumber,
-                BirthDate = DateOnly.Parse(request.BirthDate.ToShortDateString()),
+                BirthDate = request.BirthDate,
                 PassHash = passHash,
                 PassSalt = passSalt,
             };

@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using RealEstateWebApi.Application.Features.Commands.BlogType.CreateBlogType;
 using RealEstateWebApi.Application.Features.Commands.BlogType.UpdateBlogType;
-using RealEstateWebApi.Application.Features.Queries.BlogType.GetAllBlogTypeByClientId;
+using RealEstateWebApi.Application.Features.Queries.BlogType.GetAllBlogType;
 
 namespace RealEstateWebApi.WebApi.Controllers
 {
@@ -36,9 +36,9 @@ namespace RealEstateWebApi.WebApi.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllBlogTypeByClientId(GetAllBlogTypeByClientIdRequest request)
+        public async Task<IActionResult> GetAllBlogType()
         {
-            GetAllBlogTypeByClientIdResponse response = await _mediator.Send(request);
+            GetAllBlogTypeResponse response = await _mediator.Send(new GetAllBlogTypeRequest());
             if (response.Success)
                 return Ok(response);
             return BadRequest(response);

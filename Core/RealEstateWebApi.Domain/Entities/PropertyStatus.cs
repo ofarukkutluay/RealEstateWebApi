@@ -9,7 +9,6 @@ namespace RealEstateWebApi.Domain.Entities
 {
     public class PropertyStatus : BaseEntity
     {
-        public uint ClientId { get; set; }
         public string Title { get; set; }
 
     }

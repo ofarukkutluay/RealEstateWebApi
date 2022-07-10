@@ -12,8 +12,9 @@ namespace RealEstateWebApi.Persistence.EntityConfigurations
     {
         public override void Configure(EntityTypeBuilder<HeatingType> builder)
         {
-            builder.HasOne<Client>().WithMany().HasForeignKey(e => e.ClientId);
-
+            builder.HasData(new HeatingType { Id = 1, Title = "Doğalgaz Sobalı", CreatedDate = DateTime.UtcNow }, new HeatingType { Id = 2, Title = "Sobalı", CreatedDate = DateTime.UtcNow },
+                new HeatingType { Id = 3, Title = "Yerden Isıtma", CreatedDate = DateTime.UtcNow }, new HeatingType { Id = 4, Title = "Kombili", CreatedDate = DateTime.UtcNow },
+                new HeatingType { Id = 5, Title = "Merkezi Sistem", CreatedDate = DateTime.UtcNow }, new HeatingType { Id = 6, Title = "FuelOil", CreatedDate = DateTime.UtcNow });
             base.Configure(builder);
         }
     }

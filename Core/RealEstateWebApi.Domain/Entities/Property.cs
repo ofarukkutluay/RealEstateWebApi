@@ -23,7 +23,7 @@ namespace RealEstateWebApi.Domain.Entities
         public uint UsingStatusId { get; set; }
         public uint DeedStatusId { get; set; }
         public uint CompanyId { get; set; }
-        public uint ClientId { get; set; }
+        public uint? ClientId { get; set; }
         public uint AgentId { get; set; }
 
 

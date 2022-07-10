@@ -10,7 +10,6 @@ namespace RealEstateWebApi.Domain.Entities
 {
     public class UsingStatus : BaseEntity
     {
-        public uint ClientId { get; set; }
         public string Title { get; set; }
     }
 }

@@ -28,8 +28,9 @@ namespace RealEstateWebApi.Application.Features.Commands.Client.DeleteClient
                     Message = "Client bulunamadı",
                     Success = false
                 };
-            var result = await _clientWriteRepository.RemoveAsync(request.Id);
-            if(!result)
+            await _clientWriteRepository.RemoveAsync(request.Id);
+            var result = await _clientWriteRepository.SaveAsync();
+            if(result<=0)
                 return new DeleteClientResponse()
                 {
                     Message = "Db ye işlem yapılırken bir hata alındı.",

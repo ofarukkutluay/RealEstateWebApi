@@ -12,8 +12,8 @@ namespace RealEstateWebApi.Persistence.EntityConfigurations
     {
         public override void Configure(EntityTypeBuilder<DeedStatus> builder)
         {
-            builder.HasOne<Client>().WithMany().HasForeignKey(e => e.ClientId);
-
+            builder.HasData(new DeedStatus { Id = 1, Title = "Kat Mülkiyetli", CreatedDate = DateTime.UtcNow}, new DeedStatus { Id = 2, Title = "Kat İrtifaklı", CreatedDate = DateTime.UtcNow }, 
+                new DeedStatus { Id = 3, Title = "Arsa", CreatedDate = DateTime.UtcNow }, new DeedStatus { Id = 4, Title = "Tarla", CreatedDate = DateTime.UtcNow });
             base.Configure(builder);
         }
     }

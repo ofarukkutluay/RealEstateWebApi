@@ -46,9 +46,9 @@ namespace RealEstateWebApi.WebApi.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllClient([FromQuery] GetAllClientRequest request)
+        public async Task<IActionResult> GetAllClient()
         {
-            var response = await _mediator.Send(request);
+            var response = await _mediator.Send(new GetAllClientRequest());
             return Ok(response);
         }
     }

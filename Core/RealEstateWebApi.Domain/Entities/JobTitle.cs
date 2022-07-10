@@ -9,7 +9,6 @@ namespace RealEstateWebApi.Domain.Entities
 {
     public class JobTitle : BaseEntity
     {
-        public uint ClientId { get; set; }
         public uint CompanyId { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }

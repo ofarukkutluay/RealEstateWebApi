@@ -12,8 +12,8 @@ namespace RealEstateWebApi.Persistence.EntityConfigurations
     {
         public override void Configure(EntityTypeBuilder<InternetType> builder)
         {
-            builder.HasOne<Client>().WithMany().HasForeignKey(e => e.ClientId);
-
+            builder.HasData(new InternetType { Id = 1, Title = "Adsl/Vdsl", CreatedDate = DateTime.UtcNow }, new InternetType { Id = 2, Title = "Fiber", CreatedDate = DateTime.UtcNow }, 
+                new InternetType { Id = 3, Title = "Uydu", CreatedDate = DateTime.UtcNow }, new InternetType { Id = 4, Title = "Altyapı Yok", CreatedDate = DateTime.UtcNow });
             base.Configure(builder);
         }
     }

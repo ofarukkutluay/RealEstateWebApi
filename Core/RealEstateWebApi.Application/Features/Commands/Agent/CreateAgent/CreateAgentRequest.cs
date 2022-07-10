@@ -10,7 +10,6 @@ namespace RealEstateWebApi.Application.Features.Commands.Agent.CreateAgent
     public class CreateAgentRequest : IRequest<CreateAgentResponse>
     {
         public uint UserId { get; set; }
-        public uint ClientId { get; set; }
         public uint CompanyId { get; set; }
         public uint JobTitleId { get; set; }
         public string? ViewMobileNumber { get; set; }

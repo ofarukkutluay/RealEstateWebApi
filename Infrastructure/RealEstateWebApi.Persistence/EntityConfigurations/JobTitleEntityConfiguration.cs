@@ -12,7 +12,6 @@ namespace RealEstateWebApi.Persistence.EntityConfigurations
     {
         public override void Configure(EntityTypeBuilder<JobTitle> builder)
         {
-            builder.HasOne<Client>().WithMany().HasForeignKey(e => e.ClientId);
             builder.HasOne<Company>().WithMany().HasForeignKey(e=>e.CompanyId);
 
             base.Configure(builder);

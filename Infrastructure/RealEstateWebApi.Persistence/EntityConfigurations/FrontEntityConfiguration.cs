@@ -12,8 +12,10 @@ namespace RealEstateWebApi.Persistence.EntityConfigurations
     {
         public override void Configure(EntityTypeBuilder<Front> builder)
         {
-            builder.HasOne<Client>().WithMany().HasForeignKey(e => e.ClientId);
-
+            builder.HasData(new Front { Id = 1,Title = "Kuzey", CreatedDate = DateTime.UtcNow }, new Front { Id = 2, Title = "Kuzey Doğu", CreatedDate = DateTime.UtcNow }, 
+                new Front { Id = 3, Title = "Doğu", CreatedDate = DateTime.UtcNow }, new Front { Id = 4, Title = "Güney Doğu", CreatedDate = DateTime.UtcNow }, 
+                new Front { Id = 5, Title = "Güney", CreatedDate = DateTime.UtcNow }, new Front { Id = 6, Title = "Güney Batı", CreatedDate = DateTime.UtcNow }, 
+                new Front { Id = 7, Title = "Batı", CreatedDate = DateTime.UtcNow }, new Front { Id = 8, Title = "Kuzey Batı", CreatedDate = DateTime.UtcNow });
             base.Configure(builder);
         }
     }

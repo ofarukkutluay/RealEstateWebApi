@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using RealEstateWebApi.Application.Features.Commands.User.LoginUser;
 using RealEstateWebApi.Application.Features.Commands.User.LogoutUser;
 using RealEstateWebApi.Application.Features.Commands.User.RegisterUser;
+using RealEstateWebApi.Application.Features.Queries.User.GetAllUser;
 
 namespace RealEstateWebApi.WebApi.Controllers
 {
@@ -15,6 +16,13 @@ namespace RealEstateWebApi.WebApi.Controllers
         public UserController(IMediator mediator)
         {
             _mediator = mediator;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> AllUser([FromQuery] GetAllUserRequest request)
+        {
+            GetAllUserResponse response = await _mediator.Send(request);
+            return Ok(response);
         }
 
         [HttpPost("[action]")]

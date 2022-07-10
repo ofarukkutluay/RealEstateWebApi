@@ -9,7 +9,6 @@ namespace RealEstateWebApi.Domain.Entities
 {
     public class Front : BaseEntity
     {
-        public uint ClientId { get; set; }
         public string Title { get; set; }
     }
 }

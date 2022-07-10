@@ -9,7 +9,6 @@ namespace RealEstateWebApi.Domain.Entities
 {
     public class Agent : BaseEntity
     {
-        public uint ClientId { get; set; }
         public uint CompanyId { get; set; }
         public uint JobTitleId { get; set; }
         public string? ViewMobileNumber { get; set; }

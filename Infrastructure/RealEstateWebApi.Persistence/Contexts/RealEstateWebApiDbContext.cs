@@ -13,7 +13,7 @@ namespace RealEstateWebApi.Persistence.Contexts
 {
     public class RealEstateWebApiDbContext : DbContext
     {
-        public RealEstateWebApiDbContext(DbContextOptions options) : base(options) { }
+        public RealEstateWebApiDbContext(DbContextOptions<RealEstateWebApiDbContext> options) : base(options) { }
 
         public DbSet<Agent> Agents { get; set; }
         public DbSet<User> Users { get; set; }

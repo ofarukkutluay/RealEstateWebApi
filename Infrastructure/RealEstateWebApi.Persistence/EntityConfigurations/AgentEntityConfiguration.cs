@@ -16,7 +16,6 @@ namespace RealEstateWebApi.Persistence.EntityConfigurations
             builder.HasOne<User>().WithOne().HasForeignKey<Agent>(e=>e.Id);
             builder.HasOne<Company>().WithMany().HasForeignKey(e=>e.CompanyId);
             builder.HasOne<JobTitle>().WithMany().HasForeignKey(e=>e.JobTitleId);
-            builder.HasOne<Client>().WithMany().HasForeignKey(e=>e.ClientId);
 
             base.Configure(builder);
         }

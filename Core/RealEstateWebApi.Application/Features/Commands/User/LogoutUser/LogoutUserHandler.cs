@@ -1,11 +1,6 @@
 ﻿using MediatR;
 using RealEstateWebApi.Application.Repositories;
-using RealEstateWebApi.Domain.Entities.Identity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace RealEstateWebApi.Application.Features.Commands.User.LogoutUser
 {
@@ -22,7 +17,7 @@ namespace RealEstateWebApi.Application.Features.Commands.User.LogoutUser
 
         public async Task<LogoutUserResponse> Handle(LogoutUserRequest request, CancellationToken cancellationToken)
         {
-            UserLogin userLogin = await _userLoginReadRepository.GetSingleAsync(e=> e.UserId==request.UserId && e.RefreshToken == request.RefreshToken);
+            Domain.Entities.Identity.UserLogin userLogin = await _userLoginReadRepository.GetSingleAsync(e=> e.UserId==request.UserId && e.RefreshToken == request.RefreshToken);
             if (userLogin == null)
                 return new LogoutUserResponse()
                 {
