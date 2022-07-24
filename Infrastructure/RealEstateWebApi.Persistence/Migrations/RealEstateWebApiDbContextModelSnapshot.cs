@@ -297,6 +297,152 @@ namespace RealEstateWebApi.Persistence.Migrations
                     b.ToTable("Companies");
                 });
 
+            modelBuilder.Entity("RealEstateWebApi.Domain.Entities.Customer", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<long>("AssignedUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("BirthDay")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<long?>("CitizenNumber")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("CityId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<long>("DistrictId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("text");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("MobileNumber")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("MobileNumber2")
+                        .HasColumnType("text");
+
+                    b.Property<long?>("NeighborhoodId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("text");
+
+                    b.Property<string>("PhoneNumber2")
+                        .HasColumnType("text");
+
+                    b.Property<long>("RegisterUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CityId");
+
+                    b.HasIndex("DistrictId");
+
+                    b.HasIndex("NeighborhoodId");
+
+                    b.ToTable("Customers");
+                });
+
+            modelBuilder.Entity("RealEstateWebApi.Domain.Entities.CustomerOwnedShortProperty", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<long>("CustomerId")
+                        .HasColumnType("bigint");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<long?>("PropertyId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("ShortPropertyId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CustomerId");
+
+                    b.HasIndex("PropertyId");
+
+                    b.HasIndex("ShortPropertyId");
+
+                    b.ToTable("CustomerOwnedShortProperties");
+                });
+
+            modelBuilder.Entity("RealEstateWebApi.Domain.Entities.CustomerSearchShortProperty", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<long>("CustomerId")
+                        .HasColumnType("bigint");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<long>("ShortPropertyId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CustomerId");
+
+                    b.HasIndex("ShortPropertyId");
+
+                    b.ToTable("CustomerSearchShortProperties");
+                });
+
             modelBuilder.Entity("RealEstateWebApi.Domain.Entities.DeedStatus", b =>
                 {
                     b.Property<long>("Id")
@@ -326,28 +472,28 @@ namespace RealEstateWebApi.Persistence.Migrations
                         new
                         {
                             Id = 1L,
-                            CreatedDate = new DateTime(2022, 7, 10, 19, 15, 11, 546, DateTimeKind.Utc).AddTicks(6127),
+                            CreatedDate = new DateTime(2022, 7, 24, 13, 51, 9, 873, DateTimeKind.Utc).AddTicks(4630),
                             IsActive = true,
                             Title = "Kat Mülkiyetli"
                         },
                         new
                         {
                             Id = 2L,
-                            CreatedDate = new DateTime(2022, 7, 10, 19, 15, 11, 546, DateTimeKind.Utc).AddTicks(6132),
+                            CreatedDate = new DateTime(2022, 7, 24, 13, 51, 9, 873, DateTimeKind.Utc).AddTicks(4631),
                             IsActive = true,
                             Title = "Kat İrtifaklı"
                         },
                         new
                         {
                             Id = 3L,
-                            CreatedDate = new DateTime(2022, 7, 10, 19, 15, 11, 546, DateTimeKind.Utc).AddTicks(6134),
+                            CreatedDate = new DateTime(2022, 7, 24, 13, 51, 9, 873, DateTimeKind.Utc).AddTicks(4632),
                             IsActive = true,
                             Title = "Arsa"
                         },
                         new
                         {
                             Id = 4L,
-                            CreatedDate = new DateTime(2022, 7, 10, 19, 15, 11, 546, DateTimeKind.Utc).AddTicks(6135),
+                            CreatedDate = new DateTime(2022, 7, 24, 13, 51, 9, 873, DateTimeKind.Utc).AddTicks(4633),
                             IsActive = true,
                             Title = "Tarla"
                         });
@@ -374,6 +520,139 @@ namespace RealEstateWebApi.Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Districts");
+                });
+
+            modelBuilder.Entity("RealEstateWebApi.Domain.Entities.Entry", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<long>("CustomerId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("EntrySubTitle")
+                        .HasColumnType("text");
+
+                    b.Property<long>("EntrySubTypeId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("EntryTypeId")
+                        .HasColumnType("bigint");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CustomerId");
+
+                    b.HasIndex("EntrySubTypeId");
+
+                    b.HasIndex("EntryTypeId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Entries");
+                });
+
+            modelBuilder.Entity("RealEstateWebApi.Domain.Entities.EntrySubType", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<long>("EntryTypeId")
+                        .HasColumnType("bigint");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EntryTypeId");
+
+                    b.ToTable("EntrySubTypes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            CreatedDate = new DateTime(2022, 7, 24, 13, 51, 9, 874, DateTimeKind.Utc).AddTicks(8219),
+                            EntryTypeId = 1L,
+                            IsActive = true,
+                            Title = "Ziyaret"
+                        },
+                        new
+                        {
+                            Id = 2L,
+                            CreatedDate = new DateTime(2022, 7, 24, 13, 51, 9, 874, DateTimeKind.Utc).AddTicks(8222),
+                            EntryTypeId = 1L,
+                            IsActive = true,
+                            Title = "Telefon"
+                        });
+                });
+
+            modelBuilder.Entity("RealEstateWebApi.Domain.Entities.EntryType", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("EntryTypes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            CreatedDate = new DateTime(2022, 7, 24, 13, 51, 9, 874, DateTimeKind.Utc).AddTicks(8586),
+                            IsActive = true,
+                            Title = "Görüşme"
+                        });
                 });
 
             modelBuilder.Entity("RealEstateWebApi.Domain.Entities.File", b =>
@@ -442,56 +721,56 @@ namespace RealEstateWebApi.Persistence.Migrations
                         new
                         {
                             Id = 1L,
-                            CreatedDate = new DateTime(2022, 7, 10, 19, 15, 11, 546, DateTimeKind.Utc).AddTicks(6978),
+                            CreatedDate = new DateTime(2022, 7, 24, 13, 51, 9, 874, DateTimeKind.Utc).AddTicks(8931),
                             IsActive = true,
                             Title = "Kuzey"
                         },
                         new
                         {
                             Id = 2L,
-                            CreatedDate = new DateTime(2022, 7, 10, 19, 15, 11, 546, DateTimeKind.Utc).AddTicks(6982),
+                            CreatedDate = new DateTime(2022, 7, 24, 13, 51, 9, 874, DateTimeKind.Utc).AddTicks(8933),
                             IsActive = true,
                             Title = "Kuzey Doğu"
                         },
                         new
                         {
                             Id = 3L,
-                            CreatedDate = new DateTime(2022, 7, 10, 19, 15, 11, 546, DateTimeKind.Utc).AddTicks(6983),
+                            CreatedDate = new DateTime(2022, 7, 24, 13, 51, 9, 874, DateTimeKind.Utc).AddTicks(8934),
                             IsActive = true,
                             Title = "Doğu"
                         },
                         new
                         {
                             Id = 4L,
-                            CreatedDate = new DateTime(2022, 7, 10, 19, 15, 11, 546, DateTimeKind.Utc).AddTicks(6985),
+                            CreatedDate = new DateTime(2022, 7, 24, 13, 51, 9, 874, DateTimeKind.Utc).AddTicks(8935),
                             IsActive = true,
                             Title = "Güney Doğu"
                         },
                         new
                         {
                             Id = 5L,
-                            CreatedDate = new DateTime(2022, 7, 10, 19, 15, 11, 546, DateTimeKind.Utc).AddTicks(6986),
+                            CreatedDate = new DateTime(2022, 7, 24, 13, 51, 9, 874, DateTimeKind.Utc).AddTicks(8936),
                             IsActive = true,
                             Title = "Güney"
                         },
                         new
                         {
                             Id = 6L,
-                            CreatedDate = new DateTime(2022, 7, 10, 19, 15, 11, 546, DateTimeKind.Utc).AddTicks(6987),
+                            CreatedDate = new DateTime(2022, 7, 24, 13, 51, 9, 874, DateTimeKind.Utc).AddTicks(8937),
                             IsActive = true,
                             Title = "Güney Batı"
                         },
                         new
                         {
                             Id = 7L,
-                            CreatedDate = new DateTime(2022, 7, 10, 19, 15, 11, 546, DateTimeKind.Utc).AddTicks(6989),
+                            CreatedDate = new DateTime(2022, 7, 24, 13, 51, 9, 874, DateTimeKind.Utc).AddTicks(8939),
                             IsActive = true,
                             Title = "Batı"
                         },
                         new
                         {
                             Id = 8L,
-                            CreatedDate = new DateTime(2022, 7, 10, 19, 15, 11, 546, DateTimeKind.Utc).AddTicks(6990),
+                            CreatedDate = new DateTime(2022, 7, 24, 13, 51, 9, 874, DateTimeKind.Utc).AddTicks(8940),
                             IsActive = true,
                             Title = "Kuzey Batı"
                         });
@@ -526,42 +805,42 @@ namespace RealEstateWebApi.Persistence.Migrations
                         new
                         {
                             Id = 1L,
-                            CreatedDate = new DateTime(2022, 7, 10, 19, 15, 11, 546, DateTimeKind.Utc).AddTicks(7660),
+                            CreatedDate = new DateTime(2022, 7, 24, 13, 51, 9, 874, DateTimeKind.Utc).AddTicks(9445),
                             IsActive = true,
                             Title = "Doğalgaz Sobalı"
                         },
                         new
                         {
                             Id = 2L,
-                            CreatedDate = new DateTime(2022, 7, 10, 19, 15, 11, 546, DateTimeKind.Utc).AddTicks(7663),
+                            CreatedDate = new DateTime(2022, 7, 24, 13, 51, 9, 874, DateTimeKind.Utc).AddTicks(9446),
                             IsActive = true,
                             Title = "Sobalı"
                         },
                         new
                         {
                             Id = 3L,
-                            CreatedDate = new DateTime(2022, 7, 10, 19, 15, 11, 546, DateTimeKind.Utc).AddTicks(7665),
+                            CreatedDate = new DateTime(2022, 7, 24, 13, 51, 9, 874, DateTimeKind.Utc).AddTicks(9447),
                             IsActive = true,
                             Title = "Yerden Isıtma"
                         },
                         new
                         {
                             Id = 4L,
-                            CreatedDate = new DateTime(2022, 7, 10, 19, 15, 11, 546, DateTimeKind.Utc).AddTicks(7666),
+                            CreatedDate = new DateTime(2022, 7, 24, 13, 51, 9, 874, DateTimeKind.Utc).AddTicks(9448),
                             IsActive = true,
                             Title = "Kombili"
                         },
                         new
                         {
                             Id = 5L,
-                            CreatedDate = new DateTime(2022, 7, 10, 19, 15, 11, 546, DateTimeKind.Utc).AddTicks(7668),
+                            CreatedDate = new DateTime(2022, 7, 24, 13, 51, 9, 874, DateTimeKind.Utc).AddTicks(9449),
                             IsActive = true,
                             Title = "Merkezi Sistem"
                         },
                         new
                         {
                             Id = 6L,
-                            CreatedDate = new DateTime(2022, 7, 10, 19, 15, 11, 546, DateTimeKind.Utc).AddTicks(7669),
+                            CreatedDate = new DateTime(2022, 7, 24, 13, 51, 9, 874, DateTimeKind.Utc).AddTicks(9449),
                             IsActive = true,
                             Title = "FuelOil"
                         });
@@ -603,7 +882,7 @@ namespace RealEstateWebApi.Persistence.Migrations
                         {
                             Id = 1L,
                             Alias = "ADMIN",
-                            CreatedDate = new DateTime(2022, 7, 10, 19, 15, 11, 548, DateTimeKind.Utc).AddTicks(5112),
+                            CreatedDate = new DateTime(2022, 7, 24, 13, 51, 9, 875, DateTimeKind.Utc).AddTicks(8504),
                             Description = "Admin account",
                             IsActive = true,
                             Name = "Admin"
@@ -612,7 +891,7 @@ namespace RealEstateWebApi.Persistence.Migrations
                         {
                             Id = 2L,
                             Alias = "USER",
-                            CreatedDate = new DateTime(2022, 7, 10, 19, 15, 11, 548, DateTimeKind.Utc).AddTicks(5116),
+                            CreatedDate = new DateTime(2022, 7, 24, 13, 51, 9, 875, DateTimeKind.Utc).AddTicks(8507),
                             Description = "User account",
                             IsActive = true,
                             Name = "User"
@@ -621,7 +900,7 @@ namespace RealEstateWebApi.Persistence.Migrations
                         {
                             Id = 3L,
                             Alias = "AGENT",
-                            CreatedDate = new DateTime(2022, 7, 10, 19, 15, 11, 548, DateTimeKind.Utc).AddTicks(5118),
+                            CreatedDate = new DateTime(2022, 7, 24, 13, 51, 9, 875, DateTimeKind.Utc).AddTicks(8508),
                             Description = "Agent account",
                             IsActive = true,
                             Name = "Agent"
@@ -781,28 +1060,28 @@ namespace RealEstateWebApi.Persistence.Migrations
                         new
                         {
                             Id = 1L,
-                            CreatedDate = new DateTime(2022, 7, 10, 19, 15, 11, 546, DateTimeKind.Utc).AddTicks(8292),
+                            CreatedDate = new DateTime(2022, 7, 24, 13, 51, 9, 874, DateTimeKind.Utc).AddTicks(9785),
                             IsActive = true,
                             Title = "Adsl/Vdsl"
                         },
                         new
                         {
                             Id = 2L,
-                            CreatedDate = new DateTime(2022, 7, 10, 19, 15, 11, 546, DateTimeKind.Utc).AddTicks(8295),
+                            CreatedDate = new DateTime(2022, 7, 24, 13, 51, 9, 874, DateTimeKind.Utc).AddTicks(9787),
                             IsActive = true,
                             Title = "Fiber"
                         },
                         new
                         {
                             Id = 3L,
-                            CreatedDate = new DateTime(2022, 7, 10, 19, 15, 11, 546, DateTimeKind.Utc).AddTicks(8296),
+                            CreatedDate = new DateTime(2022, 7, 24, 13, 51, 9, 874, DateTimeKind.Utc).AddTicks(9788),
                             IsActive = true,
                             Title = "Uydu"
                         },
                         new
                         {
                             Id = 4L,
-                            CreatedDate = new DateTime(2022, 7, 10, 19, 15, 11, 546, DateTimeKind.Utc).AddTicks(8298),
+                            CreatedDate = new DateTime(2022, 7, 24, 13, 51, 9, 874, DateTimeKind.Utc).AddTicks(9789),
                             IsActive = true,
                             Title = "Altyapı Yok"
                         });
@@ -1072,6 +1351,8 @@ namespace RealEstateWebApi.Persistence.Migrations
 
                     b.HasIndex("PropertyTypeId");
 
+                    b.HasIndex("StreetId");
+
                     b.HasIndex("UsingStatusId");
 
                     b.ToTable("Properties");
@@ -1106,28 +1387,28 @@ namespace RealEstateWebApi.Persistence.Migrations
                         new
                         {
                             Id = 1L,
-                            CreatedDate = new DateTime(2022, 7, 10, 19, 15, 11, 560, DateTimeKind.Utc).AddTicks(1620),
+                            CreatedDate = new DateTime(2022, 7, 24, 13, 51, 9, 881, DateTimeKind.Utc).AddTicks(9016),
                             IsActive = true,
                             Title = "Satılık"
                         },
                         new
                         {
                             Id = 2L,
-                            CreatedDate = new DateTime(2022, 7, 10, 19, 15, 11, 560, DateTimeKind.Utc).AddTicks(1625),
+                            CreatedDate = new DateTime(2022, 7, 24, 13, 51, 9, 881, DateTimeKind.Utc).AddTicks(9019),
                             IsActive = true,
                             Title = "Kiralık"
                         },
                         new
                         {
                             Id = 3L,
-                            CreatedDate = new DateTime(2022, 7, 10, 19, 15, 11, 560, DateTimeKind.Utc).AddTicks(1626),
+                            CreatedDate = new DateTime(2022, 7, 24, 13, 51, 9, 881, DateTimeKind.Utc).AddTicks(9020),
                             IsActive = true,
                             Title = "Devren Satılık"
                         },
                         new
                         {
                             Id = 4L,
-                            CreatedDate = new DateTime(2022, 7, 10, 19, 15, 11, 560, DateTimeKind.Utc).AddTicks(1628),
+                            CreatedDate = new DateTime(2022, 7, 24, 13, 51, 9, 881, DateTimeKind.Utc).AddTicks(9021),
                             IsActive = true,
                             Title = "Devren Kiralık"
                         });
@@ -1162,101 +1443,166 @@ namespace RealEstateWebApi.Persistence.Migrations
                         new
                         {
                             Id = 1L,
-                            CreatedDate = new DateTime(2022, 7, 10, 19, 15, 11, 560, DateTimeKind.Utc).AddTicks(2471),
+                            CreatedDate = new DateTime(2022, 7, 24, 13, 51, 9, 881, DateTimeKind.Utc).AddTicks(9408),
                             IsActive = true,
                             Title = "Daire"
                         },
                         new
                         {
                             Id = 2L,
-                            CreatedDate = new DateTime(2022, 7, 10, 19, 15, 11, 560, DateTimeKind.Utc).AddTicks(2475),
+                            CreatedDate = new DateTime(2022, 7, 24, 13, 51, 9, 881, DateTimeKind.Utc).AddTicks(9410),
                             IsActive = true,
                             Title = "Residans"
                         },
                         new
                         {
                             Id = 3L,
-                            CreatedDate = new DateTime(2022, 7, 10, 19, 15, 11, 560, DateTimeKind.Utc).AddTicks(2476),
+                            CreatedDate = new DateTime(2022, 7, 24, 13, 51, 9, 881, DateTimeKind.Utc).AddTicks(9410),
                             IsActive = true,
                             Title = "Müstakil Ev"
                         },
                         new
                         {
                             Id = 4L,
-                            CreatedDate = new DateTime(2022, 7, 10, 19, 15, 11, 560, DateTimeKind.Utc).AddTicks(2478),
+                            CreatedDate = new DateTime(2022, 7, 24, 13, 51, 9, 881, DateTimeKind.Utc).AddTicks(9411),
                             IsActive = true,
                             Title = "Müstakil Bina"
                         },
                         new
                         {
                             Id = 5L,
-                            CreatedDate = new DateTime(2022, 7, 10, 19, 15, 11, 560, DateTimeKind.Utc).AddTicks(2479),
+                            CreatedDate = new DateTime(2022, 7, 24, 13, 51, 9, 881, DateTimeKind.Utc).AddTicks(9412),
                             IsActive = true,
                             Title = "Villa"
                         },
                         new
                         {
                             Id = 6L,
-                            CreatedDate = new DateTime(2022, 7, 10, 19, 15, 11, 560, DateTimeKind.Utc).AddTicks(2481),
+                            CreatedDate = new DateTime(2022, 7, 24, 13, 51, 9, 881, DateTimeKind.Utc).AddTicks(9413),
                             IsActive = true,
                             Title = "Çiftlik Evi"
                         },
                         new
                         {
                             Id = 7L,
-                            CreatedDate = new DateTime(2022, 7, 10, 19, 15, 11, 560, DateTimeKind.Utc).AddTicks(2482),
+                            CreatedDate = new DateTime(2022, 7, 24, 13, 51, 9, 881, DateTimeKind.Utc).AddTicks(9413),
                             IsActive = true,
                             Title = "Yazlık"
                         },
                         new
                         {
                             Id = 8L,
-                            CreatedDate = new DateTime(2022, 7, 10, 19, 15, 11, 560, DateTimeKind.Utc).AddTicks(2483),
+                            CreatedDate = new DateTime(2022, 7, 24, 13, 51, 9, 881, DateTimeKind.Utc).AddTicks(9415),
                             IsActive = true,
                             Title = "Büro/Ofis"
                         },
                         new
                         {
                             Id = 9L,
-                            CreatedDate = new DateTime(2022, 7, 10, 19, 15, 11, 560, DateTimeKind.Utc).AddTicks(2485),
+                            CreatedDate = new DateTime(2022, 7, 24, 13, 51, 9, 881, DateTimeKind.Utc).AddTicks(9415),
                             IsActive = true,
                             Title = "Depo/Antrepo"
                         },
                         new
                         {
                             Id = 10L,
-                            CreatedDate = new DateTime(2022, 7, 10, 19, 15, 11, 560, DateTimeKind.Utc).AddTicks(2486),
+                            CreatedDate = new DateTime(2022, 7, 24, 13, 51, 9, 881, DateTimeKind.Utc).AddTicks(9416),
                             IsActive = true,
                             Title = "Dükkan/Mağaza"
                         },
                         new
                         {
                             Id = 11L,
-                            CreatedDate = new DateTime(2022, 7, 10, 19, 15, 11, 560, DateTimeKind.Utc).AddTicks(2487),
+                            CreatedDate = new DateTime(2022, 7, 24, 13, 51, 9, 881, DateTimeKind.Utc).AddTicks(9417),
                             IsActive = true,
                             Title = "Plaza"
                         },
                         new
                         {
                             Id = 12L,
-                            CreatedDate = new DateTime(2022, 7, 10, 19, 15, 11, 560, DateTimeKind.Utc).AddTicks(2489),
+                            CreatedDate = new DateTime(2022, 7, 24, 13, 51, 9, 881, DateTimeKind.Utc).AddTicks(9418),
                             IsActive = true,
                             Title = "Palaza Katı"
                         },
                         new
                         {
                             Id = 13L,
-                            CreatedDate = new DateTime(2022, 7, 10, 19, 15, 11, 560, DateTimeKind.Utc).AddTicks(2490),
+                            CreatedDate = new DateTime(2022, 7, 24, 13, 51, 9, 881, DateTimeKind.Utc).AddTicks(9418),
                             IsActive = true,
                             Title = "Sağlık Merkezi"
                         },
                         new
                         {
                             Id = 14L,
-                            CreatedDate = new DateTime(2022, 7, 10, 19, 15, 11, 560, DateTimeKind.Utc).AddTicks(2491),
+                            CreatedDate = new DateTime(2022, 7, 24, 13, 51, 9, 881, DateTimeKind.Utc).AddTicks(9419),
                             IsActive = true,
                             Title = "Spor Tesisi"
                         });
+                });
+
+            modelBuilder.Entity("RealEstateWebApi.Domain.Entities.ShortProperty", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<long>("CityId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<long>("DistrictId")
+                        .HasColumnType("bigint");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<int?>("LivingRoomCount")
+                        .HasColumnType("integer");
+
+                    b.Property<long?>("NeighborhoodId")
+                        .HasColumnType("bigint");
+
+                    b.Property<double>("Price")
+                        .HasColumnType("double precision");
+
+                    b.Property<long>("PropertyStatusId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("PropertyTypeId")
+                        .HasColumnType("bigint");
+
+                    b.Property<int?>("RoomCount")
+                        .HasColumnType("integer");
+
+                    b.Property<long?>("StreetId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CityId");
+
+                    b.HasIndex("DistrictId");
+
+                    b.HasIndex("NeighborhoodId");
+
+                    b.HasIndex("PropertyStatusId");
+
+                    b.HasIndex("PropertyTypeId");
+
+                    b.HasIndex("StreetId");
+
+                    b.ToTable("ShortProperties");
                 });
 
             modelBuilder.Entity("RealEstateWebApi.Domain.Entities.Street", b =>
@@ -1308,21 +1654,21 @@ namespace RealEstateWebApi.Persistence.Migrations
                         new
                         {
                             Id = 1L,
-                            CreatedDate = new DateTime(2022, 7, 10, 19, 15, 11, 561, DateTimeKind.Utc).AddTicks(9878),
+                            CreatedDate = new DateTime(2022, 7, 24, 13, 51, 9, 884, DateTimeKind.Utc).AddTicks(5386),
                             IsActive = true,
                             Title = "Boş"
                         },
                         new
                         {
                             Id = 2L,
-                            CreatedDate = new DateTime(2022, 7, 10, 19, 15, 11, 561, DateTimeKind.Utc).AddTicks(9881),
+                            CreatedDate = new DateTime(2022, 7, 24, 13, 51, 9, 884, DateTimeKind.Utc).AddTicks(5388),
                             IsActive = true,
                             Title = "Mülk Sahibi"
                         },
                         new
                         {
                             Id = 3L,
-                            CreatedDate = new DateTime(2022, 7, 10, 19, 15, 11, 561, DateTimeKind.Utc).AddTicks(9883),
+                            CreatedDate = new DateTime(2022, 7, 24, 13, 51, 9, 884, DateTimeKind.Utc).AddTicks(5389),
                             IsActive = true,
                             Title = "Kiracılı"
                         });
@@ -1415,6 +1761,95 @@ namespace RealEstateWebApi.Persistence.Migrations
                         .HasForeignKey("LogoImgFileId");
                 });
 
+            modelBuilder.Entity("RealEstateWebApi.Domain.Entities.Customer", b =>
+                {
+                    b.HasOne("RealEstateWebApi.Domain.Entities.City", null)
+                        .WithMany()
+                        .HasForeignKey("CityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("RealEstateWebApi.Domain.Entities.District", null)
+                        .WithMany()
+                        .HasForeignKey("DistrictId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("RealEstateWebApi.Domain.Entities.Neighborhood", null)
+                        .WithMany()
+                        .HasForeignKey("NeighborhoodId");
+                });
+
+            modelBuilder.Entity("RealEstateWebApi.Domain.Entities.CustomerOwnedShortProperty", b =>
+                {
+                    b.HasOne("RealEstateWebApi.Domain.Entities.Customer", null)
+                        .WithMany()
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("RealEstateWebApi.Domain.Entities.Property", null)
+                        .WithMany()
+                        .HasForeignKey("PropertyId");
+
+                    b.HasOne("RealEstateWebApi.Domain.Entities.ShortProperty", null)
+                        .WithMany()
+                        .HasForeignKey("ShortPropertyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("RealEstateWebApi.Domain.Entities.CustomerSearchShortProperty", b =>
+                {
+                    b.HasOne("RealEstateWebApi.Domain.Entities.Customer", null)
+                        .WithMany()
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("RealEstateWebApi.Domain.Entities.ShortProperty", null)
+                        .WithMany()
+                        .HasForeignKey("ShortPropertyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("RealEstateWebApi.Domain.Entities.Entry", b =>
+                {
+                    b.HasOne("RealEstateWebApi.Domain.Entities.Customer", null)
+                        .WithMany()
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("RealEstateWebApi.Domain.Entities.EntrySubType", null)
+                        .WithMany()
+                        .HasForeignKey("EntrySubTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("RealEstateWebApi.Domain.Entities.EntryType", null)
+                        .WithMany()
+                        .HasForeignKey("EntryTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("RealEstateWebApi.Domain.Entities.Identity.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("RealEstateWebApi.Domain.Entities.EntrySubType", b =>
+                {
+                    b.HasOne("RealEstateWebApi.Domain.Entities.EntryType", null)
+                        .WithMany()
+                        .HasForeignKey("EntryTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("RealEstateWebApi.Domain.Entities.Identity.User", b =>
                 {
                     b.HasOne("RealEstateWebApi.Domain.Entities.File", null)
@@ -1470,12 +1905,6 @@ namespace RealEstateWebApi.Persistence.Migrations
                         .IsRequired();
 
                     b.HasOne("RealEstateWebApi.Domain.Entities.City", null)
-                        .WithMany()
-                        .HasForeignKey("CityId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("RealEstateWebApi.Domain.Entities.Street", null)
                         .WithMany()
                         .HasForeignKey("CityId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1539,11 +1968,50 @@ namespace RealEstateWebApi.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("RealEstateWebApi.Domain.Entities.Street", null)
+                        .WithMany()
+                        .HasForeignKey("StreetId");
+
                     b.HasOne("RealEstateWebApi.Domain.Entities.UsingStatus", null)
                         .WithMany()
                         .HasForeignKey("UsingStatusId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("RealEstateWebApi.Domain.Entities.ShortProperty", b =>
+                {
+                    b.HasOne("RealEstateWebApi.Domain.Entities.City", null)
+                        .WithMany()
+                        .HasForeignKey("CityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("RealEstateWebApi.Domain.Entities.District", null)
+                        .WithMany()
+                        .HasForeignKey("DistrictId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("RealEstateWebApi.Domain.Entities.Neighborhood", null)
+                        .WithMany()
+                        .HasForeignKey("NeighborhoodId");
+
+                    b.HasOne("RealEstateWebApi.Domain.Entities.PropertyStatus", null)
+                        .WithMany()
+                        .HasForeignKey("PropertyStatusId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("RealEstateWebApi.Domain.Entities.PropertyType", null)
+                        .WithMany()
+                        .HasForeignKey("PropertyTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("RealEstateWebApi.Domain.Entities.Street", null)
+                        .WithMany()
+                        .HasForeignKey("StreetId");
                 });
 #pragma warning restore 612, 618
         }

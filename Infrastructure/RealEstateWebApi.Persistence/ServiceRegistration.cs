@@ -69,6 +69,20 @@ namespace RealEstateWebApi.Persistence
             services.AddScoped<IUserOperationClaimWriteRepository,UserOperationClaimWriteRepository>();
             services.AddScoped<IUserLoginReadRepository,UserLoginReadRepository>();
             services.AddScoped<IUserLoginWriteRepository,UserLoginWriteRepository>();
+            services.AddScoped<ICustomerReadRepository,CustomerReadRepository>();
+            services.AddScoped<ICustomerWriteRepository,CustomerWriteRepository>();
+            services.AddScoped<ICustomerOwnedShortPropertyReadRepository,CustomerOwnedShortPropertyReadRepository>();
+            services.AddScoped<ICustomerOwnedShortPropertyWriteRepository,CustomerOwnedShortPropertyWriteRepository>();
+            services.AddScoped<ICustomerSearchShortPropertyReadRepository, CustomerSearchShortPropertyReadRepository>();
+            services.AddScoped<ICustomerSearchShortPropertyWriteRepository,CustomerSearchShortPropertyWriteRepository>();
+            services.AddScoped<IEntryReadRepository,EntryReadRepository>();
+            services.AddScoped<IEntryWriteRepository,EntryWriteRepository>();
+            services.AddScoped<IEntryTypeReadRepository,EntryTypeReadRepository>();
+            services.AddScoped<IEntryTypeWriteRepository,EntryTypeWriteRepository>();
+            services.AddScoped<IEntrySubTypeReadRepository,EntrySubTypeReadRepository>();
+            services.AddScoped<IEntrySubTypeWriteRepository,EntrySubTypeWriteRepository>();
+            services.AddScoped<IShortPropertyReadRepository,ShortPropertyReadRepository>();
+            services.AddScoped<IShortPropertyWriteRepository,ShortPropertyWriteRepository>();
 
         }
     }

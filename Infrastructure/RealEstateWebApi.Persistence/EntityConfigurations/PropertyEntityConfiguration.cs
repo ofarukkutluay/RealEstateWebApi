@@ -15,7 +15,7 @@ namespace RealEstateWebApi.Persistence.EntityConfigurations
             builder.HasOne<City>().WithMany().HasForeignKey(e=>e.CityId);
             builder.HasOne<District>().WithMany().HasForeignKey(e => e.DistrictId);
             builder.HasOne<Neighborhood>().WithMany().HasForeignKey(e => e.NeighborhoodId);
-            builder.HasOne<Street>().WithMany().HasForeignKey(e => e.CityId);
+            builder.HasOne<Street>().WithMany().HasForeignKey(e => e.StreetId);
 
             builder.HasOne<PropertyType>().WithMany().HasForeignKey(e => e.PropertyTypeId);
             builder.HasOne<PropertyStatus>().WithMany().HasForeignKey(e => e.PropertyStatusId);
