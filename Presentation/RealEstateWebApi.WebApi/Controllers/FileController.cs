@@ -4,7 +4,7 @@ using RealEstateWebApi.Application.Abstractions.Storage;
 namespace RealEstateWebApi.WebApi.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     public class FileController : Controller
     {
         private readonly IWebHostEnvironment _webHostEnvironment;

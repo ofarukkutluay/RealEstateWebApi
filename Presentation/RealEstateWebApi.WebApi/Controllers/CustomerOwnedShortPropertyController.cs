@@ -8,7 +8,7 @@ using RealEstateWebApi.Application.Features.Queries.CustomerOwnedShortProperty.G
 namespace RealEstateWebApi.WebApi.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     public class CustomerOwnedShortPropertyController : Controller
     {
         private readonly IMediator _mediator;

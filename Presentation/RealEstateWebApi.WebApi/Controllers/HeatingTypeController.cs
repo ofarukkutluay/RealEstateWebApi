@@ -8,7 +8,7 @@ using RealEstateWebApi.Application.Features.Queries.HeatingType.GetAllHeatingTyp
 namespace RealEstateWebApi.WebApi.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     public class HeatingTypeController : Controller
     {
         private readonly IMediator _mediator;

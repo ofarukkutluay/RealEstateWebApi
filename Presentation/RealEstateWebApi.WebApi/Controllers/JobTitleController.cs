@@ -8,7 +8,7 @@ using RealEstateWebApi.Application.Features.Queries.JobTitle.GetAllJobTitleByCom
 namespace RealEstateWebApi.WebApi.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     public class JobTitleController : Controller
     {
         private readonly IMediator _mediator;

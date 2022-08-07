@@ -8,7 +8,7 @@ using RealEstateWebApi.Application.Features.Queries.EntryType.GetAllEntryType;
 namespace RealEstateWebApi.WebApi.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     public class EntryTypeController : Controller
     {
         private readonly IMediator _mediator;

@@ -8,7 +8,7 @@ using RealEstateWebApi.Application.Features.Queries.InternetType.GetAllInternetT
 namespace RealEstateWebApi.WebApi.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     public class InternetTypeController : Controller
     {
         private readonly IMediator _mediator;

@@ -9,7 +9,7 @@ using RealEstateWebApi.Application.Features.Queries.Company.GetCompanyById;
 namespace RealEstateWebApi.WebApi.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     public class CompanyController : Controller
     {
         private readonly IMediator _mediator;

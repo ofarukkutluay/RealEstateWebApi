@@ -7,7 +7,7 @@ using RealEstateWebApi.Application.Features.Queries.BlogType.GetAllBlogType;
 namespace RealEstateWebApi.WebApi.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     public class BlogTypeController : Controller
     {
         private IMediator _mediator;

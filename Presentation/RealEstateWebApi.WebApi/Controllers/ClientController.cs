@@ -8,7 +8,7 @@ using RealEstateWebApi.Application.Features.Queries.Client.GetAllClient;
 namespace RealEstateWebApi.WebApi.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     public class ClientController : Controller
     {
         private readonly IMediator _mediator;

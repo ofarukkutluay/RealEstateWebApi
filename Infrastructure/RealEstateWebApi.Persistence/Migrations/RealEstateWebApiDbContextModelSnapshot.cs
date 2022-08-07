@@ -472,28 +472,28 @@ namespace RealEstateWebApi.Persistence.Migrations
                         new
                         {
                             Id = 1L,
-                            CreatedDate = new DateTime(2022, 7, 24, 13, 51, 9, 873, DateTimeKind.Utc).AddTicks(4630),
+                            CreatedDate = new DateTime(2022, 8, 3, 19, 30, 21, 362, DateTimeKind.Utc).AddTicks(5583),
                             IsActive = true,
                             Title = "Kat Mülkiyetli"
                         },
                         new
                         {
                             Id = 2L,
-                            CreatedDate = new DateTime(2022, 7, 24, 13, 51, 9, 873, DateTimeKind.Utc).AddTicks(4631),
+                            CreatedDate = new DateTime(2022, 8, 3, 19, 30, 21, 362, DateTimeKind.Utc).AddTicks(5587),
                             IsActive = true,
                             Title = "Kat İrtifaklı"
                         },
                         new
                         {
                             Id = 3L,
-                            CreatedDate = new DateTime(2022, 7, 24, 13, 51, 9, 873, DateTimeKind.Utc).AddTicks(4632),
+                            CreatedDate = new DateTime(2022, 8, 3, 19, 30, 21, 362, DateTimeKind.Utc).AddTicks(5589),
                             IsActive = true,
                             Title = "Arsa"
                         },
                         new
                         {
                             Id = 4L,
-                            CreatedDate = new DateTime(2022, 7, 24, 13, 51, 9, 873, DateTimeKind.Utc).AddTicks(4633),
+                            CreatedDate = new DateTime(2022, 8, 3, 19, 30, 21, 362, DateTimeKind.Utc).AddTicks(5591),
                             IsActive = true,
                             Title = "Tarla"
                         });
@@ -605,7 +605,7 @@ namespace RealEstateWebApi.Persistence.Migrations
                         new
                         {
                             Id = 1L,
-                            CreatedDate = new DateTime(2022, 7, 24, 13, 51, 9, 874, DateTimeKind.Utc).AddTicks(8219),
+                            CreatedDate = new DateTime(2022, 8, 3, 19, 30, 21, 365, DateTimeKind.Utc).AddTicks(3190),
                             EntryTypeId = 1L,
                             IsActive = true,
                             Title = "Ziyaret"
@@ -613,7 +613,7 @@ namespace RealEstateWebApi.Persistence.Migrations
                         new
                         {
                             Id = 2L,
-                            CreatedDate = new DateTime(2022, 7, 24, 13, 51, 9, 874, DateTimeKind.Utc).AddTicks(8222),
+                            CreatedDate = new DateTime(2022, 8, 3, 19, 30, 21, 365, DateTimeKind.Utc).AddTicks(3194),
                             EntryTypeId = 1L,
                             IsActive = true,
                             Title = "Telefon"
@@ -649,7 +649,7 @@ namespace RealEstateWebApi.Persistence.Migrations
                         new
                         {
                             Id = 1L,
-                            CreatedDate = new DateTime(2022, 7, 24, 13, 51, 9, 874, DateTimeKind.Utc).AddTicks(8586),
+                            CreatedDate = new DateTime(2022, 8, 3, 19, 30, 21, 365, DateTimeKind.Utc).AddTicks(4191),
                             IsActive = true,
                             Title = "Görüşme"
                         });
@@ -721,56 +721,56 @@ namespace RealEstateWebApi.Persistence.Migrations
                         new
                         {
                             Id = 1L,
-                            CreatedDate = new DateTime(2022, 7, 24, 13, 51, 9, 874, DateTimeKind.Utc).AddTicks(8931),
+                            CreatedDate = new DateTime(2022, 8, 3, 19, 30, 21, 365, DateTimeKind.Utc).AddTicks(4976),
                             IsActive = true,
                             Title = "Kuzey"
                         },
                         new
                         {
                             Id = 2L,
-                            CreatedDate = new DateTime(2022, 7, 24, 13, 51, 9, 874, DateTimeKind.Utc).AddTicks(8933),
+                            CreatedDate = new DateTime(2022, 8, 3, 19, 30, 21, 365, DateTimeKind.Utc).AddTicks(4979),
                             IsActive = true,
                             Title = "Kuzey Doğu"
                         },
                         new
                         {
                             Id = 3L,
-                            CreatedDate = new DateTime(2022, 7, 24, 13, 51, 9, 874, DateTimeKind.Utc).AddTicks(8934),
+                            CreatedDate = new DateTime(2022, 8, 3, 19, 30, 21, 365, DateTimeKind.Utc).AddTicks(4981),
                             IsActive = true,
                             Title = "Doğu"
                         },
                         new
                         {
                             Id = 4L,
-                            CreatedDate = new DateTime(2022, 7, 24, 13, 51, 9, 874, DateTimeKind.Utc).AddTicks(8935),
+                            CreatedDate = new DateTime(2022, 8, 3, 19, 30, 21, 365, DateTimeKind.Utc).AddTicks(4982),
                             IsActive = true,
                             Title = "Güney Doğu"
                         },
                         new
                         {
                             Id = 5L,
-                            CreatedDate = new DateTime(2022, 7, 24, 13, 51, 9, 874, DateTimeKind.Utc).AddTicks(8936),
+                            CreatedDate = new DateTime(2022, 8, 3, 19, 30, 21, 365, DateTimeKind.Utc).AddTicks(4984),
                             IsActive = true,
                             Title = "Güney"
                         },
                         new
                         {
                             Id = 6L,
-                            CreatedDate = new DateTime(2022, 7, 24, 13, 51, 9, 874, DateTimeKind.Utc).AddTicks(8937),
+                            CreatedDate = new DateTime(2022, 8, 3, 19, 30, 21, 365, DateTimeKind.Utc).AddTicks(4985),
                             IsActive = true,
                             Title = "Güney Batı"
                         },
                         new
                         {
                             Id = 7L,
-                            CreatedDate = new DateTime(2022, 7, 24, 13, 51, 9, 874, DateTimeKind.Utc).AddTicks(8939),
+                            CreatedDate = new DateTime(2022, 8, 3, 19, 30, 21, 365, DateTimeKind.Utc).AddTicks(4987),
                             IsActive = true,
                             Title = "Batı"
                         },
                         new
                         {
                             Id = 8L,
-                            CreatedDate = new DateTime(2022, 7, 24, 13, 51, 9, 874, DateTimeKind.Utc).AddTicks(8940),
+                            CreatedDate = new DateTime(2022, 8, 3, 19, 30, 21, 365, DateTimeKind.Utc).AddTicks(4988),
                             IsActive = true,
                             Title = "Kuzey Batı"
                         });
@@ -805,42 +805,42 @@ namespace RealEstateWebApi.Persistence.Migrations
                         new
                         {
                             Id = 1L,
-                            CreatedDate = new DateTime(2022, 7, 24, 13, 51, 9, 874, DateTimeKind.Utc).AddTicks(9445),
+                            CreatedDate = new DateTime(2022, 8, 3, 19, 30, 21, 365, DateTimeKind.Utc).AddTicks(5982),
                             IsActive = true,
                             Title = "Doğalgaz Sobalı"
                         },
                         new
                         {
                             Id = 2L,
-                            CreatedDate = new DateTime(2022, 7, 24, 13, 51, 9, 874, DateTimeKind.Utc).AddTicks(9446),
+                            CreatedDate = new DateTime(2022, 8, 3, 19, 30, 21, 365, DateTimeKind.Utc).AddTicks(5985),
                             IsActive = true,
                             Title = "Sobalı"
                         },
                         new
                         {
                             Id = 3L,
-                            CreatedDate = new DateTime(2022, 7, 24, 13, 51, 9, 874, DateTimeKind.Utc).AddTicks(9447),
+                            CreatedDate = new DateTime(2022, 8, 3, 19, 30, 21, 365, DateTimeKind.Utc).AddTicks(5987),
                             IsActive = true,
                             Title = "Yerden Isıtma"
                         },
                         new
                         {
                             Id = 4L,
-                            CreatedDate = new DateTime(2022, 7, 24, 13, 51, 9, 874, DateTimeKind.Utc).AddTicks(9448),
+                            CreatedDate = new DateTime(2022, 8, 3, 19, 30, 21, 365, DateTimeKind.Utc).AddTicks(5988),
                             IsActive = true,
                             Title = "Kombili"
                         },
                         new
                         {
                             Id = 5L,
-                            CreatedDate = new DateTime(2022, 7, 24, 13, 51, 9, 874, DateTimeKind.Utc).AddTicks(9449),
+                            CreatedDate = new DateTime(2022, 8, 3, 19, 30, 21, 365, DateTimeKind.Utc).AddTicks(5990),
                             IsActive = true,
                             Title = "Merkezi Sistem"
                         },
                         new
                         {
                             Id = 6L,
-                            CreatedDate = new DateTime(2022, 7, 24, 13, 51, 9, 874, DateTimeKind.Utc).AddTicks(9449),
+                            CreatedDate = new DateTime(2022, 8, 3, 19, 30, 21, 365, DateTimeKind.Utc).AddTicks(6005),
                             IsActive = true,
                             Title = "FuelOil"
                         });
@@ -882,7 +882,7 @@ namespace RealEstateWebApi.Persistence.Migrations
                         {
                             Id = 1L,
                             Alias = "ADMIN",
-                            CreatedDate = new DateTime(2022, 7, 24, 13, 51, 9, 875, DateTimeKind.Utc).AddTicks(8504),
+                            CreatedDate = new DateTime(2022, 8, 3, 19, 30, 21, 367, DateTimeKind.Utc).AddTicks(4105),
                             Description = "Admin account",
                             IsActive = true,
                             Name = "Admin"
@@ -891,7 +891,7 @@ namespace RealEstateWebApi.Persistence.Migrations
                         {
                             Id = 2L,
                             Alias = "USER",
-                            CreatedDate = new DateTime(2022, 7, 24, 13, 51, 9, 875, DateTimeKind.Utc).AddTicks(8507),
+                            CreatedDate = new DateTime(2022, 8, 3, 19, 30, 21, 367, DateTimeKind.Utc).AddTicks(4109),
                             Description = "User account",
                             IsActive = true,
                             Name = "User"
@@ -900,7 +900,7 @@ namespace RealEstateWebApi.Persistence.Migrations
                         {
                             Id = 3L,
                             Alias = "AGENT",
-                            CreatedDate = new DateTime(2022, 7, 24, 13, 51, 9, 875, DateTimeKind.Utc).AddTicks(8508),
+                            CreatedDate = new DateTime(2022, 8, 3, 19, 30, 21, 367, DateTimeKind.Utc).AddTicks(4111),
                             Description = "Agent account",
                             IsActive = true,
                             Name = "Agent"
@@ -1060,28 +1060,28 @@ namespace RealEstateWebApi.Persistence.Migrations
                         new
                         {
                             Id = 1L,
-                            CreatedDate = new DateTime(2022, 7, 24, 13, 51, 9, 874, DateTimeKind.Utc).AddTicks(9785),
+                            CreatedDate = new DateTime(2022, 8, 3, 19, 30, 21, 365, DateTimeKind.Utc).AddTicks(6726),
                             IsActive = true,
                             Title = "Adsl/Vdsl"
                         },
                         new
                         {
                             Id = 2L,
-                            CreatedDate = new DateTime(2022, 7, 24, 13, 51, 9, 874, DateTimeKind.Utc).AddTicks(9787),
+                            CreatedDate = new DateTime(2022, 8, 3, 19, 30, 21, 365, DateTimeKind.Utc).AddTicks(6728),
                             IsActive = true,
                             Title = "Fiber"
                         },
                         new
                         {
                             Id = 3L,
-                            CreatedDate = new DateTime(2022, 7, 24, 13, 51, 9, 874, DateTimeKind.Utc).AddTicks(9788),
+                            CreatedDate = new DateTime(2022, 8, 3, 19, 30, 21, 365, DateTimeKind.Utc).AddTicks(6730),
                             IsActive = true,
                             Title = "Uydu"
                         },
                         new
                         {
                             Id = 4L,
-                            CreatedDate = new DateTime(2022, 7, 24, 13, 51, 9, 874, DateTimeKind.Utc).AddTicks(9789),
+                            CreatedDate = new DateTime(2022, 8, 3, 19, 30, 21, 365, DateTimeKind.Utc).AddTicks(6731),
                             IsActive = true,
                             Title = "Altyapı Yok"
                         });
@@ -1387,28 +1387,28 @@ namespace RealEstateWebApi.Persistence.Migrations
                         new
                         {
                             Id = 1L,
-                            CreatedDate = new DateTime(2022, 7, 24, 13, 51, 9, 881, DateTimeKind.Utc).AddTicks(9016),
+                            CreatedDate = new DateTime(2022, 8, 3, 19, 30, 21, 379, DateTimeKind.Utc).AddTicks(713),
                             IsActive = true,
                             Title = "Satılık"
                         },
                         new
                         {
                             Id = 2L,
-                            CreatedDate = new DateTime(2022, 7, 24, 13, 51, 9, 881, DateTimeKind.Utc).AddTicks(9019),
+                            CreatedDate = new DateTime(2022, 8, 3, 19, 30, 21, 379, DateTimeKind.Utc).AddTicks(717),
                             IsActive = true,
                             Title = "Kiralık"
                         },
                         new
                         {
                             Id = 3L,
-                            CreatedDate = new DateTime(2022, 7, 24, 13, 51, 9, 881, DateTimeKind.Utc).AddTicks(9020),
+                            CreatedDate = new DateTime(2022, 8, 3, 19, 30, 21, 379, DateTimeKind.Utc).AddTicks(719),
                             IsActive = true,
                             Title = "Devren Satılık"
                         },
                         new
                         {
                             Id = 4L,
-                            CreatedDate = new DateTime(2022, 7, 24, 13, 51, 9, 881, DateTimeKind.Utc).AddTicks(9021),
+                            CreatedDate = new DateTime(2022, 8, 3, 19, 30, 21, 379, DateTimeKind.Utc).AddTicks(721),
                             IsActive = true,
                             Title = "Devren Kiralık"
                         });
@@ -1443,98 +1443,98 @@ namespace RealEstateWebApi.Persistence.Migrations
                         new
                         {
                             Id = 1L,
-                            CreatedDate = new DateTime(2022, 7, 24, 13, 51, 9, 881, DateTimeKind.Utc).AddTicks(9408),
+                            CreatedDate = new DateTime(2022, 8, 3, 19, 30, 21, 379, DateTimeKind.Utc).AddTicks(1427),
                             IsActive = true,
                             Title = "Daire"
                         },
                         new
                         {
                             Id = 2L,
-                            CreatedDate = new DateTime(2022, 7, 24, 13, 51, 9, 881, DateTimeKind.Utc).AddTicks(9410),
+                            CreatedDate = new DateTime(2022, 8, 3, 19, 30, 21, 379, DateTimeKind.Utc).AddTicks(1430),
                             IsActive = true,
                             Title = "Residans"
                         },
                         new
                         {
                             Id = 3L,
-                            CreatedDate = new DateTime(2022, 7, 24, 13, 51, 9, 881, DateTimeKind.Utc).AddTicks(9410),
+                            CreatedDate = new DateTime(2022, 8, 3, 19, 30, 21, 379, DateTimeKind.Utc).AddTicks(1432),
                             IsActive = true,
                             Title = "Müstakil Ev"
                         },
                         new
                         {
                             Id = 4L,
-                            CreatedDate = new DateTime(2022, 7, 24, 13, 51, 9, 881, DateTimeKind.Utc).AddTicks(9411),
+                            CreatedDate = new DateTime(2022, 8, 3, 19, 30, 21, 379, DateTimeKind.Utc).AddTicks(1433),
                             IsActive = true,
                             Title = "Müstakil Bina"
                         },
                         new
                         {
                             Id = 5L,
-                            CreatedDate = new DateTime(2022, 7, 24, 13, 51, 9, 881, DateTimeKind.Utc).AddTicks(9412),
+                            CreatedDate = new DateTime(2022, 8, 3, 19, 30, 21, 379, DateTimeKind.Utc).AddTicks(1435),
                             IsActive = true,
                             Title = "Villa"
                         },
                         new
                         {
                             Id = 6L,
-                            CreatedDate = new DateTime(2022, 7, 24, 13, 51, 9, 881, DateTimeKind.Utc).AddTicks(9413),
+                            CreatedDate = new DateTime(2022, 8, 3, 19, 30, 21, 379, DateTimeKind.Utc).AddTicks(1436),
                             IsActive = true,
                             Title = "Çiftlik Evi"
                         },
                         new
                         {
                             Id = 7L,
-                            CreatedDate = new DateTime(2022, 7, 24, 13, 51, 9, 881, DateTimeKind.Utc).AddTicks(9413),
+                            CreatedDate = new DateTime(2022, 8, 3, 19, 30, 21, 379, DateTimeKind.Utc).AddTicks(1438),
                             IsActive = true,
                             Title = "Yazlık"
                         },
                         new
                         {
                             Id = 8L,
-                            CreatedDate = new DateTime(2022, 7, 24, 13, 51, 9, 881, DateTimeKind.Utc).AddTicks(9415),
+                            CreatedDate = new DateTime(2022, 8, 3, 19, 30, 21, 379, DateTimeKind.Utc).AddTicks(1439),
                             IsActive = true,
                             Title = "Büro/Ofis"
                         },
                         new
                         {
                             Id = 9L,
-                            CreatedDate = new DateTime(2022, 7, 24, 13, 51, 9, 881, DateTimeKind.Utc).AddTicks(9415),
+                            CreatedDate = new DateTime(2022, 8, 3, 19, 30, 21, 379, DateTimeKind.Utc).AddTicks(1441),
                             IsActive = true,
                             Title = "Depo/Antrepo"
                         },
                         new
                         {
                             Id = 10L,
-                            CreatedDate = new DateTime(2022, 7, 24, 13, 51, 9, 881, DateTimeKind.Utc).AddTicks(9416),
+                            CreatedDate = new DateTime(2022, 8, 3, 19, 30, 21, 379, DateTimeKind.Utc).AddTicks(1442),
                             IsActive = true,
                             Title = "Dükkan/Mağaza"
                         },
                         new
                         {
                             Id = 11L,
-                            CreatedDate = new DateTime(2022, 7, 24, 13, 51, 9, 881, DateTimeKind.Utc).AddTicks(9417),
+                            CreatedDate = new DateTime(2022, 8, 3, 19, 30, 21, 379, DateTimeKind.Utc).AddTicks(1443),
                             IsActive = true,
                             Title = "Plaza"
                         },
                         new
                         {
                             Id = 12L,
-                            CreatedDate = new DateTime(2022, 7, 24, 13, 51, 9, 881, DateTimeKind.Utc).AddTicks(9418),
+                            CreatedDate = new DateTime(2022, 8, 3, 19, 30, 21, 379, DateTimeKind.Utc).AddTicks(1445),
                             IsActive = true,
                             Title = "Palaza Katı"
                         },
                         new
                         {
                             Id = 13L,
-                            CreatedDate = new DateTime(2022, 7, 24, 13, 51, 9, 881, DateTimeKind.Utc).AddTicks(9418),
+                            CreatedDate = new DateTime(2022, 8, 3, 19, 30, 21, 379, DateTimeKind.Utc).AddTicks(1446),
                             IsActive = true,
                             Title = "Sağlık Merkezi"
                         },
                         new
                         {
                             Id = 14L,
-                            CreatedDate = new DateTime(2022, 7, 24, 13, 51, 9, 881, DateTimeKind.Utc).AddTicks(9419),
+                            CreatedDate = new DateTime(2022, 8, 3, 19, 30, 21, 379, DateTimeKind.Utc).AddTicks(1447),
                             IsActive = true,
                             Title = "Spor Tesisi"
                         });
@@ -1654,21 +1654,21 @@ namespace RealEstateWebApi.Persistence.Migrations
                         new
                         {
                             Id = 1L,
-                            CreatedDate = new DateTime(2022, 7, 24, 13, 51, 9, 884, DateTimeKind.Utc).AddTicks(5386),
+                            CreatedDate = new DateTime(2022, 8, 3, 19, 30, 21, 384, DateTimeKind.Utc).AddTicks(3329),
                             IsActive = true,
                             Title = "Boş"
                         },
                         new
                         {
                             Id = 2L,
-                            CreatedDate = new DateTime(2022, 7, 24, 13, 51, 9, 884, DateTimeKind.Utc).AddTicks(5388),
+                            CreatedDate = new DateTime(2022, 8, 3, 19, 30, 21, 384, DateTimeKind.Utc).AddTicks(3332),
                             IsActive = true,
                             Title = "Mülk Sahibi"
                         },
                         new
                         {
                             Id = 3L,
-                            CreatedDate = new DateTime(2022, 7, 24, 13, 51, 9, 884, DateTimeKind.Utc).AddTicks(5389),
+                            CreatedDate = new DateTime(2022, 8, 3, 19, 30, 21, 384, DateTimeKind.Utc).AddTicks(3334),
                             IsActive = true,
                             Title = "Kiracılı"
                         });

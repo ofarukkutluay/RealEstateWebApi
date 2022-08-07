@@ -20,14 +20,18 @@ namespace RealEstateWebApi.WebApi.Controllers
         public IActionResult Index()
         {
             var guid = Guid.NewGuid().ToString();
-            if(_context.TemporaryPass.Any())
+            if (_context.TemporaryPass.Any())
+            {
                 _context.TemporaryPass.RemoveRange(_context.TemporaryPass);
+                _context.SaveChanges();
+            }
 
-            _context.TemporaryPass.Add(new TemporaryPass(){ Content= guid });
+            _context.TemporaryPass.Add(new TemporaryPass() { Content = guid });
             _context.SaveChanges();
+
             return Ok(new ApiResult<object>()
             {
-                Message ="Api running... See documentation.",
+                Message = "Api running... See documentation.",
                 InternalMessage = guid,
                 Success = true
             });
