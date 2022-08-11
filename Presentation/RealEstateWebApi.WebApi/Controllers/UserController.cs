@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RealEstateWebApi.Application.Features.Commands.User.LoginUser;
 using RealEstateWebApi.Application.Features.Commands.User.LogoutUser;
@@ -9,6 +10,7 @@ namespace RealEstateWebApi.WebApi.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    
     public class UserController : Controller
     {
         private IMediator _mediator;
@@ -19,6 +21,7 @@ namespace RealEstateWebApi.WebApi.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AllUser([FromQuery] GetAllUserRequest request)
         {
             GetAllUserResponse response = await _mediator.Send(request);

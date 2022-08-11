@@ -68,7 +68,8 @@ namespace RealEstateWebApi.Application.Features.Commands.User.LoginUser
             return new LoginUserResponse()
             {
                 Data = accessToken,
-                Success = true
+                Success = true,
+                Message = "Giriş yapıldı."
             };
 
         }

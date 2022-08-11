@@ -1,0 +1,79 @@
+@model Entry
+
+<script type="text/javascript">
+$(function(){
+    $("#entryType").change(function() {
+            var val = $(this).val();
+            var subItems = "<option selected disabled>-- Seçiniz --</option>";
+            $.get("@Url.Action("SelectItemEntrySubType","Customer")", { id: val }, function(data, status) {
+                $.each(data, function(index, item) {
+                    subItems += "<option value='" + item.value + "'>" + item.text + "</option>"
+                });
+                $("#entrySubType").html(subItems)
+            });
+        });
+});
+
+
+</script>
+
+
+<!-- HareketEkle -->
+<div class="modal fade" id="basicModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+
+            <div class="modal-header">
+                <h5 class="modal-title">Hareket Ekle</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form asp-controller="Customer" asp-action="EntryAdd" method="post">
+                <div class="modal-body">
+
+                    <input asp-for="CustomerId" value="@Model.CustomerId" hidden>
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label">Tipi</label>
+                        <div class="col-sm-10">
+                            <select id="entryType" asp-for="EntryTypeId"
+                                asp-items="@ViewData["EntryTypes"] as IEnumerable<SelectListItem>" class="form-select"
+                                aria-label="Kayıt tipini seçiniz" required>
+                                <option selected disabled>-- Seçiniz --</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label">Alt Tip</label>
+                        <div class="col-sm-10">
+                            <select id="entrySubType" asp-for="EntrySubTypeId"
+                                class="form-select" aria-label="Alt tip seçiniz" required>
+                                <option selected disabled>-- Seçiniz --</option>
+
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="inputText" class="col-sm-2 col-form-label">Tip Ek</label>
+                        <div class="col-sm-10">
+                            <input asp-for="EntrySubTitle" type="text" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="content" class="col-sm-2 col-form-label">İçerik</label>
+                        <div class="col-sm-10">
+                            <textarea asp-for="Content" class="form-control" style="height: 100px" required></textarea>
+                        </div>
+                    </div>
+
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Ekle</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div><!-- End HareketEkle-->

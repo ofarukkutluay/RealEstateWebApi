@@ -1,17 +1,39 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.IdentityModel.Tokens;
 using RealEstateWebApi.WebApp.Middlewares;
+using RealEstateWebApi.WebApp.Services.ApiRequest;
 using RealEstateWebApi.WebApp.Services.Logger;
 using System.Net;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddSingleton<ILoggerService, ConsoleLogger>();
+builder.Services.AddScoped<ApiRequestService>();
+
+var tokenOptions = builder.Configuration.GetSection("ApiTokenOptions");
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(opt =>
+{
+    opt.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateAudience = true,
+        ValidateIssuer = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = tokenOptions["Issuer"],
+        ValidAudience = tokenOptions["Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenOptions["SecurityKey"])),
+        ClockSkew = TimeSpan.Zero
+    };
+});
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddSession();
-
 
 var app = builder.Build();
 
@@ -27,6 +49,7 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseSession();
+
 app.Use(async (context, next) =>
 {
     var token = context.Session.GetString("Token");
@@ -62,6 +85,7 @@ app.UseForwardedHeaders(new ForwardedHeadersOptions
     ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
 });
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
