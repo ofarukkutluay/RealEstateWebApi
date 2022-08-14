@@ -1,13 +1,13 @@
-﻿using RealEstateWebApi.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using RealEstateWebApi.Application.DTOs;
+using RealEstateWebApi.Domain.Entities;
+
 
 namespace RealEstateWebApi.Application.Repositories
 {
     public interface IEntryReadRepository : IReadRepository<Entry>
     {
+        IEnumerable<EntryDto> GetEntryDtoByCustomerId(uint customerId);
     }
+
+
 }

@@ -38,7 +38,7 @@ namespace RealEstateWebApi.Infrastructure.Services.Token
 
         public TAccessToken CreateToken<TAccessToken>(User user,IEnumerable<OperationClaim> operationClaims) where TAccessToken : IAccessToken, new()
         {
-            _accessTokenExpiration = DateTime.UtcNow.AddMinutes(tokenOptions.AccessTokenExpiration);
+            _accessTokenExpiration = DateTime.UtcNow.AddHours(tokenOptions.AccessTokenExpiration);
             SymmetricSecurityKey symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenOptions.SecurityKey));
             SigningCredentials credentials = new SigningCredentials(symmetricSecurityKey,SecurityAlgorithms.HmacSha512);
 

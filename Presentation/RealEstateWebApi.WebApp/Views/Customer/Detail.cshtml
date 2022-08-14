@@ -1,7 +1,7 @@
 ﻿@{
     ViewData["Title"] = "Müşteri Detayı";
 }
-@model Tuple<Customer,IEnumerable<Entry>>
+@model Tuple<CustomerDto,IEnumerable<EntryDto>>
 
 
 
@@ -11,29 +11,34 @@
     <nav>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="/"><i class="bi bi-house-door"></i></a></li>
-            <li class="breadcrumb-item">Müşteriler</li>
+            <li class="breadcrumb-item"><a href="/customer">Müşteriler</a></li>
             <li class="breadcrumb-item active">@Model.Item1.FullName</li>
         </ol>
     </nav>
 </div><!-- End Page Title -->
 
 <section class="section">
-    <div class="row">
+    @*<div class="row">
         <div class="col">
             <div class="card">
                 <div class=card-body>
-                    <h3 class="card-title">@Model.Item1.FullName - @Model.Item1.Id - @Model.Item1.AssignedUserId </h3>
+                    <h3 class="card-title">@Model.Item1.Id - @Model.Item1.FullName / <span
+                            class="badge bg-success text-white"> @Model.Item1.AssignedUser </span> </h3>
                 </div>
-            </div>
+            </div> 
         </div>
-    </div>
+    </div>*@
     <div class="row">
-        <div class="col-lg-6">
+        <div class="col-lg-4">
 
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Müşteri Detay</h5>
                     <ul class="list-group">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <strong>Id:</strong>
+                            @Model.Item1.Id
+                        </li>
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                             <strong>Nationality Id:</strong>
                             @Model.Item1.CitizenNumber
@@ -60,11 +65,11 @@
                         </li>
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                             <strong>Adres:</strong>
-                            @Model.Item1.CityId ili,@Model.Item1.DistrictId ilçesi,@Model.Item1.NeighborhoodId mahallesi
+                            @Model.Item1.City ili,@Model.Item1.District ilçesi,@Model.Item1.Neighborhood mahallesi
                         </li>
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                             <strong>Kayıt:</strong>
-                            Kayıt Eden: @Model.Item1.RegisterUserId /Atanan : @Model.Item1.AssignedUserId
+                            Kayıt Eden: @Model.Item1.RegisterUser /Atanan : @Model.Item1.AssignedUser
                         </li>
 
                     </ul>
@@ -73,7 +78,7 @@
 
         </div>
 
-        <div class="col-lg-6">
+        <div class="col-lg-8">
 
             <div class="card">
                 <div class="card-body">
@@ -92,26 +97,26 @@
                     </div>
 
 
-                    <table class="table table-striped">
+                    <table class="table table-striped datatableMini">
                         <thead>
                             <tr>
-                                <th scope="col-3">#</th>
-                                <th scope="col-6">İçerik</th>
-                                <th scope="col-2">Kullanıcı</th>
-                                <th scope="col-1">Tarih</th>
+                                <th scope="col">#</th>
+                                <th scope="col">İçerik</th>
+                                <th scope="col">Kullanıcı</th>
+                                <th scope="col">Tarih</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach (var item in Model.Item2)
                             {
-                                
+
                                 <tr>
                                     <th scope="row">
-                                        @item.EntryTypeId > @item.EntrySubTypeId > @item.EntrySubTitle
+                                        @item.EntryType > @item.EntrySubType > @item.EntrySubTitle
 
                                     </th>
                                     <td>@item.Content</td>
-                                    <td>@item.UserId</td>
+                                    <td>@item.User</td>
                                     <td>@item.CreatedDate</td>
                                 </tr>
                             }

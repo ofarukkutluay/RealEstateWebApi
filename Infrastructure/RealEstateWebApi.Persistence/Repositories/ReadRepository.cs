@@ -12,7 +12,7 @@ namespace RealEstateWebApi.Persistence.Repositories
 {
     public class ReadRepository<TEntity,TContext> : IReadRepository<TEntity> where TEntity : class,IEntity where TContext : DbContext
     {
-        private readonly TContext _context;
+        protected readonly TContext _context;
         public ReadRepository(TContext context)
         {
             _context = context;

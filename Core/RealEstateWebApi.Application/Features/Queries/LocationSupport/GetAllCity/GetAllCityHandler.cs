@@ -19,7 +19,7 @@ namespace RealEstateWebApi.Application.Features.Queries.LocationSupport.GetAllCi
 
         public async Task<GetAllCityResponse> Handle(GetAllCityRequest request, CancellationToken cancellationToken)
         {
-            IEnumerable<Domain.Entities.City> cities = _cityReadRepository.GetAll().OrderBy(e=>e.Name);
+            IEnumerable<Domain.Entities.City> cities = _cityReadRepository.GetAll().OrderBy(e=>e.Id);
             return await Task.FromResult(new GetAllCityResponse()
             {
                 Message = $"{cities.Count()} data getirildi",

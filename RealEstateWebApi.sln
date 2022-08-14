@@ -19,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RealEstateWebApi.Infrastruc
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RealEstateWebApi.WebApi", "Presentation\RealEstateWebApi.WebApi\RealEstateWebApi.WebApi.csproj", "{D2338FD8-D6E8-4F00-AA2E-810BE89A7AB1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RealEstateWebApi.WebApp", "Presentation\RealEstateWebApi.WebApp\RealEstateWebApi.WebApp.csproj", "{2CC3A9E0-57D3-47EE-BED0-B3227E583251}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RealEstateWebApi.WebApp", "Presentation\RealEstateWebApi.WebApp\RealEstateWebApi.WebApp.csproj", "{2CC3A9E0-57D3-47EE-BED0-B3227E583251}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

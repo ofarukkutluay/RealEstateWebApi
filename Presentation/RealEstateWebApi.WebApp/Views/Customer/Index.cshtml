@@ -2,15 +2,14 @@
   ViewData["Title"] = "Tüm Müşteriler";
 }
 
-@model IEnumerable<Customer>
+@model IEnumerable<CustomerDto>
 
 <div class="pagetitle">
   <h1>Tüm Müşteriler</h1>
   <nav>
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="/"><i class="bi bi-house-door"></i></a></li>
-      <li class="breadcrumb-item">Müşteriler</li>
-      <li class="breadcrumb-item active">Tüm Müşteriler</li>
+      <li class="breadcrumb-item active"><a href="/customer">Müşteriler</a></li>
     </ol>
   </nav>
 </div><!-- End Page Title -->
@@ -43,11 +42,11 @@
                 <tr>
                   <th scope="row">@item.Id</th>
                   <td><a href="/customer/@item.Id">@item.FullName</a> </td>
-                  <td>@item.CityId</td>
-                  <td>@item.DistrictId</td>
+                  <td>@item.City</td>
+                  <td>@item.District</td>
                   <td>@item.MobileNumber</td>
-                  <td>@item.RegisterUserId</td>
-                  <td>@item.AssignedUserId</td>
+                  <td>@item.RegisterUser</td>
+                  <td>@item.AssignedUser</td>
                   <td>@item.CreatedDate</td>
                 </tr>
               }

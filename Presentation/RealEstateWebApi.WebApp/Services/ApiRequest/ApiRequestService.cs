@@ -54,5 +54,29 @@ namespace RealEstateWebApi.WebApp.Services.ApiRequest
             }
 
         }
+
+        public async Task<TResult> Put<TResult>(string path, object content)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                var jsonContent = JsonContent.Create(content);
+
+                var response = await client.PutAsync(apiUrl + path, jsonContent);
+
+                return JsonConvert.DeserializeObject<TResult>(await response.Content.ReadAsStringAsync());
+            }
+
+        }
+
+        public async Task<TResult> Delete<TResult>(string path, object content)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                var jsonContent = JsonContent.Create(content);
+                var response = await client.DeleteAsync(apiUrl + path);
+
+                return JsonConvert.DeserializeObject<TResult>(await response.Content.ReadAsStringAsync());
+            }
+        }
     }
 }

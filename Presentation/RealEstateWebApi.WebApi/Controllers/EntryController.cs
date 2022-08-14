@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using RealEstateWebApi.Application.Features.Commands.Entry.CreateEntry;
 using RealEstateWebApi.Application.Features.Commands.Entry.DeleteEntry;
 using RealEstateWebApi.Application.Features.Queries.Entry.GetAllEntryByCustomerId;
+using RealEstateWebApi.Application.Features.Queries.Entry.GetAllEntryDtoByCustomerId;
 
 namespace RealEstateWebApi.WebApi.Controllers
 {
@@ -35,10 +36,19 @@ namespace RealEstateWebApi.WebApi.Controllers
             return BadRequest(response);
         }
 
-        [HttpGet]
+        /* [HttpGet]
         public async Task<IActionResult> GetAllEntryByCustomerId([FromQuery] GetAllEntryByCustomerIdRequest request)
         {
             GetAllEntryByCustomerIdResponse response = await _mediator.Send(request);
+            if (response.Success)
+                return Ok(response);
+            return BadRequest(response);
+        } */
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllEntryDtoByCustomerId([FromQuery] GetAllEntryDtoByCustomerIdRequest request)
+        {
+            GetAllEntryDtoByCustomerIdResponse response = await _mediator.Send(request);
             if (response.Success)
                 return Ok(response);
             return BadRequest(response);

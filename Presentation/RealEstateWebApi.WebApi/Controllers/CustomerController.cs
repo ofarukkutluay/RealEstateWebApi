@@ -4,7 +4,9 @@ using RealEstateWebApi.Application.Features.Commands.Customer.CreateCustomer;
 using RealEstateWebApi.Application.Features.Commands.Customer.DeleteCustomer;
 using RealEstateWebApi.Application.Features.Commands.Customer.UpdateCustomer;
 using RealEstateWebApi.Application.Features.Queries.Customer.GetAllCustomer;
+using RealEstateWebApi.Application.Features.Queries.Customer.GetAllCustomerDto;
 using RealEstateWebApi.Application.Features.Queries.Customer.GetCustomerById;
+using RealEstateWebApi.Application.Features.Queries.Customer.GetCustomerDtoById;
 
 namespace RealEstateWebApi.WebApi.Controllers
 {
@@ -46,19 +48,37 @@ namespace RealEstateWebApi.WebApi.Controllers
             return BadRequest(response);
         }
 
-        [HttpGet("{Id}")]
+        /* [HttpGet("{Id}")]
         public async Task<IActionResult> GetCustomerById([FromRoute] GetCustomerByIdRequest request)
         {
             GetCustomerByIdResponse response = await _mediator.Send(request);
             if (response.Success)
                 return Ok(response);
             return BadRequest(response);
-        }
+        } */
 
-        [HttpGet]
+        /* [HttpGet]
         public async Task<IActionResult> GetAllCustomer()
         {
             GetAllCustomerResponse response = await _mediator.Send(new GetAllCustomerRequest());
+            if (response.Success)
+                return Ok(response);
+            return BadRequest(response);
+        } */
+
+        [HttpGet("{Id}")]
+        public async Task<IActionResult> GetCustomerDtoById([FromRoute] GetCustomerDtoByIdRequest request)
+        {
+            GetCustomerDtoByIdResponse response = await _mediator.Send(request);
+            if (response.Success)
+                return Ok(response);
+            return BadRequest(response);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllCustomerDto()
+        {
+            GetAllCustomerDtoResponse response = await _mediator.Send(new GetAllCustomerDtoRequest());
             if (response.Success)
                 return Ok(response);
             return BadRequest(response);

@@ -1,7 +1,9 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using RealEstateWebApi.WebApp.Data.Local;
 using RealEstateWebApi.WebApp.Middlewares;
 using RealEstateWebApi.WebApp.Services.ApiRequest;
 using RealEstateWebApi.WebApp.Services.Logger;
@@ -9,6 +11,8 @@ using System.Net;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddDbContext<WebAppLocalDbContext>(opt => opt.UseInMemoryDatabase("LocalDb"));
 
 builder.Services.AddSingleton<ILoggerService, ConsoleLogger>();
 builder.Services.AddScoped<ApiRequestService>();
