@@ -4,6 +4,7 @@ using RealEstateWebApi.Application.Features.Commands.CustomerOwnedShortProperty.
 using RealEstateWebApi.Application.Features.Commands.CustomerOwnedShortProperty.DeleteCustomerOwnedShortProperty;
 using RealEstateWebApi.Application.Features.Commands.CustomerOwnedShortProperty.UpdateCustomerOwnedShortProperty;
 using RealEstateWebApi.Application.Features.Queries.CustomerOwnedShortProperty.GetAllCustomerOwnedShortPropertyByCustomerId;
+using RealEstateWebApi.Application.Features.Queries.CustomerOwnedShortProperty.GetAllShortPropertyDtoByCustomerId;
 
 namespace RealEstateWebApi.WebApi.Controllers
 {
@@ -49,6 +50,15 @@ namespace RealEstateWebApi.WebApi.Controllers
         public async Task<IActionResult> GetAllCustomerOwnedShortPropertyByCustomerId([FromQuery] GetAllCustomerOwnedShortPropertyByCustomerIdRequest request)
         {
             GetAllCustomerOwnedShortPropertyByCustomerIdResponse response = await _mediator.Send(request);
+            if (response.Success)
+                return Ok(response);
+            return BadRequest(response);
+        }
+
+        [HttpGet("{CustomerId}")]
+        public async Task<IActionResult> GetAllShortPropertyDtoByCustomerId([FromRoute] GetAllShortPropertyDtoByCustomerIdRequest request)
+        {
+            GetAllShortPropertyDtoByCustomerIdResponse response = await _mediator.Send(request);
             if (response.Success)
                 return Ok(response);
             return BadRequest(response);

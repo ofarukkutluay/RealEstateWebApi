@@ -4,9 +4,11 @@ using RealEstateWebApi.Application.Features.Commands.Customer.CreateCustomer;
 using RealEstateWebApi.Application.Features.Commands.Customer.DeleteCustomer;
 using RealEstateWebApi.Application.Features.Commands.Customer.UpdateCustomer;
 using RealEstateWebApi.Application.Features.Queries.Customer.GetAllCustomer;
+using RealEstateWebApi.Application.Features.Queries.Customer.GetAllCustomerCount;
 using RealEstateWebApi.Application.Features.Queries.Customer.GetAllCustomerDto;
 using RealEstateWebApi.Application.Features.Queries.Customer.GetCustomerById;
 using RealEstateWebApi.Application.Features.Queries.Customer.GetCustomerDtoById;
+using RealEstateWebApi.Application.Features.Queries.Customer.GetRecentCustomerDtoList;
 
 namespace RealEstateWebApi.WebApi.Controllers
 {
@@ -79,6 +81,24 @@ namespace RealEstateWebApi.WebApi.Controllers
         public async Task<IActionResult> GetAllCustomerDto()
         {
             GetAllCustomerDtoResponse response = await _mediator.Send(new GetAllCustomerDtoRequest());
+            if (response.Success)
+                return Ok(response);
+            return BadRequest(response);
+        }
+
+        [HttpGet("recent")]
+        public async Task<IActionResult> GetRecentCustomerDtoList([FromQuery] GetRecentCustomerDtoListRequest request)
+        {
+            GetRecentCustomerDtoListResponse response = await _mediator.Send(request);
+            if (response.Success)
+                return Ok(response);
+            return BadRequest(response);
+        }
+
+        [HttpGet("count")]
+        public async Task<IActionResult> GetAllCustomerCount()
+        {
+            GetAllCustomerCountResponse response = await _mediator.Send(new GetAllcustomerCountRequest());
             if (response.Success)
                 return Ok(response);
             return BadRequest(response);

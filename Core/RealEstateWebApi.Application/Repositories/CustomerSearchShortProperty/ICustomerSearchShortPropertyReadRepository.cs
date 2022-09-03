@@ -1,4 +1,5 @@
-﻿using RealEstateWebApi.Domain.Entities;
+﻿using RealEstateWebApi.Application.DTOs;
+using RealEstateWebApi.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,5 +10,6 @@ namespace RealEstateWebApi.Application.Repositories
 {
     public interface ICustomerSearchShortPropertyReadRepository : IReadRepository<CustomerSearchShortProperty>
     {
+        IEnumerable<ShortPropertyDto> GetAllShortPropertyDtoByCustomerId(uint customerId);
     }
 }

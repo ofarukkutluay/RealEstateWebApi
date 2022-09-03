@@ -1,7 +1,7 @@
 ﻿@{
     ViewData["Title"] = "Müşteri Detayı";
 }
-@model Tuple<CustomerDto,IEnumerable<EntryDto>>
+@model Tuple<CustomerDto,IEnumerable<EntryDto>,IEnumerable<ShortPropertyDto>,IEnumerable<ShortPropertyDto>>
 
 
 
@@ -18,16 +18,6 @@
 </div><!-- End Page Title -->
 
 <section class="section">
-    @*<div class="row">
-        <div class="col">
-            <div class="card">
-                <div class=card-body>
-                    <h3 class="card-title">@Model.Item1.Id - @Model.Item1.FullName / <span
-                            class="badge bg-success text-white"> @Model.Item1.AssignedUser </span> </h3>
-                </div>
-            </div> 
-        </div>
-    </div>*@
     <div class="row">
         <div class="col-lg-4">
 
@@ -85,19 +75,21 @@
                     <div class="d-flex justify-content-between align-items-center">
                         <h5 class="card-title">Hareketler</h5>
                         <button class="btn btn-primary" type="button" data-bs-toggle="modal"
-                            data-bs-target="#basicModal"><i class="bi bi-plus-lg"></i></button>
+                                data-bs-target="#basicModal">
+                            <i class="bi bi-plus-lg"></i>
+                        </button>
                         @{
                             var entry = new Entry()
-                            {
-                                CustomerId = @Model.Item1.Id,
-                            };
+            {
+                CustomerId = @Model.Item1.Id,
+            };
                             await Html.RenderPartialAsync("~/Views/Customer/Modal/_EntryAddModal.cshtml", entry);
                         }
 
                     </div>
 
 
-                    <table class="table table-striped datatableMini">
+                    <table class="table table-striped datatableMiniEntry">
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
@@ -129,4 +121,122 @@
 
         </div>
     </div>
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class=card-body>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="card-title">Aradığı Mülkler</h5>
+                        <button class="btn btn-primary" type="button" data-bs-toggle="modal"
+                                data-bs-target="#searchPropertyModal">
+                            <i class="bi bi-plus-lg"></i>
+                        </button>
+                        @{
+                            ShortProperty searchShortProperty = new ShortProperty()
+            {
+                CustomerId = Model.Item1.Id
+            };
+
+                            await Html.RenderPartialAsync("~/Views/Customer/Modal/_SearchPropertyAddModal.cshtml", searchShortProperty);
+                        }
+
+                    </div>
+
+
+                    <table class="table table-striped datatableMini">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Tipi</th>
+                                <th scope="col">Statüsü</th>
+                                <th scope="col">Oda</th>
+                                <th scope="col">Adres</th>
+                                <th scope="col">Fiyat</th>
+                                <th scope="col">Açıklama</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.Item3)
+                            {
+
+                                <tr>
+                                    <th scope="row">
+                                        @item.Id
+
+                                    </th>
+                                    <td>@item.PropertyType</td>
+                                    <td>@item.PropertyStatus</td>
+                                    <td>@item.RoomCount + @item.LivingRoomCount</td>
+                                    <td>@item.City / @item.District / @item.Neighborhood / @item.Street</td>
+                                    <td>@item.Price</td>
+                                    <td>@item.Description</td>
+
+                                </tr>
+                            }
+
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class=card-body>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="card-title">Kendi Mülkleri</h5>
+                        <button class="btn btn-primary" type="button" data-bs-toggle="modal"
+                                data-bs-target="#ownedPropertyModal">
+                            <i class="bi bi-plus-lg"></i>
+                        </button>
+                        @{
+                            ShortProperty ownedShortProperty = new ShortProperty()
+            {
+                CustomerId = Model.Item1.Id
+            };
+
+                            await Html.RenderPartialAsync("~/Views/Customer/Modal/_OwnedPropertyAddModal.cshtml", ownedShortProperty);
+                        }
+
+                    </div>
+
+
+                    <table class="table table-striped datatableMini">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Tipi</th>
+                                <th scope="col">Statüsü</th>
+                                <th scope="col">Oda</th>
+                                <th scope="col">Adres</th>
+                                <th scope="col">Fiyat</th>
+                                <th scope="col">Açıklama</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.Item4)
+                            {
+                                <tr>
+                                    <th scope="row">
+                                        @item.Id
+
+                                    </th>
+                                    <td>@item.PropertyType</td>
+                                    <td>@item.PropertyStatus</td>
+                                    <td>@item.RoomCount + @item.LivingRoomCount</td>
+                                    <td>@item.City / @item.District / @item.Neighborhood / @item.Street</td>
+                                    <td>@item.Price</td>
+                                    <td>@item.Description</td>
+
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </section>

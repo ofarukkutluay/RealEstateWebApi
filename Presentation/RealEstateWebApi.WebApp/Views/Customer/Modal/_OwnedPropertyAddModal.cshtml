@@ -1,0 +1,118 @@
+﻿@model ShortProperty
+
+<script type="text/javascript">
+    $(function () {
+        $("#inputCity2").change(function () {
+            var val = $(this).val();
+            console.log("City : " + val)
+            var subItems = "";
+            $.get("@Url.Action("SelectItemDistrict","Customer")", { cityId: val }, function (data, status) {
+                $.each(data, function (index, item) {
+                    subItems += "<option value='" + item.value + "'>" + item.text + "</option>"
+                });
+                $("#inputDistrict2").html(subItems)
+            });
+        });
+        $("#inputDistrict2").change(function () {
+            var val = $(this).val();
+            console.log("District : " + val)
+            var subItems = "";
+            $.get("@Url.Action("SelectItemNeighborhood","Customer")", { districtId: val }, function (data, status) {
+                $.each(data, function (index, item) {
+                    subItems += "<option value='" + item.value + "'>" + item.text + "</option>"
+                });
+                $("#inputNeighborhood2").html(subItems)
+            });
+        });
+
+    });
+
+
+</script>
+
+
+<!-- HareketEkle -->
+<div class="modal fade" id="ownedPropertyModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+
+            <div class="modal-header">
+                <h5 class="modal-title">Sahip Olduğu Mülk Ekle</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form class="needs-validation" asp-action="OwnedShortPropertyAdd" method="post">
+                <div class="modal-body">
+                    <input asp-for="CustomerId" value="@Model.CustomerId" hidden />
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label">Tipi</label>
+                        <div class="col-sm-10">
+                            <select class="form-select" asp-for="PropertyTypeId" asp-items="@ViewData["PropertyTypes"] as IEnumerable<SelectListItem>" required>
+                                <option selected disabled>Seçiniz...</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label">Statüsü</label>
+                        <div class="col-sm-10">
+                            <select class="form-select" asp-for="PropertyStatusId" asp-items="@ViewData["PropertyStatuses"] as IEnumerable<SelectListItem>" required>
+                                <option selected disabled>Seçiniz...</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="inputCity" class="col-sm-2 form-label">Şehir</label>
+                        <div class="col-sm-10">
+                            <select asp-for="CityId" asp-items="@ViewData["Cities"] as IEnumerable<SelectListItem>" class="form-select" id="inputCity2" required>
+                                <option selected disabled>Seçiniz...</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="inputDistrict" class="col-sm-2 form-label">İlçe</label>
+                        <div class="col-sm-10">
+                            <select asp-for="DistrictId" class="form-select" id="inputDistrict2">
+                                <option selected disabled>Seçiniz...</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="inputRooms" class="col-sm-2 form-label">Oda Sayısı</label>
+                        <div class="col-sm-10">
+                            <div class="input-group mb-3">
+                                <input type="number" class="form-control" asp-for="RoomCount" placeholder="Oda">
+                                <span class="input-group-text">+</span>
+                                <input type="number" class="form-control" asp-for="LivingRoomCount" placeholder="Salon">
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row mb-3">
+                        <label for="inputNumber" class="col-sm-2 col-form-label">Fiyat</label>
+                        <div class="col-sm-10">
+                            <div class="input-group mb-3">
+                                <input type="number" class="form-control" asp-for="Price" placeholder="Fiyat" required>
+                                <span class="input-group-text">₺</span>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="inputDescription" class="col-sm-2 col-form-label">Açıklama</label>
+                        <div class="col-sm-10">
+                            <textarea asp-for="Description" class="form-control" style="height: 100px" required></textarea>
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Ekle</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div><!-- End HareketEkle-->

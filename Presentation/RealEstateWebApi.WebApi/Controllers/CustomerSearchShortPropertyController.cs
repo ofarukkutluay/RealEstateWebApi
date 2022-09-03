@@ -4,6 +4,7 @@ using RealEstateWebApi.Application.Features.Commands.CustomerSearchShortProperty
 using RealEstateWebApi.Application.Features.Commands.CustomerSearchShortProperty.DeleteCustomerSearchShortProperty;
 using RealEstateWebApi.Application.Features.Commands.CustomerSearchShortProperty.UpdateCustomerSearchShortProperty;
 using RealEstateWebApi.Application.Features.Queries.CustomerSearchShortProperty.GetAllCustomerSearchShortPropertyByCustomerId;
+using RealEstateWebApi.Application.Features.Queries.CustomerSearchShortProperty.GetAllShortPropertyDtoByCustomerId;
 
 namespace RealEstateWebApi.WebApi.Controllers
 {
@@ -54,6 +55,15 @@ namespace RealEstateWebApi.WebApi.Controllers
             return BadRequest(response);
         }
 
-        
+        [HttpGet("{CustomerId}")]
+        public async Task<IActionResult> GetAllShortPropertyDtoByCustomerId([FromRoute] GetAllShortPropertyDtoByCustomerIdRequest request)
+        {
+            GetAllShortPropertyDtoByCustomerIdResponse response = await _mediator.Send(request);
+            if (response.Success)
+                return Ok(response);
+            return BadRequest(response);
+        }
+
+
     }
 }

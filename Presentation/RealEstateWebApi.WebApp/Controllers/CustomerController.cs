@@ -63,12 +63,15 @@ public class CustomerController : BaseController
     [HttpGet("/customer/{customerId}")]
     public async Task<IActionResult> Detail([FromRoute] uint customerId)
     {
-        var entries = await _requestService.Get<DataResult<IEnumerable<EntryDto>>>("entry", "?CustomerId=" + customerId);
-        var customer = await _requestService.Get<DataResult<CustomerDto>>("customer", "/" + customerId);
+        DataResult<IEnumerable<EntryDto>> entries = await _requestService.Get<DataResult<IEnumerable<EntryDto>>>("entry", "?CustomerId=" + customerId);
+        DataResult<CustomerDto> customer = await _requestService.Get<DataResult<CustomerDto>>("customer", "/" + customerId);
+        DataResult<IEnumerable<ShortPropertyDto>> ownedShortProperties = await _requestService.Get<DataResult<IEnumerable<ShortPropertyDto>>>("CustomerOwnedShortProperty", "/" + customerId);
+        DataResult<IEnumerable<ShortPropertyDto>> searchShortProperties = await _requestService.Get<DataResult<IEnumerable<ShortPropertyDto>>>("CustomerSearchShortProperty", "/" + customerId);
+
 
         await SelectItemInitilazeDetailPage();
 
-        return View(Tuple.Create(customer.Data, entries.Data));
+        return View(Tuple.Create(customer.Data, entries.Data,searchShortProperties.Data,ownedShortProperties.Data));
 
 
     }
@@ -86,6 +89,32 @@ public class CustomerController : BaseController
         }
         DangerAlert(rtnObj.Message);
         return Redirect("/customer/" + entry.CustomerId);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> OwnedShortPropertyAdd(ShortProperty shortProperty)
+    {
+        var rtnObj = await _requestService.Post<Result>("customerOwnedShortProperty", shortProperty);
+        if (rtnObj.Success)
+        {
+            SuccessAlert("Kayıt eklendi");
+            return Redirect("/customer/" + shortProperty.CustomerId);
+        }
+        DangerAlert(rtnObj.Message);
+        return Redirect("/customer/" + shortProperty.CustomerId);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> SearchShortPropertyAdd(ShortProperty shortProperty)
+    {
+        var rtnObj = await _requestService.Post<Result>("customerSearchShortProperty", shortProperty);
+        if (rtnObj.Success)
+        {
+            SuccessAlert("Kayıt eklendi");
+            return Redirect("/customer/" + shortProperty.CustomerId);
+        }
+        DangerAlert(rtnObj.Message);
+        return Redirect("/customer/" + shortProperty.CustomerId);
     }
 
 
@@ -109,7 +138,23 @@ public class CustomerController : BaseController
 
     async Task SelectItemInitilazeDetailPage()
     {
+        if (!_dbContext.Cities.Any())
+        {
+            var result = await _requestService.Get<DataResult<IEnumerable<City>>>("LocationSupport/City");
+            _dbContext.Cities.AddRange(result.Data);
+            _dbContext.SaveChanges();
+        }
+
         var entryTypes = await _requestService.Get<DataResult<IEnumerable<EntryType>>>("entryType");
+        var propertyTypes = await _requestService.Get<DataResult<IEnumerable<TitleModel>>>("propertyType");
+        var propertyStatuses = await _requestService.Get<DataResult<IEnumerable<TitleModel>>>("propertyStatus");
+
+
+        IEnumerable<SelectListItem> selectCities = _dbContext.Cities.Select(x => new SelectListItem
+        {
+            Value = x.Id.ToString(),
+            Text = x.Name
+        });
 
         IEnumerable<SelectListItem> selectEntryTypes = entryTypes.Data.Select(x => new SelectListItem
         {
@@ -117,7 +162,21 @@ public class CustomerController : BaseController
             Text = x.Title
         });
 
+        IEnumerable<SelectListItem> selectPropertTypes = propertyTypes.Data.Select(x => new SelectListItem
+        {
+            Value = x.Id.ToString(),
+            Text = x.Title
+        });
+        IEnumerable<SelectListItem> selectPropertyStatuses = propertyStatuses.Data.Select(x => new SelectListItem
+        {
+            Value = x.Id.ToString(),
+            Text = x.Title
+        });
+
+        ViewData.Add("Cities", selectCities);
         ViewData.Add("EntryTypes", selectEntryTypes);
+        ViewData.Add("PropertyTypes", selectPropertTypes);
+        ViewData.Add("PropertyStatuses", selectPropertyStatuses);
 
     }
 
