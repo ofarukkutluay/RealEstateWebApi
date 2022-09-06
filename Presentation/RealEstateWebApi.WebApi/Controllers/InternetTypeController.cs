@@ -1,9 +1,11 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RealEstateWebApi.Application.Features.Commands.InternetType.CreateInternetType;
 using RealEstateWebApi.Application.Features.Commands.InternetType.DeleteInternetType;
 using RealEstateWebApi.Application.Features.Commands.InternetType.UpdateInternetType;
 using RealEstateWebApi.Application.Features.Queries.InternetType.GetAllInternetType;
+using System.Data;
 
 namespace RealEstateWebApi.WebApi.Controllers
 {
@@ -19,6 +21,7 @@ namespace RealEstateWebApi.WebApi.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CreateInternetType(CreateInternetTypeRequest request)
         {
             CreateInternetTypeResponse response = await _mediator.Send(request);
@@ -28,6 +31,7 @@ namespace RealEstateWebApi.WebApi.Controllers
         }
 
         [HttpPut]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateInternetType(UpdateInternetTypeRequest request)
         {
             UpdateInternetTypeResponse response = await _mediator.Send(request);
@@ -37,6 +41,7 @@ namespace RealEstateWebApi.WebApi.Controllers
         }
 
         [HttpDelete]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteInternetType(DeleteInternetTypeRequest request)
         {
             DeleteInternetTypeResponse response = await _mediator.Send(request);

@@ -1,14 +1,17 @@
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RealEstateWebApi.Application.Features.Commands.ShortProperty.CreateShortProperty;
 using RealEstateWebApi.Application.Features.Commands.ShortProperty.DeleteShortProperty;
 using RealEstateWebApi.Application.Features.Commands.ShortProperty.UpdateShortProperty;
 using RealEstateWebApi.Application.Features.Queries.ShortProperty.GetAllShortProperty;
+using System.Data;
 
 namespace RealEstateWebApi.WebApi.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    [Authorize]
     public class ShortPropertyController : Controller
     {
         private readonly IMediator _mediator;

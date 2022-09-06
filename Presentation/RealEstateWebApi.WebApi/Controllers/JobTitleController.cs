@@ -1,14 +1,17 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RealEstateWebApi.Application.Features.Commands.JobTitle.CreateJobTitle;
 using RealEstateWebApi.Application.Features.Commands.JobTitle.DeleteJobTitle;
 using RealEstateWebApi.Application.Features.Commands.JobTitle.UpdateJobTitle;
 using RealEstateWebApi.Application.Features.Queries.JobTitle.GetAllJobTitleByCompanyId;
+using System.Data;
 
 namespace RealEstateWebApi.WebApi.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    [Authorize]
     public class JobTitleController : Controller
     {
         private readonly IMediator _mediator;

@@ -5,6 +5,7 @@ using RealEstateWebApi.Application.Features.Commands.User.LoginUser;
 using RealEstateWebApi.Application.Features.Commands.User.LogoutUser;
 using RealEstateWebApi.Application.Features.Commands.User.RegisterUser;
 using RealEstateWebApi.Application.Features.Queries.User.GetAllUser;
+using RealEstateWebApi.Application.Features.Queries.User.GetUserByUserId;
 
 namespace RealEstateWebApi.WebApi.Controllers
 {
@@ -50,6 +51,16 @@ namespace RealEstateWebApi.WebApi.Controllers
         public async Task<IActionResult> Logout(LogoutUserRequest request)
         {
             LogoutUserResponse response = await _mediator.Send(request);
+            if (response.Success)
+                return Ok(response);
+            return BadRequest(response);
+        }
+
+        [HttpGet("{Id}")]
+        [Authorize]
+        public async Task<IActionResult> GetUserByUserId([FromRoute] GetUserByUserIdRequest request)
+        {
+            GetUserByUserIdResponse response = await _mediator.Send(request);
             if (response.Success)
                 return Ok(response);
             return BadRequest(response);

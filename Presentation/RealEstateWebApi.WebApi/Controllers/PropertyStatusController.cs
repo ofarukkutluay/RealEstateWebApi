@@ -1,9 +1,11 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RealEstateWebApi.Application.Features.Commands.PropertyStatus.CreatePropertyStatus;
 using RealEstateWebApi.Application.Features.Commands.PropertyStatus.DeletePropertyStatus;
 using RealEstateWebApi.Application.Features.Commands.PropertyStatus.UpdatePropertyStatus;
 using RealEstateWebApi.Application.Features.Queries.PropertyStatus.GetAllPropertyStatus;
+using System.Data;
 
 namespace RealEstateWebApi.WebApi.Controllers
 {
@@ -19,6 +21,7 @@ namespace RealEstateWebApi.WebApi.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CreatePropertyStatus(CreatePropertyStatusRequest request)
         {
             CreatePropertyStatusResponse response = await _mediator.Send(request);
@@ -28,6 +31,7 @@ namespace RealEstateWebApi.WebApi.Controllers
         }
 
         [HttpPut]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdatePropertyStatus(UpdatePropertyStatusRequest request)
         {
             UpdatePropertyStatusResponse response = await _mediator.Send(request);
@@ -37,6 +41,7 @@ namespace RealEstateWebApi.WebApi.Controllers
         }
 
         [HttpDelete]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeletePropertyStatus(DeletePropertyStatusRequest request)
         {
             DeletePropertyStatusResponse response = await _mediator.Send(request);

@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
 using RealEstateWebApi.WebApp.Models;
 
 
 namespace RealEstateWebApi.WebApp.Controllers
 {
+    [AllowAnonymous]
     public class AuthController : BaseController
     {
         private readonly IConfiguration _configuration;
@@ -77,7 +79,13 @@ namespace RealEstateWebApi.WebApp.Controllers
 
             client.Dispose();
             return RedirectToAction("Login");
+        }
 
+        [Route("/logout")]
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Remove("Token");
+            return RedirectToAction("Login");
         }
     }
 }

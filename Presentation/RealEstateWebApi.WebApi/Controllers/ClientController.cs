@@ -1,14 +1,17 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RealEstateWebApi.Application.Features.Commands.Client.CreateClient;
 using RealEstateWebApi.Application.Features.Commands.Client.DeleteClient;
 using RealEstateWebApi.Application.Features.Commands.Client.UpdateClient;
 using RealEstateWebApi.Application.Features.Queries.Client.GetAllClient;
+using System.Data;
 
 namespace RealEstateWebApi.WebApi.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    [Authorize(Roles = "Admin")]
     public class ClientController : Controller
     {
         private readonly IMediator _mediator;

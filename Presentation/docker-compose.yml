@@ -1,0 +1,33 @@
+version: '3.4'
+services:
+  realestatewebapi-api:
+    build: ./RealEstateWebApi.WebApi
+    ports:
+      - 7045:7045
+    restart: always
+  realestatewebapi.app:
+    build: ./RealEstateWebApi.WebApp
+    ports:
+      - 7132:7132
+    restart: always
+  realestate:
+    container_name: real-estate-web
+    build: ../../emlak
+    depends_on:
+      - psqldata
+    ports: 
+      - 7125:7125
+  psqldata:
+    image: postgres:latest
+    environment:
+      - POSTGRES_PASSWORD=12345test
+    ports:
+      - 5432:5432
+    restart: always
+    depends_on:
+      - psqldata
+    volumes:
+      - psqldata:/var/lib/postgresql/data
+volumes:
+  psqldata:
+  

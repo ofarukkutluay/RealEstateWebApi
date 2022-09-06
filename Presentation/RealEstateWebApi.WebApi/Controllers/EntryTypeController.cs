@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RealEstateWebApi.Application.Features.Commands.EntryType.CreateEntryType;
 using RealEstateWebApi.Application.Features.Commands.EntryType.DeleteEntryType;
@@ -19,6 +20,7 @@ namespace RealEstateWebApi.WebApi.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CreateEntryType(CreateEntryTypeRequest request)
         {
             CreateEntryTypeResponse response = await _mediator.Send(request);
@@ -28,6 +30,7 @@ namespace RealEstateWebApi.WebApi.Controllers
         }
 
         [HttpPut]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateEntryType(UpdateEntryTypeRequest request)
         {
             UpdateEntryTypeResponse response = await _mediator.Send(request);
@@ -37,6 +40,7 @@ namespace RealEstateWebApi.WebApi.Controllers
         }
 
         [HttpDelete]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteEntryType(DeleteEntryTypeRequest request)
         {
             DeleteEntryTypeResponse response = await _mediator.Send(request);

@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RealEstateWebApi.Application.Features.Commands.Company.CreateCompany;
 using RealEstateWebApi.Application.Features.Commands.Company.DeleteCompany;
@@ -10,6 +11,7 @@ namespace RealEstateWebApi.WebApi.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    [Authorize(Roles = "Admin")]
     public class CompanyController : Controller
     {
         private readonly IMediator _mediator;

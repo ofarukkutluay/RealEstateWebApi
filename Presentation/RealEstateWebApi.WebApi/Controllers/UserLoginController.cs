@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RealEstateWebApi.Application.Features.Commands.UserLogin.DeleteUserlogin;
 using RealEstateWebApi.Application.Features.Queries.UserLogin.GetAllUserLogin;
@@ -8,6 +9,7 @@ namespace RealEstateWebApi.WebApi.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    [Authorize(Roles = "Admin")]
     public class UserLoginController : Controller
     {
         private readonly IMediator _mediator;

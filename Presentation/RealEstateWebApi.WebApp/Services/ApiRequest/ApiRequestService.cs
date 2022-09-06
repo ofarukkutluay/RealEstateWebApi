@@ -6,18 +6,23 @@ namespace RealEstateWebApi.WebApp.Services.ApiRequest
     public class ApiRequestService
     {
         private readonly IConfiguration Configuration;
-
         public ApiRequestService(IConfiguration configuration)
         {
             Configuration = configuration;
         }
 
         private string apiUrl { get => Configuration["ApiUrl"]; }
+        public string Token { get; set; }
 
         public async Task<TResult> Get<TResult>(string path)
         {
             using (HttpClient client = new HttpClient())
-            {
+            {                
+                if (!string.IsNullOrEmpty(Token))
+                {
+                    client.DefaultRequestHeaders.Add("Authorization", $"Bearer {Token}");
+                }
+
                 var response = await client.GetStringAsync(apiUrl + path);
 
                 return JsonConvert.DeserializeObject<TResult>(response);
@@ -34,7 +39,12 @@ namespace RealEstateWebApi.WebApp.Services.ApiRequest
                 {
                     url += key;
                 }
-                
+
+                if (!string.IsNullOrEmpty(Token))
+                {
+                    client.DefaultRequestHeaders.Add("Authorization", $"Bearer {Token}");
+                }
+
                 var response = await client.GetStringAsync(url);
 
                 return JsonConvert.DeserializeObject<TResult>(response);
@@ -47,6 +57,11 @@ namespace RealEstateWebApi.WebApp.Services.ApiRequest
             using (HttpClient client = new HttpClient())
             {
                 var jsonContent = JsonContent.Create(content);
+
+                if (!string.IsNullOrEmpty(Token))
+                {
+                    client.DefaultRequestHeaders.Add("Authorization", $"Bearer {Token}");
+                }
 
                 var response = await client.PostAsync(apiUrl + path, jsonContent);
 
@@ -61,6 +76,11 @@ namespace RealEstateWebApi.WebApp.Services.ApiRequest
             {
                 var jsonContent = JsonContent.Create(content);
 
+                if (!string.IsNullOrEmpty(Token))
+                {
+                    client.DefaultRequestHeaders.Add("Authorization", $"Bearer {Token}");
+                }
+
                 var response = await client.PutAsync(apiUrl + path, jsonContent);
 
                 return JsonConvert.DeserializeObject<TResult>(await response.Content.ReadAsStringAsync());
@@ -73,6 +93,12 @@ namespace RealEstateWebApi.WebApp.Services.ApiRequest
             using (HttpClient client = new HttpClient())
             {
                 var jsonContent = JsonContent.Create(content);
+
+                if (!string.IsNullOrEmpty(Token))
+                {
+                    client.DefaultRequestHeaders.Add("Authorization", $"Bearer {Token}");
+                }
+
                 var response = await client.DeleteAsync(apiUrl + path);
 
                 return JsonConvert.DeserializeObject<TResult>(await response.Content.ReadAsStringAsync());

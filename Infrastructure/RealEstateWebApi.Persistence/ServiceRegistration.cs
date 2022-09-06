@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using RealEstateWebApi.Application.Repositories;
 using RealEstateWebApi.Persistence.Contexts;
@@ -13,9 +14,9 @@ namespace RealEstateWebApi.Persistence
 {
     public static class ServiceRegistration
     {
-        public static void AddPersistenceServices(this IServiceCollection services)
+        public static void AddPersistenceServices(this IServiceCollection services,IConfiguration configuration)
         {
-            services.AddDbContext<RealEstateWebApiDbContext>(options => options.UseNpgsql(Configuration.ConnectionString));
+            services.AddDbContext<RealEstateWebApiDbContext>(options => options.UseNpgsql(configuration.GetConnectionString("PostgreSQL"))); //development da oluşturduğumuz static Configuration.ConnectionString() kullanılacaktır. 
             services.AddDbContext<LocalDbContext>(options => options.UseInMemoryDatabase("LocalDb"));
             services.AddScoped<ILocalDbContext>(provider => provider.GetService<LocalDbContext>());
 

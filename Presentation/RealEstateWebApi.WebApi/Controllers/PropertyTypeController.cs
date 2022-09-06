@@ -1,9 +1,11 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RealEstateWebApi.Application.Features.Commands.PropertyType.CreatePropertyType;
 using RealEstateWebApi.Application.Features.Commands.PropertyType.DeletePropertyType;
 using RealEstateWebApi.Application.Features.Commands.PropertyType.UpdatePropertyType;
 using RealEstateWebApi.Application.Features.Queries.PropertyType.GetAllPropertyType;
+using System.Data;
 
 namespace RealEstateWebApi.WebApi.Controllers
 {
@@ -19,6 +21,7 @@ namespace RealEstateWebApi.WebApi.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CreatePropertyType(CreatePropertyTypeRequest request)
         {
             CreatePropertyTypeResponse response = await _mediator.Send(request);
@@ -28,6 +31,7 @@ namespace RealEstateWebApi.WebApi.Controllers
         }
 
         [HttpPut]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdatePropertyType(UpdatePropertyTypeRequest request)
         {
             UpdatePropertyTypeResponse response = await _mediator.Send(request);
@@ -37,6 +41,7 @@ namespace RealEstateWebApi.WebApi.Controllers
         }
 
         [HttpDelete]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeletePropertyType(DeletePropertyTypeRequest request)
         {
             DeletePropertyTypeResponse response = await _mediator.Send(request);

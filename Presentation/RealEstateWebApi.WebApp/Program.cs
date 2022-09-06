@@ -15,7 +15,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<WebAppLocalDbContext>(opt => opt.UseInMemoryDatabase("LocalDb"));
 
 builder.Services.AddSingleton<ILoggerService, ConsoleLogger>();
-builder.Services.AddScoped<ApiRequestService>();
+builder.Services.AddSingleton<ApiRequestService>();
 
 var tokenOptions = builder.Configuration.GetSection("ApiTokenOptions");
 
@@ -59,6 +59,12 @@ app.Use(async (context, next) =>
     var token = context.Session.GetString("Token");
     if (!string.IsNullOrEmpty(token))
     {
+
+        var scope = (ApiRequestService)app.Services.GetService(typeof(ApiRequestService));
+        if (scope != null)
+        {
+            scope.Token = token;
+        }
         context.Request.Headers.Add("Authorization", "Bearer " + token);
     }
     await next();

@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RealEstateWebApi.Application.Features.Commands.Blog.CreateBlog;
 using RealEstateWebApi.Application.Features.Commands.Blog.DeleteBlog;
@@ -11,6 +12,7 @@ namespace RealEstateWebApi.WebApi.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    [Authorize]
     public class BlogController : Controller
     {
         private IMediator _mediator;

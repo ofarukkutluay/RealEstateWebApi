@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using RealEstateWebApi.Application.DTOs;
 using RealEstateWebApi.Application.Features.Commands.Agent.CreateAgent;
 using RealEstateWebApi.Application.Features.Commands.Blog.CreateBlog;
 using RealEstateWebApi.Application.Features.Commands.BlogType.CreateBlogType;
@@ -53,6 +54,8 @@ namespace RealEstateWebApi.Application.Utilities.Mapper
             CreateMap<CreateEntrySubTypeRequest, EntrySubType>();
             CreateMap<CreateShortPropertyRequest, ShortProperty>();
 
+
+            CreateMap<User, UserDto>();
 
 
 

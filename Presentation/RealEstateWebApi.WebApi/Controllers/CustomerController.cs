@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RealEstateWebApi.Application.Features.Commands.Customer.CreateCustomer;
 using RealEstateWebApi.Application.Features.Commands.Customer.DeleteCustomer;
@@ -9,6 +10,7 @@ using RealEstateWebApi.Application.Features.Queries.Customer.GetAllCustomerDto;
 using RealEstateWebApi.Application.Features.Queries.Customer.GetCustomerById;
 using RealEstateWebApi.Application.Features.Queries.Customer.GetCustomerDtoById;
 using RealEstateWebApi.Application.Features.Queries.Customer.GetRecentCustomerDtoList;
+using System.Data;
 
 namespace RealEstateWebApi.WebApi.Controllers
 {
@@ -24,6 +26,7 @@ namespace RealEstateWebApi.WebApi.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> CreateCustomer(CreateCustomerRequest request)
         {
             CreateCustomerResponse response = await _mediator.Send(request);
@@ -33,6 +36,7 @@ namespace RealEstateWebApi.WebApi.Controllers
         }
 
         [HttpPut]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateCustomer(UpdateCustomerRequest request)
         {
             UpdateCustomerResponse response = await _mediator.Send(request);
@@ -42,6 +46,7 @@ namespace RealEstateWebApi.WebApi.Controllers
         }
 
         [HttpDelete]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteCustomer(DeleteCustomerRequest request)
         {
             DeleteCustomerResponse response = await _mediator.Send(request);
@@ -69,6 +74,7 @@ namespace RealEstateWebApi.WebApi.Controllers
         } */
 
         [HttpGet("{Id}")]
+        [Authorize]
         public async Task<IActionResult> GetCustomerDtoById([FromRoute] GetCustomerDtoByIdRequest request)
         {
             GetCustomerDtoByIdResponse response = await _mediator.Send(request);
@@ -78,6 +84,7 @@ namespace RealEstateWebApi.WebApi.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> GetAllCustomerDto()
         {
             GetAllCustomerDtoResponse response = await _mediator.Send(new GetAllCustomerDtoRequest());
@@ -87,6 +94,7 @@ namespace RealEstateWebApi.WebApi.Controllers
         }
 
         [HttpGet("recent")]
+        [Authorize]
         public async Task<IActionResult> GetRecentCustomerDtoList([FromQuery] GetRecentCustomerDtoListRequest request)
         {
             GetRecentCustomerDtoListResponse response = await _mediator.Send(request);
@@ -96,6 +104,7 @@ namespace RealEstateWebApi.WebApi.Controllers
         }
 
         [HttpGet("count")]
+        [Authorize]
         public async Task<IActionResult> GetAllCustomerCount()
         {
             GetAllCustomerCountResponse response = await _mediator.Send(new GetAllcustomerCountRequest());
