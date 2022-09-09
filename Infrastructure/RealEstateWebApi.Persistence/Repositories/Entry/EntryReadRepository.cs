@@ -20,14 +20,14 @@ namespace RealEstateWebApi.Persistence.Repositories
                         where e.CustomerId == customerId
                         select new EntryDto{
                             Content = e.Content,
-                            CreatedDate = e.CreatedDate,
+                            CreatedDate = e.CreatedDate.ToLocalTime(),
                             Customer = c.FullName,
                             EntrySubTitle = e.EntrySubTitle,
                             EntrySubType = est.Title,
                             EntryType = et.Title,
                             Id = e.Id,
                             IsActive = e.IsActive,
-                            UpdatedDate = e.UpdatedDate,
+                            UpdatedDate = e.UpdatedDate != null ? e.UpdatedDate.Value.ToLocalTime() : null,
                             User = $"{u.FirstName} {u.LastName}"
                         };
             return result;

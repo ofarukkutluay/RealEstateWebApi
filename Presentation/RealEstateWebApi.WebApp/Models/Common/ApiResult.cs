@@ -1,6 +1,4 @@
-﻿
-
-namespace RealEstateWebApi.Application.Results
+﻿namespace RealEstateWebApi.WebApp.Models.Common
 {
     public class ApiResult<T>
     {

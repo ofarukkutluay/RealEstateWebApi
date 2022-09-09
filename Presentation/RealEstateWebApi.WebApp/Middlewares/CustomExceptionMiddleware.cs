@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using RealEstateWebApi.WebApp.Services.ApiRequest;
 using RealEstateWebApi.WebApp.Services.Logger;
 using System.Diagnostics;
 using System.Net;
@@ -18,6 +19,7 @@ namespace RealEstateWebApi.WebApp.Middlewares
 
         public async Task Invoke(HttpContext context)
         {
+
             var watch = Stopwatch.StartNew();
             try
             {
@@ -33,13 +35,18 @@ namespace RealEstateWebApi.WebApp.Middlewares
             catch (Exception ex)
             {
                 watch.Stop();
-                await HandleException(context, ex, watch);
+                //await HandleException(context, ex, watch);
+                context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+
+                string message = $"[Error]    HTTP {context.Request.Method} - {context.Response.StatusCode} Error Message: {ex.Message} in {watch.Elapsed.TotalMilliseconds} ms";
+                _loggerService.Write(message);
             }
 
         }
 
         private Task HandleException(HttpContext context, Exception ex, Stopwatch watch)
         {
+         
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
 

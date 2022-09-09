@@ -32,6 +32,9 @@ namespace RealEstateWebApi.Application.Features.Queries.User.GetUserByUserId
                 };
 
             UserDto userDto = _mapper.Map<UserDto>(user);
+            userDto.CreatedDate = userDto.CreatedDate.ToLocalTime();
+            userDto.UpdatedDate = userDto.UpdatedDate != null ? userDto.UpdatedDate.Value.ToLocalTime() : null;
+
             return new GetUserByUserIdResponse()
             {
                 Message = "Data getirildi",

@@ -53,8 +53,8 @@ namespace RealEstateWebApi.Application.Features.Commands.User.LoginUser
             IEnumerable<Domain.Entities.Identity.UserLogin> userLogins = _userLoginReadRepository.GetWhere(e=>e.UserId == user.Id);
 
             //todo Tüm kullanıcı login bilgisi silme işlemi daha sonra kaldırılıcak.
-            if(userLogins.Count()>0)
-                _userLoginWriteRepository.RemoveRange(userLogins);
+            //if(userLogins.Count()>5)
+            //    _userLoginWriteRepository.RemoveRange(userLogins);
 
             await _userLoginWriteRepository.AddAsync(new Domain.Entities.Identity.UserLogin()
             {

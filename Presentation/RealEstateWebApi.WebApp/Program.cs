@@ -54,6 +54,7 @@ if (!app.Environment.IsDevelopment())
 
 app.UseSession();
 
+
 app.Use(async (context, next) =>
 {
     var token = context.Session.GetString("Token");

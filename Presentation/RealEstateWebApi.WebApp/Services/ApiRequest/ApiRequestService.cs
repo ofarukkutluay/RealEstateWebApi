@@ -1,5 +1,5 @@
 ﻿using Newtonsoft.Json;
-
+using RealEstateWebApi.WebApp.Models.Common;
 
 namespace RealEstateWebApi.WebApp.Services.ApiRequest
 {
@@ -13,6 +13,18 @@ namespace RealEstateWebApi.WebApp.Services.ApiRequest
 
         private string apiUrl { get => Configuration["ApiUrl"]; }
         public string Token { get; set; }
+
+
+        public async Task<ApiResult<object>> GetApiStatus()
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                var response = await client.GetStringAsync(apiUrl);
+
+                return JsonConvert.DeserializeObject<ApiResult<object>>(response);
+
+            }
+        }
 
         public async Task<TResult> Get<TResult>(string path)
         {

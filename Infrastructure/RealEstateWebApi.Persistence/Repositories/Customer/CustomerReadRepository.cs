@@ -35,8 +35,8 @@ namespace RealEstateWebApi.Persistence.Repositories
                             CitizenNumber = c.CitizenNumber,
                             RegisterUser = $"{reguser.FirstName} {reguser.LastName}",
                             AssignedUser = $"{assinguser.FirstName} {assinguser.LastName}",
-                            CreatedDate = c.CreatedDate,
-                            UpdatedDate = c.UpdatedDate,
+                            CreatedDate = c.CreatedDate.ToLocalTime(),
+                            UpdatedDate = c.UpdatedDate != null ? c.UpdatedDate.Value.ToLocalTime() : null ,
                             IsActive = c.IsActive
                         };
             return result;
@@ -66,8 +66,8 @@ namespace RealEstateWebApi.Persistence.Repositories
                             CitizenNumber = c.CitizenNumber,
                             RegisterUser = $"{reguser.FirstName} {reguser.LastName}",
                             AssignedUser = $"{assinguser.FirstName} {assinguser.LastName}",
-                            CreatedDate = c.CreatedDate,
-                            UpdatedDate = c.UpdatedDate,
+                            CreatedDate = c.CreatedDate.ToLocalTime(),
+                            UpdatedDate = c.UpdatedDate != null ? c.UpdatedDate.Value.ToLocalTime() : null,
                             IsActive = c.IsActive
                         };
             return result.First();

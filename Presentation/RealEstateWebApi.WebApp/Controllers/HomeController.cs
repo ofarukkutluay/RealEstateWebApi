@@ -29,7 +29,7 @@ namespace RealEstateWebApi.WebApp.Controllers
         }
 
         [Route("NotFound")]
-        public IActionResult NotFound()
+        public IActionResult NotFoundPage()
         {
             return View();
         }
