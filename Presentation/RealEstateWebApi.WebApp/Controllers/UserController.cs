@@ -7,7 +7,7 @@ using System.Security.Claims;
 
 namespace RealEstateWebApi.WebApp.Controllers
 {
-    public class UserController : Controller
+    public class UserController : BaseController
     {
         private readonly ApiRequestService _requestService;
 
@@ -23,6 +23,34 @@ namespace RealEstateWebApi.WebApp.Controllers
             uint userId = uint.Parse(HttpContext.User.Claims.FirstOrDefault(e => ClaimTypes.NameIdentifier == e.Type).Value);
             DataResult<User> user = await _requestService.Get<DataResult<User>>("user", "/", userId.ToString());
             return View(user.Data);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ChangePasswordUser(ChangePasswordUser changePasswordUser)
+        {
+            Result result = await _requestService.Post<Result>("User/ChangePassword", changePasswordUser);
+            if (result.Success)
+            {
+                SuccessAlert(result.Message);
+                return Redirect(Request.Headers["Referer"].ToString());
+            }
+
+            DangerAlert(result.Message);
+            return Redirect(Request.Headers["Referer"].ToString());
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateUser(User user)
+        {
+            Result result = await _requestService.Put<Result>("user",user);
+            if (result.Success)
+            {
+                SuccessAlert(result.Message);
+                return Redirect(Request.Headers["Referer"].ToString());
+            }
+
+            DangerAlert(result.Message);
+            return Redirect(Request.Headers["Referer"].ToString());
         }
     }
 }

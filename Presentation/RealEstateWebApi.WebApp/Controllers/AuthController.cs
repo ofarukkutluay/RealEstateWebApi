@@ -78,7 +78,7 @@ namespace RealEstateWebApi.WebApp.Controllers
             DangerAlert(json["message"].ToString());
 
             client.Dispose();
-            return RedirectToAction("Login");
+            return RedirectToAction("Register");
         }
 
         [Route("/logout")]

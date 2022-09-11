@@ -1,9 +1,12 @@
 ﻿using MediatR;
+using RealEstateWebApi.Application.Features.Commands.Customer.CreateCustomer;
+using RealEstateWebApi.Application.Features.Commands.User.RegisterUser;
 using RealEstateWebApi.Application.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace RealEstateWebApi.Application.Features.Commands.Customer.UpdateCustomer

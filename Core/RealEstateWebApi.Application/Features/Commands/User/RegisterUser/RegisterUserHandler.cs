@@ -32,18 +32,19 @@ namespace RealEstateWebApi.Application.Features.Commands.User.RegisterUser
                 };
 
             request.MobileNumber = request.MobileNumber.Trim().Replace(" ", "");
-            Regex regexMobilePhone = new Regex(@"^[0-9]*$");
-            if (regexMobilePhone.IsMatch(request.MobileNumber) && request.MobileNumber.Length <= 12)
-            {
-                request.MobileNumber = !request.MobileNumber.StartsWith("90") || !request.MobileNumber.StartsWith("0") ? request.MobileNumber.Insert(0, "90") : request.MobileNumber;
-                request.MobileNumber = request.MobileNumber.StartsWith("0") ? request.MobileNumber.Insert(0, "9") : request.MobileNumber;
-            }
-
-            user = await _userReadRepository.GetSingleAsync(e => e.MobileNumber == request.MobileNumber);
-            if (user != null || !regexMobilePhone.IsMatch(request.MobileNumber))
+            Regex regexMobilePhone = new Regex(@"^([5]{1})([0-9]{9})$");
+            if (!regexMobilePhone.IsMatch(request.MobileNumber))
                 return new RegisterUserResponse
                 {
-                    Message = "Giridiğiniz mobile numaraya ait kullanıcı bulunmaktadır yada numara hatalı girilmiştir.",
+                    Message = "Giridiğiniz mobile numara hatalıdır.",
+                    Success = false
+                };
+
+            user = await _userReadRepository.GetSingleAsync(e => e.MobileNumber == request.MobileNumber);
+            if (user != null)
+                return new RegisterUserResponse
+                {
+                    Message = "Giridiğiniz mobile numaraya ait kullanıcı bulunmaktadır.",
                     Success = false
                 };
 

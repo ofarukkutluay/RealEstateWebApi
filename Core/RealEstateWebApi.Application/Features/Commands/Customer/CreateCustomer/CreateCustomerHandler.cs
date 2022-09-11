@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
 using MediatR;
+using RealEstateWebApi.Application.Features.Commands.User.RegisterUser;
 using RealEstateWebApi.Application.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace RealEstateWebApi.Application.Features.Commands.Customer.CreateCustomer
@@ -30,7 +32,16 @@ namespace RealEstateWebApi.Application.Features.Commands.Customer.CreateCustomer
                     Message = "Bu numaraya ait data bulunmakatadır.",
                     Success = false
                 };
-            
+
+            request.MobileNumber = request.MobileNumber.Trim().Replace(" ", "");
+            Regex regexMobilePhone = new Regex(@"^([5]{1})([0-9]{9})$");
+            if (!regexMobilePhone.IsMatch(request.MobileNumber))
+                return new CreateCustomerResponse
+                {
+                    Message = "Giridiğiniz mobile numara hatalıdır.",
+                    Success = false
+                };
+
             customer = _mapper.Map<Domain.Entities.Customer>(request);
             customer.AssignedUserId = request.RegisterUserId;
             var result = await _customerWriteRepository.AddAndSaveAsync(customer);

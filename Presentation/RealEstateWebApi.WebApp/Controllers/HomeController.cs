@@ -40,6 +40,12 @@ namespace RealEstateWebApi.WebApp.Controllers
             return View();
         }
 
+        [Route("Contact")]
+        public IActionResult Contact()
+        {
+            return View();
+        }
+
         public IActionResult Privacy()
         {
             return View();
