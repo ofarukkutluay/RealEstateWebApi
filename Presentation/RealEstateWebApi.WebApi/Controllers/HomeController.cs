@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using RealEstateWebApi.Application.Abstractions.Services;
 using RealEstateWebApi.Application.Repositories;
 using RealEstateWebApi.Application.Results;
 using RealEstateWebApi.Domain.Entities.LocalDb;
@@ -10,10 +11,12 @@ namespace RealEstateWebApi.WebApi.Controllers
     public class HomeController : Controller
     {
         private readonly ILocalDbContext _context;
+        private readonly IMailService _mailService;
 
-        public HomeController(ILocalDbContext context)
+        public HomeController(ILocalDbContext context, IMailService mailService)
         {
             _context = context;
+            _mailService = mailService;
         }
 
         [HttpGet]
@@ -36,5 +39,6 @@ namespace RealEstateWebApi.WebApi.Controllers
                 Success = true
             });
         }
+
     }
 }

@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using RealEstateWebApi.Application.Repositories;
 using RealEstateWebApi.Application.Security.Hashing;
+using RealEstateWebApi.Application.Validators.User;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,11 +33,13 @@ namespace RealEstateWebApi.Application.Features.Commands.User.RegisterUser
                 };
 
             request.MobileNumber = request.MobileNumber.Trim().Replace(" ", "");
-            Regex regexMobilePhone = new Regex(@"^([5]{1})([0-9]{9})$");
-            if (!regexMobilePhone.IsMatch(request.MobileNumber))
+            
+            RegisterUserValidator validationRules = new RegisterUserValidator();
+            var validateResult = await validationRules.ValidateAsync(request);
+            if (!validateResult.IsValid)
                 return new RegisterUserResponse
                 {
-                    Message = "Giridiğiniz mobile numara hatalıdır.",
+                    Message = validateResult.ToString(),
                     Success = false
                 };
 

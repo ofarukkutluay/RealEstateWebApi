@@ -6,6 +6,7 @@ using RealEstateWebApi.Application.Features.Commands.User.LoginUser;
 using RealEstateWebApi.Application.Features.Commands.User.LogoutUser;
 using RealEstateWebApi.Application.Features.Commands.User.RegisterUser;
 using RealEstateWebApi.Application.Features.Commands.User.UpdateUser;
+using RealEstateWebApi.Application.Features.Commands.User.UploadProfilePhotoUser;
 using RealEstateWebApi.Application.Features.Queries.User.GetAllUser;
 using RealEstateWebApi.Application.Features.Queries.User.GetUserByUserId;
 
@@ -63,6 +64,16 @@ namespace RealEstateWebApi.WebApi.Controllers
         public async Task<IActionResult> ChangePassword(ChangePasswordUserRequest request)
         {
             ChangePasswordUserResponse response = await _mediator.Send(request);
+            if (response.Success)
+                return Ok(response);
+            return BadRequest(response);
+        }
+
+        [HttpPost("[action]")]
+        [Authorize]
+        public async Task<IActionResult> UploadPhoto([FromForm] UploadProfilePhotoUserRequest request)
+        {
+            UploadProfilePhotoUserResponse response = await _mediator.Send(request);
             if (response.Success)
                 return Ok(response);
             return BadRequest(response);

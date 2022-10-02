@@ -1,6 +1,7 @@
 ﻿using MediatR;
+using RealEstateWebApi.Application.Features.Commands.Customer.CreateCustomer;
 using RealEstateWebApi.Application.Repositories;
-
+using RealEstateWebApi.Application.Validators.User;
 
 namespace RealEstateWebApi.Application.Features.Commands.User.UpdateUser
 {
@@ -25,34 +26,40 @@ namespace RealEstateWebApi.Application.Features.Commands.User.UpdateUser
                     Success = false
                 };
 
+            request.PhoneNumber = request.PhoneNumber?.Trim().Replace(" ", "");
+
+            UpdateUserValidator validationRules = new UpdateUserValidator();
+            var validateResult = await validationRules.ValidateAsync(request);
+            if (!validateResult.IsValid)
+            {
+                return new UpdateUserResponse
+                {
+                    Message = validateResult.ToString(","),
+                    Success = false
+                };
+            }
+
             user.FirstName = String.IsNullOrEmpty(request.FirstName) ? user.FirstName : request.FirstName;
             user.LastName = String.IsNullOrEmpty(request.LastName) ? user.LastName : request.LastName;
 
-            var searchCitizenNumberUser = request.CitizenNumber <= 0 ? null : await _userReadRepository.GetSingleAsync(e => e.CitizenNumber == request.CitizenNumber);
+            var searchCitizenNumberUser = request.CitizenNumber <= 0 || request.CitizenNumber == null ? null : await _userReadRepository.GetSingleAsync(e => e.CitizenNumber == request.CitizenNumber);
             if (searchCitizenNumberUser != null)
                 return new UpdateUserResponse()
                 {
-                    Message = "Girdiğiniz kimlik numarasına kullanıcı vardır.",
+                    Message = "Girdiğiniz kimlik numarasına kayıtlı kullanıcı vardır.",
                     Success = false,
                 };
 
-            user.CitizenNumber = request.CitizenNumber <= 0 ? user.CitizenNumber : request.CitizenNumber;
+            user.CitizenNumber = request.CitizenNumber <= 0 || request.CitizenNumber == null ? user.CitizenNumber : request.CitizenNumber;
 
-            var searchPhoneNumberUser = await _userReadRepository.GetSingleAsync(e => e.PhoneNumber == request.PhoneNumber);
-            if (searchPhoneNumberUser != null)
-                return new UpdateUserResponse()
-                {
-                    Message = "Girdiğiniz sabit numaraya kullanıcı vardır.",
-                    Success = false,
-                };
             user.PhoneNumber = String.IsNullOrEmpty(request.PhoneNumber) ? user.PhoneNumber : request.PhoneNumber;
 
             //user.MobileNumber = String.IsNullOrEmpty(request.MobileNumber) ? user.MobileNumber : request.MobileNumber;
 
             user.BirthDate = request.BirthDate == default ? user.BirthDate : request.BirthDate;
 
-            var searchEmailUser = await _userReadRepository.GetSingleAsync(e => e.Email == request.Email);
-            if (searchEmailUser != null)
+            var searchEmailUser = user.Email != request.Email ? await _userReadRepository.GetSingleAsync(e => e.Email == request.Email) : null;
+            if (searchEmailUser != null )
                 return new UpdateUserResponse()
                 {
                     Message = "Girdiğiniz mail adresine kullanıcı vardır.",

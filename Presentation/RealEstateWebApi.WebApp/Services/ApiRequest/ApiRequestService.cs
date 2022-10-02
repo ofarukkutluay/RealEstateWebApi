@@ -1,5 +1,7 @@
 ﻿using Newtonsoft.Json;
 using RealEstateWebApi.WebApp.Models.Common;
+using System.Net.Http;
+using System.Net.Http.Headers;
 
 namespace RealEstateWebApi.WebApp.Services.ApiRequest
 {
@@ -29,7 +31,7 @@ namespace RealEstateWebApi.WebApp.Services.ApiRequest
         public async Task<TResult> Get<TResult>(string path)
         {
             using (HttpClient client = new HttpClient())
-            {                
+            {
                 if (!string.IsNullOrEmpty(Token))
                 {
                     client.DefaultRequestHeaders.Add("Authorization", $"Bearer {Token}");
@@ -42,7 +44,7 @@ namespace RealEstateWebApi.WebApp.Services.ApiRequest
             }
         }
 
-        public async Task<TResult> Get<TResult>(string path, params string[] keys )
+        public async Task<TResult> Get<TResult>(string path, params string[] keys)
         {
             using (HttpClient client = new HttpClient())
             {
@@ -78,6 +80,43 @@ namespace RealEstateWebApi.WebApp.Services.ApiRequest
                 var response = await client.PostAsync(apiUrl + path, jsonContent);
 
                 return JsonConvert.DeserializeObject<TResult>(await response.Content.ReadAsStringAsync());
+            }
+
+        }
+
+        public async Task<TResult> PostForm<TResult>(string path, object content)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+
+                using (var multipartContent = new MultipartFormDataContent())
+                {
+
+                    foreach (var prop in content.GetType().GetProperties())
+                    {
+                        var value = prop.GetValue(content);
+                        if (value is IFormFile)
+                        {
+                            var file = value as IFormFile;
+                            multipartContent.Add(new StreamContent(file.OpenReadStream()), prop.Name, file.FileName);
+                            multipartContent.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data") { Name = prop.Name, FileName = file.FileName };
+                        }
+                        else
+                        {
+                            multipartContent.Add(new StringContent(JsonConvert.SerializeObject(value)), prop.Name);
+                        }
+                    }
+
+
+                    if (!string.IsNullOrEmpty(Token))
+                    {
+                        client.DefaultRequestHeaders.Add("Authorization", $"Bearer {Token}");
+                    }
+
+                    var response = await client.PostAsync(apiUrl + path, multipartContent);
+
+                    return JsonConvert.DeserializeObject<TResult>(await response.Content.ReadAsStringAsync());
+                }
             }
 
         }

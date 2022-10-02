@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using RealEstateWebApi.Application.Abstractions.Storage;
 using System;
 using System.Collections.Generic;
@@ -10,10 +11,18 @@ namespace RealEstateWebApi.Infrastructure.Services.Storage.Local
 {
     public class LocalStorage : Storage, IStorage
     {
+        private readonly IWebHostEnvironment _webHostEnvironment;
+
+        public LocalStorage(IWebHostEnvironment webHostEnvironment)
+        {
+            _webHostEnvironment = webHostEnvironment;
+        }
+
+        private string WebRootPath { get=> _webHostEnvironment.WebRootPath;}
 
         public Task<bool> DeleteAsync(string directory, string fileName)
         {
-            string path = Path.Combine(directory, fileName);
+            string path = Path.Combine(WebRootPath, directory, fileName);
             File.Delete(path);
             return Task.FromResult(true);
         }
@@ -22,7 +31,8 @@ namespace RealEstateWebApi.Infrastructure.Services.Storage.Local
         {
             var result = Task.Run(() =>
             {
-                DirectoryInfo directoryInfo = new(directory);
+                string path = Path.Combine(WebRootPath, directory);
+                DirectoryInfo directoryInfo = new(path);
                 return directoryInfo.GetFiles().Select(f => f.Name).ToList();
             });
             return result;
@@ -30,9 +40,10 @@ namespace RealEstateWebApi.Infrastructure.Services.Storage.Local
 
         public async Task<FilePath> MoveFileAsync(string directory, string fileName, string newDirectory)
         {
-            string path = Path.Combine(directory, fileName);
-            string fileNewName = await FileRenameAsync(newDirectory, fileName, HasFile);
-            string movePath = Path.Combine(newDirectory, fileNewName);
+            string path = Path.Combine(WebRootPath, directory, fileName);
+            string newPath = Path.Combine(WebRootPath, newDirectory);
+            string fileNewName = await FileRenameAsync(newPath, fileName, HasFile);
+            string movePath = Path.Combine(WebRootPath, newDirectory, fileNewName);
 
             File.Move(path, movePath);
 
@@ -58,15 +69,17 @@ namespace RealEstateWebApi.Infrastructure.Services.Storage.Local
 
         public async Task<List<FilePath>> UploadAsync(string directory, IFormFileCollection formFiles)
         {
-            if (!Directory.Exists(directory))
-                Directory.CreateDirectory(directory);
+            
+            string pathDirectory = Path.Combine(WebRootPath, directory);
+            if (!Directory.Exists(pathDirectory))
+                Directory.CreateDirectory(pathDirectory);
 
             List<FilePath> datas = new List<FilePath>();
             foreach (IFormFile file in formFiles)
             {
-                string fileNewName = await FileRenameAsync(directory, file.FileName, HasFile);
-                string path = Path.Combine(directory, fileNewName);
-                await CopyFileAsync(path, file);
+                string fileNewName = await FileRenameAsync(pathDirectory, file.FileName, HasFile);
+                string path = Path.Combine(pathDirectory, fileNewName);
+                await CopyFileAsync(pathDirectory, file);
                 datas.Add(new FilePath(directory, fileNewName));
             }
 
@@ -77,11 +90,13 @@ namespace RealEstateWebApi.Infrastructure.Services.Storage.Local
 
         public async Task<FilePath> UploadSingleAsync(string directory, IFormFile formFile)
         {
-            if (!Directory.Exists(directory))
-                Directory.CreateDirectory(directory);
 
-            string fileNewName = await FileRenameAsync(directory, formFile.FileName, HasFile);
-            string path = Path.Combine(directory, fileNewName);
+            string pathDirectory = Path.Combine(WebRootPath, directory);
+            if (!Directory.Exists(pathDirectory))
+                Directory.CreateDirectory(pathDirectory);
+
+            string fileNewName = await FileRenameAsync(pathDirectory, formFile.FileName, HasFile);
+            string path = Path.Combine(pathDirectory, fileNewName);
             await CopyFileAsync(path, formFile);
 
             return new FilePath(directory, fileNewName);

@@ -1,4 +1,5 @@
-﻿using RealEstateWebApi.Domain.Entities.Identity;
+﻿using RealEstateWebApi.Application.DTOs;
+using RealEstateWebApi.Domain.Entities.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace RealEstateWebApi.Application.Abstractions.Token
 {
     public interface ITokenHandler
     {
-        TAccessToken CreateToken<TAccessToken> (User user, IEnumerable<OperationClaim> operationClaims) where TAccessToken: IAccessToken,new();
+        TAccessToken CreateToken<TAccessToken> (UserDto user, IEnumerable<OperationClaim> operationClaims) where TAccessToken: IAccessToken,new();
         string GenerateRefreshToken();
     }
 }

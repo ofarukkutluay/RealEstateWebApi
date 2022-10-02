@@ -1,4 +1,5 @@
-﻿using RealEstateWebApi.Domain.Entities.Identity;
+﻿using RealEstateWebApi.Application.DTOs;
+using RealEstateWebApi.Domain.Entities.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,5 +11,6 @@ namespace RealEstateWebApi.Application.Repositories
     public interface IUserReadRepository : IReadRepository<User>
     {
         IEnumerable<OperationClaim> GetClaims(User user);
+        UserDto GetUserDtoById(uint id);
     }
 }

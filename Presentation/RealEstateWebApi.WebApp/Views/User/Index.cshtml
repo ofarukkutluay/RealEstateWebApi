@@ -89,12 +89,12 @@
 
                             <div class="row">
                                 <div class="col-lg-3 col-md-4 label">Doğum Tarihi</div>
-                                <div class="col-lg-9 col-md-8">@Model.BirthDate.GetValueOrDefault().ToShortDateString()</div>
+                                <div class="col-lg-9 col-md-8">@Model.BirthDate.GetValueOrDefault().ToString("dd/MM/yyyy")</div>
                             </div>
 
                             <div class="row">
                                 <div class="col-lg-3 col-md-4 label">Kayıt Tarihi</div>
-                                <div class="col-lg-9 col-md-8">@Model.CreatedDate.ToLocalTime()</div>
+                                <div class="col-lg-9 col-md-8">@Model.CreatedDate.ToString("dd/MM/yyyy HH:dd")</div>
                             </div>
 
                         </div>

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using RealEstateWebApi.Application.Abstractions.Token;
+using RealEstateWebApi.Application.DTOs;
 using RealEstateWebApi.Application.DTOs.TokenOperation;
 using RealEstateWebApi.Domain.Entities.Identity;
 using System;
@@ -36,7 +37,7 @@ namespace RealEstateWebApi.Infrastructure.Services.Token
         }
 
 
-        public TAccessToken CreateToken<TAccessToken>(User user,IEnumerable<OperationClaim> operationClaims) where TAccessToken : IAccessToken, new()
+        public TAccessToken CreateToken<TAccessToken>(UserDto user, IEnumerable<OperationClaim> operationClaims) where TAccessToken : IAccessToken, new()
         {
             _accessTokenExpiration = DateTime.UtcNow.AddHours(tokenOptions.AccessTokenExpiration);
             SymmetricSecurityKey symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenOptions.SecurityKey));
@@ -47,7 +48,7 @@ namespace RealEstateWebApi.Infrastructure.Services.Token
                 audience : tokenOptions.Audience,
                 expires : _accessTokenExpiration,
                 notBefore : DateTime.UtcNow,
-                claims : SetClaims(user,operationClaims),
+                claims : SetClaims(user, operationClaims),
                 signingCredentials : credentials
                 );
 
@@ -68,12 +69,13 @@ namespace RealEstateWebApi.Infrastructure.Services.Token
             return Guid.NewGuid().ToString();
         }
 
-        private IEnumerable<Claim> SetClaims(User user,IEnumerable<OperationClaim> operationClaims)
+        private IEnumerable<Claim> SetClaims(UserDto user,IEnumerable<OperationClaim> operationClaims)
         {
             var claims = new List<Claim>();
             claims.Add(new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()));
             claims.Add(new Claim(JwtRegisteredClaimNames.Email, user.Email));
             claims.Add(new Claim(ClaimTypes.Name, $"{user.FirstName} {user.LastName}"));
+            claims.Add(new Claim("ProfilePhotoPath", user.ProfileImgFilePath == null ? "" : $"{Configuration["BaseStorageUrl"]}/{user.ProfileImgFilePath}"));
             foreach (var item in operationClaims)
             {
                 claims.Add(new Claim(ClaimTypes.Role, item.Name));

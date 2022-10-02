@@ -1,5 +1,7 @@
 ﻿using MediatR;
+using Microsoft.Extensions.Configuration;
 using RealEstateWebApi.Application.Abstractions.Token;
+using RealEstateWebApi.Application.DTOs;
 using RealEstateWebApi.Application.DTOs.TokenOperation;
 using RealEstateWebApi.Application.Repositories;
 using RealEstateWebApi.Application.Security.Hashing;
@@ -14,13 +16,17 @@ namespace RealEstateWebApi.Application.Features.Commands.User.LoginUser
         private readonly ITokenHandler _tokenHandler;
         private readonly IUserLoginReadRepository _userLoginReadRepository;
         private readonly IUserLoginWriteRepository _userLoginWriteRepository;
+        private readonly IFileReadRepository _fileReadRepository;
+        private readonly IConfiguration _configuration;
 
-        public LoginUserHandler(IUserReadRepository userReadRepository, ITokenHandler tokenHandler,  IUserLoginWriteRepository userLoginWriteRepository, IUserLoginReadRepository userLoginReadRepository)
+        public LoginUserHandler(IUserReadRepository userReadRepository, ITokenHandler tokenHandler, IUserLoginWriteRepository userLoginWriteRepository, IUserLoginReadRepository userLoginReadRepository, IFileReadRepository fileReadRepository, IConfiguration configuration)
         {
             _userReadRepository = userReadRepository;
             _tokenHandler = tokenHandler;
             _userLoginWriteRepository = userLoginWriteRepository;
             _userLoginReadRepository = userLoginReadRepository;
+            _fileReadRepository = fileReadRepository;
+            _configuration = configuration;
         }
 
         public async Task<LoginUserResponse> Handle(LoginUserRequest request, CancellationToken cancellationToken)
@@ -48,7 +54,8 @@ namespace RealEstateWebApi.Application.Features.Commands.User.LoginUser
                     Success = false
                 };
 
-            AccessToken accessToken = _tokenHandler.CreateToken<AccessToken>(user, operationClaims);
+            UserDto userDto = _userReadRepository.GetUserDtoById(user.Id);
+            AccessToken accessToken = _tokenHandler.CreateToken<AccessToken>(userDto, operationClaims);
 
             IEnumerable<Domain.Entities.Identity.UserLogin> userLogins = _userLoginReadRepository.GetWhere(e=>e.UserId == user.Id);
 

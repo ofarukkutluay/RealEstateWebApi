@@ -1,39 +1,38 @@
 ﻿using AutoMapper;
 using MediatR;
+using Microsoft.Extensions.Configuration;
 using RealEstateWebApi.Application.DTOs;
 using RealEstateWebApi.Application.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace RealEstateWebApi.Application.Features.Queries.User.GetUserByUserId
 {
     public class GetUserByUserIdHandler : IRequestHandler<GetUserByUserIdRequest, GetUserByUserIdResponse>
     {
         private readonly IUserReadRepository _userReadRepository;
+        private readonly IFileReadRepository _fileReadRepository;
+        private readonly IConfiguration _configuration;
         private readonly IMapper _mapper;
 
-        public GetUserByUserIdHandler(IUserReadRepository userReadRepository, IMapper mapper)
+        public GetUserByUserIdHandler(IUserReadRepository userReadRepository, IMapper mapper, IFileReadRepository fileReadRepository, IConfiguration configuration)
         {
             _userReadRepository = userReadRepository;
             _mapper = mapper;
+            _fileReadRepository = fileReadRepository;
+            _configuration = configuration;
         }
 
         public async Task<GetUserByUserIdResponse> Handle(GetUserByUserIdRequest request, CancellationToken cancellationToken)
         {
-            Domain.Entities.Identity.User user = await _userReadRepository.GetByIdAsync(request.Id);
-            if (user is null)
+            UserDto userDto = _userReadRepository.GetUserDtoById(request.Id);
+            if (userDto is null)
                 return new GetUserByUserIdResponse()
                 {
                     Message = "Kullanıcı bulunamadı",
                     Success = false,
                 };
 
-            UserDto userDto = _mapper.Map<UserDto>(user);
-            userDto.CreatedDate = userDto.CreatedDate.ToLocalTime();
-            userDto.UpdatedDate = userDto.UpdatedDate != null ? userDto.UpdatedDate.Value.ToLocalTime() : null;
+            userDto.ProfileImgFilePath = $"{_configuration["BaseStorageUrl"]}/{userDto.ProfileImgFilePath}";
 
             return new GetUserByUserIdResponse()
             {

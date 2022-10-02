@@ -13,3 +13,5 @@ services:
       context: .
       dockerfile: Presentation/RealEstateWebApi.WebApp/Dockerfile
 
+  psqlcomposedata:
+    image: postgres:latest

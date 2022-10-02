@@ -5,19 +5,11 @@
 
 
 <!-- Profile Edit Form -->
-<form asp-controller="User" asp-action="UpdateUser" method="post">
+@{
+    await Html.RenderPartialAsync("~/Views/User/_UploadImageForm.cshtml", new UserPhoto(){UserId = Model.Id});
+}
+<form asp-controller="User" asp-action="UpdateUser" method="post" >
     <input asp-for="Id" hidden />
-    <div class="row mb-3">
-        <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Profile Image</label>
-        <div class="col-md-8 col-lg-9">
-            <img src="@Model.ProfileImgFilePath" alt="Profile">
-            <div class="pt-2">
-                <a href="#" class="btn btn-primary btn-sm" title="Upload new profile image"><i class="bi bi-upload"></i></a>
-                <a href="#" class="btn btn-danger btn-sm" title="Remove my profile image"><i class="bi bi-trash"></i></a>
-            </div>
-        </div>
-    </div>
-
     <div class="row mb-3">
         <label for="firstName" class="col-md-4 col-lg-3 col-form-label">Adı - Soyadı</label>
         <div class="col-md-4 col-lg-4">
@@ -59,7 +51,7 @@
     <div class="row mb-3">
         <label for="birthDate" class="col-md-4 col-lg-3 col-form-label">Doğum Tarihi</label>
         <div class="col-md-8 col-lg-9">
-            <input asp-for="BirthDate" type="date" class="form-control" id="birthDate" value="@Model.BirthDate">
+            <input asp-for="BirthDate" type="date" class="form-control" id="birthDate" value="@Model.BirthDate.GetValueOrDefault().ToString("yyyy-MM-dd")">
         </div>
     </div>
 

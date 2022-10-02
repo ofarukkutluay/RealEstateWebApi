@@ -52,5 +52,19 @@ namespace RealEstateWebApi.WebApp.Controllers
             DangerAlert(result.Message);
             return Redirect(Request.Headers["Referer"].ToString());
         }
+
+        [HttpPost]
+        public async Task<IActionResult> UploadPhoto(UserPhoto userPhoto)
+        {
+            Result result = await _requestService.PostForm<Result>("user/uploadPhoto", userPhoto);
+            if (result.Success)
+            {
+                SuccessAlert(result.Message);
+                return Redirect(Request.Headers["Referer"].ToString());
+            }
+
+            DangerAlert(result.Message);
+            return Redirect(Request.Headers["Referer"].ToString());
+        }
     }
 }

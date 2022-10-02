@@ -7,6 +7,7 @@ using RealEstateWebApi.Application.DTOs.TokenOperation;
 using RealEstateWebApi.Infrastructure;
 using RealEstateWebApi.Infrastructure.Services.Storage.Local;
 using RealEstateWebApi.Persistence;
+using RealEstateWebApi.WebApi.Extensions;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -81,6 +82,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCustomExceptionMiddleware();
 
 app.UseStaticFiles();
 app.UseCors();

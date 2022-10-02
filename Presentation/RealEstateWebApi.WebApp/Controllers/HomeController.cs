@@ -4,6 +4,7 @@ using RealEstateWebApi.WebApp.Models;
 using RealEstateWebApi.WebApp.Models.Common;
 using RealEstateWebApi.WebApp.Services.ApiRequest;
 using System.Diagnostics;
+using System.Security.Claims;
 
 namespace RealEstateWebApi.WebApp.Controllers
 {
@@ -12,11 +13,13 @@ namespace RealEstateWebApi.WebApp.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly ApiRequestService _requestService;
+        private readonly IConfiguration _configuration;
 
-        public HomeController(ILogger<HomeController> logger, ApiRequestService requestService)
+        public HomeController(ILogger<HomeController> logger, ApiRequestService requestService, IConfiguration configuration)
         {
             _logger = logger;
             _requestService = requestService;
+            _configuration = configuration;
         }
 
         [Authorize]
@@ -24,7 +27,7 @@ namespace RealEstateWebApi.WebApp.Controllers
         {
             DataResult<IEnumerable<CustomerDto>> recentCustomers = await _requestService.Get<DataResult<IEnumerable<CustomerDto>>>("customer", "/recent", "?take=5");
             DataResult<int> countCustomer = await _requestService.Get<DataResult<int>>("customer","/count");
-            ViewData.Add("CustomerCount",countCustomer.Data); 
+            ViewData.Add("CustomerCount",countCustomer.Data);
             return View(recentCustomers.Data);
         }
 
@@ -44,6 +47,18 @@ namespace RealEstateWebApi.WebApp.Controllers
         public IActionResult Contact()
         {
             return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SendMessage(SendMessage sendMessage)
+        {
+            uint userId = uint.Parse(HttpContext.User.Claims.First(e => e.Type == ClaimTypes.NameIdentifier).Value);
+            string subject = $"{userId} UserId'nin iletişim den oluşturulmuş mesajı";
+            string body = $"Adı : {sendMessage.Name} <br> Mail : {sendMessage.Mail} <br> Subject : {sendMessage.Subject} <br> Mesajı: {sendMessage.Message}";
+            Result result = await _requestService.Post<Result>("contact/postmail", new { To = _configuration["Contact"], Subject = subject, Body = body });
+            if (result.Success)
+                SuccessAlert("Mesaj Gönderildi");
+            return RedirectToAction("Contact");
         }
 
         public IActionResult Privacy()
