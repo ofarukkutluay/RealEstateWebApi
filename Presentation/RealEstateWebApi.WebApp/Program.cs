@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -7,7 +8,11 @@ using RealEstateWebApi.WebApp.Data.Local;
 using RealEstateWebApi.WebApp.Middlewares;
 using RealEstateWebApi.WebApp.Services.ApiRequest;
 using RealEstateWebApi.WebApp.Services.Logger;
+using Serilog;
+using Serilog.Context;
+using Serilog.Core;
 using System.Net;
+using System.Security.Claims;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -34,6 +39,25 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
     };
 });
 
+Logger log = new LoggerConfiguration()
+    .WriteTo.Console()
+    .WriteTo.File("logs/log.txt")
+    .Enrich.FromLogContext()
+    .MinimumLevel.Information()
+    .CreateLogger();
+
+builder.Host.UseSerilog(log);
+
+builder.Services.AddHttpLogging(logging =>
+{
+    logging.LoggingFields = HttpLoggingFields.All;
+    logging.RequestHeaders.Add("sec-ch-ua");
+    logging.MediaTypeOptions.AddText("application/javascript");
+    logging.RequestBodyLogLimit = 4096;
+    logging.ResponseBodyLogLimit = 4096;
+});
+
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
@@ -41,8 +65,6 @@ builder.Services.AddSession();
 
 var app = builder.Build();
 
-
-app.UseCustomExceptionMiddleware();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -54,8 +76,15 @@ if (!app.Environment.IsDevelopment())
 
 app.UseSession();
 
+app.UseSerilogRequestLogging();
+
+app.UseHttpLogging();
+
+app.UseCustomExceptionMiddleware();
+
 
 app.Use(async (context, next) =>
+
 {
     var token = context.Session.GetString("Token");
     if (!string.IsNullOrEmpty(token))
@@ -102,6 +131,13 @@ app.UseForwardedHeaders(new ForwardedHeadersOptions
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.Use(async (context, next) =>
+{
+    var userid = context.User?.Identity?.IsAuthenticated == true ? context.User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier)?.Value : null;
+    LogContext.PushProperty("user_id", userid);
+    await next();
+});
 
 app.MapControllerRoute(
     name: "default",

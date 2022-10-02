@@ -14,7 +14,7 @@ namespace RealEstateWebApi.Infrastructure
         {
             services.AddScoped<IStorageService, StorageService>();
             services.AddScoped<ITokenHandler, JwtHandler>();
-            services.AddScoped<IMailService,MailService>();
+            services.AddSingleton<IMailService,MailService>();
         }
         public static void AddStorage<T>(this IServiceCollection services) where T : Storage, IStorage
         {
