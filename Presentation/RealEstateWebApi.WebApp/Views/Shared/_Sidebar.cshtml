@@ -1,4 +1,5 @@
-﻿
+﻿@using System.Security.Claims
+
 @{
 }
 
@@ -29,29 +30,52 @@
                         <i class="bi bi-circle"></i><span>Müşteri Ekle</span>
                     </a>
                 </li>
-                
+
             </ul>
         </li><!-- End Components Nav -->
-
-@*        <li class="nav-item">
-            <a class="nav-link collapsed" data-bs-target="#property-nav" data-bs-toggle="collapse" href="#">
-                <i class="bi bi-journal-text"></i><span>İlan</span><i class="bi bi-chevron-down ms-auto"></i>
-            </a>
-            <ul id="property-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-                <li>
-                    <a href="/property">
-                        <i class="bi bi-circle"></i><span>Mülkler</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="/property/add">
-                        <i class="bi bi-circle"></i><span>Mülk ekle</span>
-                    </a>
-                </li>
-            </ul>
+        @*        <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#property-nav" data-bs-toggle="collapse" href="#">
+        <i class="bi bi-journal-text"></i><span>İlan</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="property-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+        <li>
+        <a href="/property">
+        <i class="bi bi-circle"></i><span>Mülkler</span>
+        </a>
+        </li>
+        <li>
+        <a href="/property/add">
+        <i class="bi bi-circle"></i><span>Mülk ekle</span>
+        </a>
+        </li>
+        </ul>
         </li><!-- End Forms Nav -->*@
 
         <li class="nav-heading">Sayfalar</li>
+        @if (Context.User.Claims.FirstOrDefault(e => e.Type == ClaimTypes.Role)?.Value == "Admin")
+        {
+            <li class="nav-item">
+                <a class="nav-link collapsed" data-bs-target="#admin-nav" data-bs-toggle="collapse" href="/admin">
+                    <i class="bi bi-menu-button-wide"></i><span>Admin</span><i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="admin-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                    <li>
+                        <a href="/admin/logs">
+                            <i class="bi bi-circle"></i><span>Loglar</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/admin/users">
+                            <i class="bi bi-circle"></i><span>Kullanıcılar</span>
+                        </a>
+                    </li>
+
+                </ul>
+
+            </li>
+
+            <!-- End Admin Page Nav -->
+        }
 
         <li class="nav-item">
             <a class="nav-link collapsed" href="/profile">

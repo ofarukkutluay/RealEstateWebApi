@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RealEstateWebApi.Domain.Entities.Identity;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -24,6 +25,7 @@ namespace RealEstateWebApi.Application.DTOs
         public DateTime CreatedDate { get; set; }
         public DateTime? UpdatedDate { get; set; }
         public bool IsActive { get; set; }
+        public IEnumerable<OperationClaim> OperationClaims { get; set; }
 
     }
 }

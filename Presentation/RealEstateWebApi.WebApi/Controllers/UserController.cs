@@ -1,7 +1,9 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using RealEstateWebApi.Application.Features.Commands.User.ChangeActivateUser;
 using RealEstateWebApi.Application.Features.Commands.User.ChangePasswordUser;
+using RealEstateWebApi.Application.Features.Commands.User.CreateAndChangePasswordUser;
 using RealEstateWebApi.Application.Features.Commands.User.LoginUser;
 using RealEstateWebApi.Application.Features.Commands.User.LogoutUser;
 using RealEstateWebApi.Application.Features.Commands.User.RegisterUser;
@@ -29,6 +31,14 @@ namespace RealEstateWebApi.WebApi.Controllers
         public async Task<IActionResult> AllUser([FromQuery] GetAllUserRequest request)
         {
             GetAllUserResponse response = await _mediator.Send(request);
+            return Ok(response);
+        }
+
+        [HttpPost("[action]")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> ChangeActivate(ChangeActivateUserRequest request)
+        {
+            ChangeActivateUserResponse response = await _mediator.Send(request);
             return Ok(response);
         }
 
@@ -64,6 +74,16 @@ namespace RealEstateWebApi.WebApi.Controllers
         public async Task<IActionResult> ChangePassword(ChangePasswordUserRequest request)
         {
             ChangePasswordUserResponse response = await _mediator.Send(request);
+            if (response.Success)
+                return Ok(response);
+            return BadRequest(response);
+        }
+
+        [HttpPost("[action]")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> CreateAndChangePassword(CreateAndChangePasswordUserRequest request)
+        {
+            CreateAndChangePasswordUserResponse response = await _mediator.Send(request);
             if (response.Success)
                 return Ok(response);
             return BadRequest(response);

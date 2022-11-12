@@ -12,5 +12,6 @@ namespace RealEstateWebApi.Application.Repositories
     {
         IEnumerable<OperationClaim> GetClaims(User user);
         UserDto GetUserDtoById(uint id);
+        IEnumerable<UserDto> GetAllUserDto();
     }
 }

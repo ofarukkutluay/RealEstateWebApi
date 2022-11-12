@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RealEstateWebApi.Application.Features.Commands.UserOperationClaim.CreateUserOperationClaim;
 using RealEstateWebApi.Application.Features.Commands.UserOperationClaim.DeleteUserOperationClaim;
@@ -39,6 +40,7 @@ namespace RealEstateWebApi.WebApi.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles ="Admin")]
         public async Task<IActionResult> CreateUserOperationClaim( CreateUserOperationClaimRequest request)
         {
             CreateUserOperationClaimResponse response = await _mediator.Send(request);

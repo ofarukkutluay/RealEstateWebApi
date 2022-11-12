@@ -11,6 +11,7 @@ using RealEstateWebApi.WebApp.Services.Logger;
 using Serilog;
 using Serilog.Context;
 using Serilog.Core;
+using Serilog.Sinks.InMemory;
 using System.Net;
 using System.Security.Claims;
 using System.Text;
@@ -42,6 +43,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 Logger log = new LoggerConfiguration()
     .WriteTo.Console()
     .WriteTo.File("logs/log.txt")
+    .WriteTo.InMemory()
     .Enrich.FromLogContext()
     .MinimumLevel.Information()
     .CreateLogger();

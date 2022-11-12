@@ -65,6 +65,7 @@ namespace RealEstateWebApi.Application.Features.Commands.User.RegisterUser
                 BirthDate = request.BirthDate,
                 PassHash = passHash,
                 PassSalt = passSalt,
+                IsActive = false
             };
 
             var addResult = await _userWriteRepository.AddAndSaveAsync(user);

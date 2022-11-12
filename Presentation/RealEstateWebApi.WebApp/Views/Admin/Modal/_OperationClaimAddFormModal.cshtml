@@ -1,0 +1,31 @@
+﻿
+
+
+
+@model UserRole
+
+<!-- Modal -->
+<div class="modal fade" id="operationClaimModal" data-bs-keyboard="false" tabindex="-1" aria-labelledby="operationClaimLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="operationCliamTitleLabel">Rol Ata</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form asp-action="UpdateUserRole" method="post">
+                <div class="modal-body">
+
+                    <input asp-for="UserId" type="number" id="selectUserIdInput" value="" hidden/>
+                    <label for="inputRoles" class="form-label">Rolü Seçiniz: </label>
+                    <select asp-for="OperationClaimId" asp-items="@ViewData["Roles"] as IEnumerable<SelectListItem>" class="form-select" id="inputRoles" required>
+                        <option selected disabled>Seçiniz...</option>
+                    </select>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Değiştir</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

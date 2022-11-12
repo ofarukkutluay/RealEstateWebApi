@@ -30,7 +30,7 @@ namespace RealEstateWebApi.Application.Features.Commands.UserOperationClaim.Crea
                     Message = "Bu user için bu claim zaten kayıtlıdır",
                     Success = false
                 };
-            userOperationClaim = _mapper.Map<Domain.Entities.Identity.UserOperationClaim>(userOperationClaim);
+            userOperationClaim = _mapper.Map<Domain.Entities.Identity.UserOperationClaim>(request);
             var result = await _userOperationClaimWriteRepository.AddAndSaveAsync(userOperationClaim);
             if(result == null)
                 return new CreateUserOperationClaimResponse()

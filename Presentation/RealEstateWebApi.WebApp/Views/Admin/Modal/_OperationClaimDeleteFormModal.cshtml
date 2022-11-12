@@ -1,0 +1,29 @@
+﻿
+
+
+
+@model UserRole
+
+<!-- Modal -->
+<div class="modal fade" id="operationClaimDeleteModal" data-bs-keyboard="false" tabindex="-1" aria-labelledby="operationClaimDeleteLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="operationCliamDeleteTitleLabel">Rol Ata</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form asp-action="DeleteUserRoles" method="post">
+                <div class="modal-body">
+
+                    <input asp-for="UserId" type="number" id="selectUserIdDeleteInput" value="" hidden/>
+                    <strong>Tüm rolleri silmek istediğinize emin misiniz?</strong>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Evet</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Hayır</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

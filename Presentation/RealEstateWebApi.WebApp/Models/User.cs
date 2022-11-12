@@ -19,5 +19,8 @@ namespace RealEstateWebApi.WebApp.Models
         public DateTime CreatedDate { get; set; }
         public DateTime? UpdatedDate { get; set; }
         public bool IsActive { get; set; }
+        public IEnumerable<OperationClaim> OperationClaims { get; set; }
     }
+
+    
 }

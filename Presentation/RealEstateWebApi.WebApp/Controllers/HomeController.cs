@@ -25,9 +25,12 @@ namespace RealEstateWebApi.WebApp.Controllers
         [Authorize]
         public async Task<IActionResult> Index()
         {
+            
             DataResult<IEnumerable<CustomerDto>> recentCustomers = await _requestService.Get<DataResult<IEnumerable<CustomerDto>>>("customer", "/recent", "?take=5");
             DataResult<int> countCustomer = await _requestService.Get<DataResult<int>>("customer","/count");
             ViewData.Add("CustomerCount",countCustomer.Data);
+            _logger.LogInformation("Ana sayfaya girildi");
+            _logger.LogCritical("Kritik ana sayfa aksiyonu");
             return View(recentCustomers.Data);
         }
 
@@ -46,6 +49,7 @@ namespace RealEstateWebApi.WebApp.Controllers
         [Route("Contact")]
         public IActionResult Contact()
         {
+            
             return View();
         }
 

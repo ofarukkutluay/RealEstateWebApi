@@ -1,0 +1,120 @@
+﻿@{
+    ViewData["Title"] = "Kullanıcılar";
+}
+
+@model IEnumerable<User>
+
+
+<script>
+    function setSelectUserId(id) {
+        $("#selectUserIdInput").val(id);
+        $("#selectUserIdDeleteInput").val(id);
+
+        // console.log($("#selectUserIdInput").val());
+    }
+</script>
+
+
+<div class="pagetitle">
+    <h1>Kullanıcılar</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/"><i class="bi bi-house-door"></i></a></li>
+            <li class="breadcrumb-item"><a href="/admin">Admin</a></li>
+            <li class="breadcrumb-item active">Kullanıcılar</li>
+        </ol>
+    </nav>
+</div><!-- End Page Title -->
+
+<section class="section">
+    <div class="row">
+        <div class="col-lg-12">
+
+            <div class="card overflow-auto">
+                <div class="card-body">
+                    <h5 class="card-title">Kullanıcılar</h5>
+
+                    <!-- Table with stripped rows -->
+                    <table class="table datatable">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Adı</th>
+                                <th scope="col">Soyadı</th>
+                                <th scope="col">Cep No.</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Aktif</th>
+                                <th scope="col">Kayıt Tarihi</th>
+                                <th scope="col">Son Güncelleme</th>
+                                <th scope="col">Claims</th>
+                                <th scope="col">-</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+
+                                <tr>
+                                    <th scope="row">@item.Id</th>
+                                    <td>@item.FirstName</td>
+                                    <td>@item.LastName</td>
+                                    <td>@item.MobileNumber</td>
+                                    <td>@item.Email</td>
+                                    <td>@item.IsActive</td>
+                                    <td>@item.CreatedDate</td>
+                                    <td>@item.UpdatedDate</td>
+                                    <td>
+
+                                        @foreach (var o in item.OperationClaims)
+                                        {
+                                            <div class="badge bg-secondary rounded-pill text-bg-secondary">
+                                                @o.Name
+                                            </div>
+                                        }
+
+
+                                    </td>
+                                    <td>
+                                        <div class="btn-group">
+
+                                            @if (!item.IsActive)
+                                            {
+                                                <a asp-action="ActivateUser" asp-route-userId="@item.Id" class="btn btn-success btn-sm">Onayla</a>
+                                            }
+                                            <a asp-action="UserUpdate" asp-route-userId="@item.Id" class="btn btn-primary btn-sm">Düzenle</a>
+                                            @if (item.IsActive)
+                                            {
+                                                <a asp-action="DeactivateUser" asp-route-userId="@item.Id" class="btn btn-danger btn-sm">Deaktif</a>
+                                            }
+
+                                        </div>
+                                        <a asp-controller="Admin" asp-action="CreatePassword" asp-route-userId="@item.Id" class="btn btn-warning btn-sm">
+                                            Şifre Belirle
+                                        </a>
+                                        <div class="btn-group" role="group">
+                                            <button type="button" class="btn btn-outline-success btn-sm" data-bs-toggle="modal" data-bs-target="#operationClaimModal" onclick="setSelectUserId(@item.Id)">
+                                                Rol Ata
+                                            </button>
+                                            <button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#operationClaimDeleteModal" onclick="setSelectUserId(@item.Id)">
+                                                Rolleri Sil
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                            }
+                        </tbody>
+                    </table>
+                    <!-- End Table with stripped rows -->
+                    @{
+                        await Html.RenderPartialAsync("~/Views/Admin/Modal/_OperationClaimAddFormModal.cshtml", new UserRole());
+                        await Html.RenderPartialAsync("~/Views/Admin/Modal/_OperationClaimDeleteFormModal.cshtml", new UserRole());
+                    }
+
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>

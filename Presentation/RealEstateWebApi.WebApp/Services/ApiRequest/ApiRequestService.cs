@@ -2,6 +2,7 @@
 using RealEstateWebApi.WebApp.Models.Common;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text;
 
 namespace RealEstateWebApi.WebApp.Services.ApiRequest
 {
@@ -21,6 +22,11 @@ namespace RealEstateWebApi.WebApp.Services.ApiRequest
         {
             using (HttpClient client = new HttpClient())
             {
+                if (!string.IsNullOrEmpty(Token))
+                {
+                    client.DefaultRequestHeaders.Add("Authorization", $"Bearer {Token}");
+                }
+
                 var response = await client.GetStringAsync(apiUrl);
 
                 return JsonConvert.DeserializeObject<ApiResult<object>>(response);
@@ -150,9 +156,14 @@ namespace RealEstateWebApi.WebApp.Services.ApiRequest
                     client.DefaultRequestHeaders.Add("Authorization", $"Bearer {Token}");
                 }
 
-                var response = await client.DeleteAsync(apiUrl + path);
+                var result = client.SendAsync(
+                    new HttpRequestMessage(HttpMethod.Delete, apiUrl + path)
+                    {
+                        Content = jsonContent
+                    })
+                    .Result;
 
-                return JsonConvert.DeserializeObject<TResult>(await response.Content.ReadAsStringAsync());
+                return JsonConvert.DeserializeObject<TResult>(await result.Content.ReadAsStringAsync());
             }
         }
     }

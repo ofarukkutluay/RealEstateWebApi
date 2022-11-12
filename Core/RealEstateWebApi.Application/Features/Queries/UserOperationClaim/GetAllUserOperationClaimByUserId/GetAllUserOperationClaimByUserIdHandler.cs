@@ -23,7 +23,7 @@ namespace RealEstateWebApi.Application.Features.Queries.UserOperationClaim.GetAl
             return await Task.FromResult(new GetAllUserOperationClaimByUserIdResponse()
             {
                 Data = userOperationClaims,
-                Message = $"{userOperationClaims.Count()} adetdata getirildi",
+                Message = $"{userOperationClaims.Count()} adet data getirildi",
                 Success = true
             });
         }
