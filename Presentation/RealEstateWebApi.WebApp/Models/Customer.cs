@@ -24,4 +24,6 @@ public class Customer{
 
         [DataType(DataType.Date)]
         public DateTime? CreatedDate { get; set; }
+        public bool IsActive { get; set; }
+
 }

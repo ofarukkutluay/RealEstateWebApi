@@ -88,5 +88,18 @@ namespace RealEstateWebApi.Persistence.Repositories
             return result.OrderBy(x => x.IsActive);
         }
 
+        public IEnumerable<UserDto> GetAllUserFullNameDto()
+        {
+            var result = (from user in _context.Users
+                          where user.IsActive == true
+                         select new UserDto()
+                         {
+                             Id = user.Id,
+                             FirstName = user.FirstName,
+                             LastName = user.LastName,      
+                         }).AsEnumerable();
+            return result;
+        }
+
     }
 }

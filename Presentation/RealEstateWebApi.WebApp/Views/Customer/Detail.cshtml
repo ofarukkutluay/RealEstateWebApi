@@ -1,7 +1,8 @@
-﻿@{
+﻿@using System.Security.Claims;
+@{
     ViewData["Title"] = "Müşteri Detayı";
 }
-@model Tuple<CustomerDto,IEnumerable<EntryDto>,IEnumerable<ShortPropertyDto>,IEnumerable<ShortPropertyDto>>
+@model Tuple<CustomerDto,IEnumerable<EntryDto>,IEnumerable<ShortPropertyDto>,IEnumerable<ShortPropertyDto>,Customer>
 
 
 
@@ -23,7 +24,27 @@
 
             <div class="card overflow-auto">
                 <div class="card-body">
-                    <h5 class="card-title">Müşteri Detay</h5>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="card-title">Müşteri Detay</h5>
+                        @if (Context.User.Claims.FirstOrDefault(e => e.Type == ClaimTypes.Role)?.Value == "Admin")
+                        {
+                            <div class="btn-group" role="group" >
+                                <button class="btn btn-primary" type="button" data-bs-toggle="modal"
+                                    data-bs-target="#customerUpdateModal">
+                                    <i class="bi bi-pencil-square"></i>
+                                </button>
+
+                                <button class="btn btn-danger" type="button" data-bs-toggle="modal"
+                                    data-bs-target="#customerDeleteModal">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </div>
+                            var customer = Model.Item5;
+                            await Html.RenderPartialAsync("~/Views/Customer/Modal/_CustomerUpdateModal.cshtml", customer);
+                            await Html.RenderPartialAsync("~/Views/Customer/Modal/_CustomerDeleteModal.cshtml", customer);
+
+                        }
+                    </div>
                     <ul class="list-group">
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                             <strong>Id:</strong>
@@ -43,23 +64,27 @@
                         </li>
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                             <strong>Doğum Tarihi:</strong>
-                            @Model.Item1.BirthDay
+                            @if (Model.Item1.BirthDay.HasValue)
+                            {
+                                @Model.Item1.BirthDay.Value.ToString("dd-MM-yyyy")
+                            }
                         </li>
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                             <strong>Cep Telefonu:</strong>
-                            İlk: @Model.Item1.MobileNumber / İkinci: @Model.Item1.MobileNumber2
+                            İlk: @Model.Item1.MobileNumber / Diğer: @Model.Item1.MobileNumber2
                         </li>
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                             <strong>Sabit Telefonu:</strong>
-                            İlk:@Model.Item1.PhoneNumber / İkinci:@Model.Item1.PhoneNumber2
+                            İlk: @Model.Item1.PhoneNumber / Diğer: @Model.Item1.PhoneNumber2
                         </li>
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                             <strong>Adres:</strong>
-                            @Model.Item1.City ili,@Model.Item1.District ilçesi,@Model.Item1.Neighborhood mahallesi
+                            @Model.Item1.City / @Model.Item1.District / @Model.Item1.Neighborhood
+
                         </li>
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                             <strong>Kayıt:</strong>
-                            Kayıt Eden: @Model.Item1.RegisterUser /Atanan : @Model.Item1.AssignedUser
+                            @Model.Item1.RegisterUser / @Model.Item1.AssignedUser
                         </li>
 
                     </ul>
@@ -75,7 +100,7 @@
                     <div class="d-flex justify-content-between align-items-center">
                         <h5 class="card-title">Hareketler</h5>
                         <button class="btn btn-primary" type="button" data-bs-toggle="modal"
-                                data-bs-target="#basicModal">
+                                data-bs-target="#entryModal">
                             <i class="bi bi-plus-lg"></i>
                         </button>
                         @{

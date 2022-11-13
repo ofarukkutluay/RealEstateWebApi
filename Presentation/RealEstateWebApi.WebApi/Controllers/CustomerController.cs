@@ -55,14 +55,14 @@ namespace RealEstateWebApi.WebApi.Controllers
             return BadRequest(response);
         }
 
-        /* [HttpGet("{Id}")]
+        [HttpGet("{Id}")]
         public async Task<IActionResult> GetCustomerById([FromRoute] GetCustomerByIdRequest request)
         {
             GetCustomerByIdResponse response = await _mediator.Send(request);
             if (response.Success)
                 return Ok(response);
             return BadRequest(response);
-        } */
+        }
 
         /* [HttpGet]
         public async Task<IActionResult> GetAllCustomer()
@@ -73,7 +73,7 @@ namespace RealEstateWebApi.WebApi.Controllers
             return BadRequest(response);
         } */
 
-        [HttpGet("{Id}")]
+        [HttpGet("dto/{Id}")]
         [Authorize]
         public async Task<IActionResult> GetCustomerDtoById([FromRoute] GetCustomerDtoByIdRequest request)
         {

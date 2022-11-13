@@ -60,18 +60,50 @@ public class CustomerController : BaseController
         return RedirectToAction("Add");
     }
 
+    [HttpPost]
+    public async Task<IActionResult> Update(Customer customer)
+    {
+        var rtnObj = await _requestService.Put<Result>("customer", customer);
+
+        if (rtnObj.Success == true)
+        {
+            SuccessAlert(rtnObj.Message);
+            return Redirect("/customer/" + customer.Id);
+        }
+
+        DangerAlert(rtnObj.Message);
+        return Redirect("/customer/" + customer.Id);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Delete(Customer customer)
+    {
+        customer.IsActive = false;
+        var rtnObj = await _requestService.Put<Result>("customer", customer);
+
+        if (rtnObj.Success == true)
+        {
+            SuccessAlert(rtnObj.Message);
+            return Redirect("/customer");
+        }
+
+        DangerAlert(rtnObj.Message);
+        return Redirect("/customer/" + customer.Id);
+    }
+
     [HttpGet("/customer/{customerId}")]
     public async Task<IActionResult> Detail([FromRoute] uint customerId)
     {
         DataResult<IEnumerable<EntryDto>> entries = await _requestService.Get<DataResult<IEnumerable<EntryDto>>>("entry", "?CustomerId=" + customerId);
-        DataResult<CustomerDto> customer = await _requestService.Get<DataResult<CustomerDto>>("customer", "/" + customerId);
+        DataResult<CustomerDto> customerDto = await _requestService.Get<DataResult<CustomerDto>>("customer", "/dto/" + customerId);
+        DataResult<Customer> customer = await _requestService.Get<DataResult<Customer>>("customer", "/" + customerId);
         DataResult<IEnumerable<ShortPropertyDto>> ownedShortProperties = await _requestService.Get<DataResult<IEnumerable<ShortPropertyDto>>>("CustomerOwnedShortProperty", "/" + customerId);
         DataResult<IEnumerable<ShortPropertyDto>> searchShortProperties = await _requestService.Get<DataResult<IEnumerable<ShortPropertyDto>>>("CustomerSearchShortProperty", "/" + customerId);
 
 
         await SelectItemInitilazeDetailPage();
 
-        return View(Tuple.Create(customer.Data, entries.Data,searchShortProperties.Data,ownedShortProperties.Data));
+        return View(Tuple.Create(customerDto.Data, entries.Data,searchShortProperties.Data,ownedShortProperties.Data, customer.Data));
 
 
     }
@@ -148,6 +180,8 @@ public class CustomerController : BaseController
         var entryTypes = await _requestService.Get<DataResult<IEnumerable<EntryType>>>("entryType");
         var propertyTypes = await _requestService.Get<DataResult<IEnumerable<TitleModel>>>("propertyType");
         var propertyStatuses = await _requestService.Get<DataResult<IEnumerable<TitleModel>>>("propertyStatus");
+        var usernamelist = await _requestService.Get<DataResult<IEnumerable<User>>>("user/namelist");
+
 
 
         IEnumerable<SelectListItem> selectCities = _dbContext.Cities.Select(x => new SelectListItem
@@ -173,10 +207,17 @@ public class CustomerController : BaseController
             Text = x.Title
         });
 
+        IEnumerable<SelectListItem> selectUsernamelist = usernamelist.Data.Select(x => new SelectListItem
+        {
+            Value = x.Id.ToString(),
+            Text = $"{x.FirstName} {x.LastName}"
+        });
+
         ViewData.Add("Cities", selectCities);
         ViewData.Add("EntryTypes", selectEntryTypes);
         ViewData.Add("PropertyTypes", selectPropertTypes);
         ViewData.Add("PropertyStatuses", selectPropertyStatuses);
+        ViewData.Add("UserNameList", selectUsernamelist);
 
     }
 

@@ -10,6 +10,7 @@ using RealEstateWebApi.Application.Features.Commands.User.RegisterUser;
 using RealEstateWebApi.Application.Features.Commands.User.UpdateUser;
 using RealEstateWebApi.Application.Features.Commands.User.UploadProfilePhotoUser;
 using RealEstateWebApi.Application.Features.Queries.User.GetAllUser;
+using RealEstateWebApi.Application.Features.Queries.User.GetAllUserFullName;
 using RealEstateWebApi.Application.Features.Queries.User.GetUserByUserId;
 
 namespace RealEstateWebApi.WebApi.Controllers
@@ -31,6 +32,14 @@ namespace RealEstateWebApi.WebApi.Controllers
         public async Task<IActionResult> AllUser([FromQuery] GetAllUserRequest request)
         {
             GetAllUserResponse response = await _mediator.Send(request);
+            return Ok(response);
+        }
+
+        [HttpGet("namelist")]
+        [Authorize]
+        public async Task<IActionResult> AllUserDtoFullName()
+        {
+            GetAllUserFullNameResponse response = await _mediator.Send(new GetAllUserFullNameRequest());
             return Ok(response);
         }
 

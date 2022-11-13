@@ -1,0 +1,165 @@
+﻿@model Customer
+
+<script type="text/javascript">
+    $(function () {
+        $("#inputCity3").change(function () {
+            var val = $(this).val();
+            console.log("City : " + val)
+            var subItems = "";
+            $.get("@Url.Action("SelectItemDistrict","Customer")", { cityId: val }, function (data, status) {
+                $.each(data, function (index, item) {
+                    subItems += "<option value='" + item.value + "'>" + item.text + "</option>"
+                });
+                $("#inputDistrict3").html(subItems)
+            });
+        });
+        $("#inputDistrict3").change(function () {
+            var val = $(this).val();
+            console.log("District : " + val)
+            var subItems = "<option selected>Seçiniz...</option>";
+            $.get("@Url.Action("SelectItemNeighborhood","Customer")", { districtId: val }, function (data, status) {
+                $.each(data, function (index, item) {
+                    subItems += "<option value='" + item.value + "'>" + item.text + "</option>"
+                });
+                $("#inputNeighborhood3").html(subItems)
+            });
+        });
+
+    });
+
+
+</script>
+
+
+<!-- HareketEkle -->
+<div class="modal fade" id="customerUpdateModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+
+            <div class="modal-header">
+                <h5 class="modal-title">@Model.FullName - Güncelle</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form class="needs-validation" asp-action="Update" method="post">
+                <div class="modal-body">
+                    <input asp-for="Id" value="@Model.Id" hidden />
+                    <div class="row mb-3">
+                        <label for="firstname" class="col-sm-2 col-form-label text-wrap">Ad Soyad</label>
+                        <div class="col-md-4 col-lg-4">
+                            <input asp-for="FirstName" value="@Model.FirstName" type="text" class="form-control" id="firstname" required>
+                            <div class="invalid-feedback">Ad zorunludur.</div>
+                        </div>
+                        <div class="col-md-4 col-lg-4">
+                            <input asp-for="LastName" value="@Model.LastName" type="text" class="form-control" id="lastname" required>
+                            <div class="invalid-feedback">Soyad zorunludur.</div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="citizenNumber" class="col-md-4 col-lg-3 col-form-label">Vatandaşlık Numarası</label>
+                        <div class="col-md-8 col-lg-9">
+                            <input asp-for="CitizenNumber" type="text" class="form-control" id="citizenNumber" value="@Model.CitizenNumber">
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="mobilenumber" class="col-sm-2 col-form-label text-wrap">Cep Telefonu</label>
+                        <div class="col-sm-10">
+                            <div class="input-group has-validation">
+                                <span class="input-group-text" id="inputGroupPrepend">+90</span>
+                                <input asp-for="MobileNumber" value="@Model.MobileNumber" type="text" class="form-control" id="mobilenumber"
+                                       aria-describedby="inputGroupPrepend" required>
+                                <div class="invalid-feedback">Cep Telefonu zorunludur.</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="mobilenumber2" class="col-sm-2 col-form-label text-wrap">Diğer Cep Telefonu</label>
+                        <div class="col-sm-10">
+                            <div class="input-group has-validation">
+                                <span class="input-group-text" id="inputGroupPrepend">+90</span>
+                                <input asp-for="MobileNumber2" value="@Model.MobileNumber2" type="text" class="form-control" id="mobilenumber2"
+                                       aria-describedby="inputGroupPrepend">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="phonenumber" class="col-sm-2 col-form-label text-wrap">Sabit Telefonu</label>
+                        <div class="col-sm-10">
+                            <div class="input-group has-validation">
+                                <span class="input-group-text" id="inputGroupPrepend">+90</span>
+                                <input asp-for="PhoneNumber" value="@Model.PhoneNumber" type="text" class="form-control" id="phonenumber"
+                                       aria-describedby="inputGroupPrepend">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="phonenumber2" class="col-sm-2 col-form-label text-wrap">Diğer Sabit Telefonu</label>
+                        <div class="col-sm-10">
+                            <div class="input-group has-validation">
+                                <span class="input-group-text" id="inputGroupPrepend">+90</span>
+                                <input asp-for="PhoneNumber2" value="@Model.PhoneNumber2" type="text" class="form-control" id="phonenumber2"
+                                       aria-describedby="inputGroupPrepend">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="email" class="col-sm-2 form-label text-wrap">Email</label>
+                        <div class="col-sm-10">
+                            <input asp-for="Email" value="@Model.Email" type="email" class="form-control" id="email">
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="birthDate" class="col-md-4 col-lg-3 col-form-label">Doğum Tarihi</label>
+                        <div class="col-md-8 col-lg-9">
+                            <input asp-for="BirthDay" type="date" class="form-control" id="birthDate" value="@if (Model.BirthDay.HasValue)
+                            {
+                                @Model.BirthDay.Value.ToString("yyyy-MM-dd")
+                            }">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="inputCity3" class="col-sm-2 form-label text-wrap">Şehir</label>
+                        <div class="col-sm-10">
+                            <select asp-for="CityId" asp-items="@ViewData["Cities"] as IEnumerable<SelectListItem>" class="form-select" id="inputCity3" required>
+                                <option selected disabled>Seçiniz...</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="inputDistrict3" class="col-sm-2 form-label text-wrap">İlçe</label>
+                        <div class="col-sm-10">
+                            <select asp-for="DistrictId" class="form-select" id="inputDistrict3">
+                                <option selected disabled>Seçiniz...</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="inputNeighborhood3" class="col-sm-2 form-label text-wrap">Mahalle</label>
+                        <div class="col-sm-10">
+                            <select asp-for="NeighborhoodId" class="form-select" id="inputNeighborhood3">
+                                <option selected>Seçiniz...</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="inputAssignedUser" class="col-sm-2 form-label text-wrap">Atanan Kullanıcı</label>
+                        <div class="col-sm-10">
+                            <select asp-for="AssignedUserId" asp-items="@ViewData["UserNameList"] as IEnumerable<SelectListItem>" class="form-select" id="inputAssignedUser" required>
+                                <option selected disabled>Seçiniz...</option>
+                            </select>
+                        </div>
+                    </div>
+                    <p></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Güncelle</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div><!-- End HareketEkle-->

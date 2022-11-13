@@ -18,6 +18,7 @@ namespace RealEstateWebApi.Persistence.Repositories
                         join dist in _context.Districts on c.DistrictId equals dist.Id
                         join reguser in _context.Users on c.RegisterUserId equals reguser.Id
                         join assinguser in _context.Users on c.AssignedUserId equals assinguser.Id
+                        orderby c.Id descending
                         select new CustomerDto{
                             Id = c.Id,
                             FirstName = c.FirstName,

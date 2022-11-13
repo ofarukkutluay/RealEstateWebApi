@@ -10,6 +10,8 @@ namespace RealEstateWebApi.Application.Features.Commands.Customer.UpdateCustomer
         public uint Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public string MobileNumber { get; set; }
+
         public string? MobileNumber2 { get; set; }
         public string? PhoneNumber { get; set; }
         public string? PhoneNumber2 { get; set; }
@@ -18,10 +20,10 @@ namespace RealEstateWebApi.Application.Features.Commands.Customer.UpdateCustomer
         public uint DistrictId { get; set; }
         public uint? NeighborhoodId { get; set; }
 
-        [DataType(DataType.Date)]
         public DateTime? BirthDay { get; set; }
         public long? CitizenNumber { get; set; }
         public uint RegisterUserId { get; set; }
         public uint AssignedUserId { get; set; }
+        public bool IsActive { get; set; }
     }
 }

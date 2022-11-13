@@ -17,7 +17,6 @@ namespace RealEstateWebApi.Application.Features.Commands.Customer.CreateCustomer
         public uint DistrictId { get; set; }
         public uint? NeighborhoodId { get; set; }
 
-        [DataType(DataType.Date)]
         public DateTime? BirthDay { get; set; }
         public long? CitizenNumber { get; set; }
         public uint RegisterUserId { get; set; }
