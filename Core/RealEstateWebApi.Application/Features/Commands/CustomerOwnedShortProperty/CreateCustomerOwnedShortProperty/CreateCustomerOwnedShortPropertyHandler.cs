@@ -49,7 +49,11 @@ namespace RealEstateWebApi.Application.Features.Commands.CustomerOwnedShortPrope
             {
                 CustomerId = request.CustomerId,
                 ShortPropertyId = request.ShortPropertyId,
-                PropertyId = request.PropertyId
+                PropertyId = request.PropertyId,
+                ShLink = request.ShLink,
+                HeLink = request.HeLink,
+                EjLink = request.EjLink,
+                OtherLink = request.OtherLink
             };
             var result = await _customerOwnedShortPropertyWriteRepository.AddAndSaveAsync(customerOwnedShortProperty);
             if(result == null)

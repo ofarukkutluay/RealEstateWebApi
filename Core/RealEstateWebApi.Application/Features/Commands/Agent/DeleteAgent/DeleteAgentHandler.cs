@@ -28,7 +28,8 @@ namespace RealEstateWebApi.Application.Features.Commands.Agent.DeleteAgent
                     Message = "Agent bulunamadı",
                     Success = false
                 };
-            await _agentWriteRepository.RemoveAsync(request.UserId);
+
+            agent.IsDeleted = true;
             var result = await _agentWriteRepository.SaveAsync();
             if(result<=0)
                 return new DeleteAgentResponse()

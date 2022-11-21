@@ -19,7 +19,7 @@ namespace RealEstateWebApi.Application.Features.Commands.PropertyStatus.CreatePr
 
         public async Task<CreatePropertyStatusResponse> Handle(CreatePropertyStatusRequest request, CancellationToken cancellationToken)
         {
-            Domain.Entities.PropertyStatus propertyStatus = await _propertyStatusReadRepository.GetSingleAsync(x=>x.Title.ToLower()==request.Title.ToLower());
+            Domain.Entities.PropertyStatus propertyStatus = await _propertyStatusReadRepository.GetSingleAsync(x=>x.Title.ToLower()==request.Title.ToLower() && x.IsDeleted == false);
             if(propertyStatus != null)
                 return new CreatePropertyStatusResponse()
                 {

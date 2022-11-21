@@ -43,7 +43,7 @@ namespace RealEstateWebApi.WebApi.Controllers
             return Ok(response);
         }
 
-        [HttpPost("[action]")]
+        [HttpPut("[action]")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> ChangeActivate(ChangeActivateUserRequest request)
         {

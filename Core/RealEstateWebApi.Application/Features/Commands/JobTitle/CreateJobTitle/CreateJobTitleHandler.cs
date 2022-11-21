@@ -23,7 +23,7 @@ namespace RealEstateWebApi.Application.Features.Commands.JobTitle.CreateJobTitle
 
         public async Task<CreateJobTitleResponse> Handle(CreateJobTitleRequest request, CancellationToken cancellationToken)
         {
-            Domain.Entities.JobTitle jobTitle = await _jobTitleReadRepository.GetSingleAsync(e=>e.Title.ToLower() == request.Title.ToLower() && e.CompanyId == request.CompanyId);
+            Domain.Entities.JobTitle jobTitle = await _jobTitleReadRepository.GetSingleAsync(e=>e.Title.ToLower() == request.Title.ToLower() && e.CompanyId == request.CompanyId && e.IsDeleted==false);
             if(jobTitle != null)
                 return new CreateJobTitleResponse()
                 {

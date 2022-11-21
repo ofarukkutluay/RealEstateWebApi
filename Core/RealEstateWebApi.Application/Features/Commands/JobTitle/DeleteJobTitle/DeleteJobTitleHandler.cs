@@ -28,7 +28,7 @@ namespace RealEstateWebApi.Application.Features.Commands.JobTitle.DeleteJobTitle
                     Success = false
                 };
 
-            await _jobTitleWriteRepository.RemoveAsync(request.JobTitleId);
+            jobTitle.IsDeleted = true;
             var result = await _jobTitleWriteRepository.SaveAsync();
             if(result<=0)
                 return new DeleteJobTitleResponse()

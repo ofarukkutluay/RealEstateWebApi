@@ -19,7 +19,7 @@ namespace RealEstateWebApi.Application.Features.Queries.JobTitle.GetAllJobTitleB
 
         public async Task<GetAllJobTitleByCompanyIdResponse> Handle(GetAllJobTitleByCompanyIdRequest request, CancellationToken cancellationToken)
         {
-            IEnumerable<Domain.Entities.JobTitle> jobTitles = _jobTitleReadRepository.GetWhere(e=>e.CompanyId == request.CompanyId);
+            IEnumerable<Domain.Entities.JobTitle> jobTitles = _jobTitleReadRepository.GetWhere(e=>e.CompanyId == request.CompanyId && e.IsDeleted == false);
             return await Task.FromResult( new GetAllJobTitleByCompanyIdResponse()
             {
                 Data = jobTitles,

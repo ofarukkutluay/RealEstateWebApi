@@ -15,7 +15,7 @@ namespace RealEstateWebApi.Application.Features.Queries.CustomerSearchShortPrope
 
         public async Task<GetAllCustomerSearchShortPropertyByCustomerIdResponse> Handle(GetAllCustomerSearchShortPropertyByCustomerIdRequest request, CancellationToken cancellationToken)
         {
-            IEnumerable<Domain.Entities.CustomerSearchShortProperty> customerSearchShortProperties = _customerSearchShortPropertyReadRepository.GetWhere(e=>e.CustomerId == request.CustomerId);
+            IEnumerable<Domain.Entities.CustomerSearchShortProperty> customerSearchShortProperties = _customerSearchShortPropertyReadRepository.GetWhere(e=>e.CustomerId == request.CustomerId && e.IsDeleted == false);
             return await Task.FromResult(new GetAllCustomerSearchShortPropertyByCustomerIdResponse()
             {
                 Data = customerSearchShortProperties,

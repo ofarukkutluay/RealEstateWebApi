@@ -19,7 +19,7 @@ namespace RealEstateWebApi.Application.Features.Commands.HeatingType.CreateHeati
 
         public async Task<CreateHeatingTypeResponse> Handle(CreateHeatingTypeRequest request, CancellationToken cancellationToken)
         {
-            Domain.Entities.HeatingType heatingType = await _heatingTypeReadRepository.GetSingleAsync(x=>x.Title.ToLower()==request.Title.ToLower());
+            Domain.Entities.HeatingType heatingType = await _heatingTypeReadRepository.GetSingleAsync(x=>x.Title.ToLower()==request.Title.ToLower() && x.IsDeleted == false);
             if(heatingType != null)
                 return new CreateHeatingTypeResponse()
                 {

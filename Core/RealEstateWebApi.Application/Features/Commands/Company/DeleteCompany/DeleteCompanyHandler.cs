@@ -27,7 +27,7 @@ namespace RealEstateWebApi.Application.Features.Commands.Company.DeleteCompany
                     Message = "Company bulunamadı",
                     Success = false
                 };
-            await _companyWriteRepository.RemoveAsync(request.CompanyId);
+            company.IsDeleted = true;
             var result = await _companyWriteRepository.SaveAsync();
             if(result<=0)
                 return new DeleteCompanyResponse()

@@ -16,7 +16,7 @@ namespace RealEstateWebApi.Persistence.Repositories
         {
             var result = from cosp in Table
                          join sp in _context.ShortProperties on cosp.ShortPropertyId equals sp.Id
-                         where cosp.CustomerId == customerId
+                         where cosp.CustomerId == customerId && cosp.IsDeleted == false
                          select new ShortPropertyDto
                          {
                              Id = sp.Id,

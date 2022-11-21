@@ -11,15 +11,24 @@ namespace RealEstateWebApi.Application.Features.Commands.CustomerOwnedShortPrope
     public class DeleteCustomerOwnedShortPropertyHandler : IRequestHandler<DeleteCustomerOwnedShortPropertyRequest, DeleteCustomerOwnedShortPropertyResponse>
     {
         private readonly ICustomerOwnedShortPropertyWriteRepository _customerOwnedShortPropertyWriteRepository;
+        private readonly ICustomerOwnedShortPropertyReadRepository _customerOwnedShortPropertyReadRepository;
 
-        public DeleteCustomerOwnedShortPropertyHandler(ICustomerOwnedShortPropertyWriteRepository customerOwnedShortPropertyWriteRepository)
+        public DeleteCustomerOwnedShortPropertyHandler(ICustomerOwnedShortPropertyWriteRepository customerOwnedShortPropertyWriteRepository, ICustomerOwnedShortPropertyReadRepository customerOwnedShortPropertyReadRepository)
         {
             _customerOwnedShortPropertyWriteRepository = customerOwnedShortPropertyWriteRepository;
+            _customerOwnedShortPropertyReadRepository = customerOwnedShortPropertyReadRepository;
         }
 
         public async Task<DeleteCustomerOwnedShortPropertyResponse> Handle(DeleteCustomerOwnedShortPropertyRequest request, CancellationToken cancellationToken)
         {
-            await _customerOwnedShortPropertyWriteRepository.RemoveAsync(request.Id);
+            Domain.Entities.CustomerOwnedShortProperty customerOwnedShortProperty = await _customerOwnedShortPropertyReadRepository.GetByIdAsync(request.Id);
+            if (customerOwnedShortProperty is null)
+                return new DeleteCustomerOwnedShortPropertyResponse()
+                {
+                    Message = "Data bulunamadı",
+                    Success = false,
+                };
+            customerOwnedShortProperty.IsDeleted = true;
             var result =await _customerOwnedShortPropertyWriteRepository.SaveAsync();
             if(result<0)
                 return new DeleteCustomerOwnedShortPropertyResponse()

@@ -24,7 +24,7 @@ namespace RealEstateWebApi.Application.Features.Commands.Front.DeleteFront
                     Message = "Kayıt bulunamadı",
                     Success = false
                 };
-            await _frontWriteRepository.RemoveAsync(request.Id);
+            front.IsDeleted = true;
             var result = await _frontWriteRepository.SaveAsync();
             if(result<0)
                 return new DeleteFrontResponse()

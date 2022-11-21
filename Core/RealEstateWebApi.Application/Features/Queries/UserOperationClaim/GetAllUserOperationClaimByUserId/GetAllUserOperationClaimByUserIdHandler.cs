@@ -19,7 +19,7 @@ namespace RealEstateWebApi.Application.Features.Queries.UserOperationClaim.GetAl
 
         public async Task<GetAllUserOperationClaimByUserIdResponse> Handle(GetAllUserOperationClaimByUserIdRequest request, CancellationToken cancellationToken)
         {
-            IEnumerable<Domain.Entities.Identity.UserOperationClaim> userOperationClaims = _userOperationClaimReadRepository.GetWhere(e=>e.UserId==request.UserId);
+            IEnumerable<Domain.Entities.Identity.UserOperationClaim> userOperationClaims = _userOperationClaimReadRepository.GetWhere(e=>e.UserId == request.UserId && e.IsDeleted == false);
             return await Task.FromResult(new GetAllUserOperationClaimByUserIdResponse()
             {
                 Data = userOperationClaims,

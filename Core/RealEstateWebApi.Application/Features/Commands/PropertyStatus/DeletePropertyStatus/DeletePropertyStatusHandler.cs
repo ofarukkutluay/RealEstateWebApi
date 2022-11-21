@@ -24,7 +24,7 @@ namespace RealEstateWebApi.Application.Features.Commands.PropertyStatus.DeletePr
                     Message = "Kayıt bulunamadı",
                     Success = false
                 };
-            await _propertyStatusWriteRepository.RemoveAsync(request.Id);
+            propertyStatus.IsDeleted = true;
             var result = await _propertyStatusWriteRepository.SaveAsync();
             if(result<0)
                 return new DeletePropertyStatusResponse()

@@ -19,7 +19,7 @@ namespace RealEstateWebApi.Application.Features.Queries.Blog.GetAllBlogByClientI
 
         public Task<GetAllBlogByClientIdResponse> Handle(GetAllBlogByClientIdRequest request, CancellationToken cancellationToken)
         {
-            IEnumerable<Domain.Entities.Blog> blogs = _blogReadRepository.GetWhere(e=>e.ClientId == request.ClientId);
+            IEnumerable<Domain.Entities.Blog> blogs = _blogReadRepository.GetWhere(e=>e.ClientId == request.ClientId && e.IsDeleted == false);
             return Task.FromResult(new GetAllBlogByClientIdResponse()
             {
                 Data = blogs,

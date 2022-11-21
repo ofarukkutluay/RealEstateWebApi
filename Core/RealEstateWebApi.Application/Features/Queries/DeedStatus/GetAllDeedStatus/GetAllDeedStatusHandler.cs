@@ -19,7 +19,7 @@ namespace RealEstateWebApi.Application.Features.Queries.DeedStatus.GetAllDeedSta
 
         public async Task<GetAllDeedStatusResponse> Handle(GetAllDeedStatusRequest request, CancellationToken cancellationToken)
         {
-            IEnumerable<Domain.Entities.DeedStatus> deedStatuses = _deedStatusReadRepository.GetAll().OrderBy(e=>e.Title);
+            IEnumerable<Domain.Entities.DeedStatus> deedStatuses = _deedStatusReadRepository.GetWhere(x => x.IsDeleted == false).OrderBy(e=>e.Title);
             return await Task.FromResult(new GetAllDeedStatusResponse()
             {
                 Message = $"{deedStatuses.Count()} adet data getirildi",

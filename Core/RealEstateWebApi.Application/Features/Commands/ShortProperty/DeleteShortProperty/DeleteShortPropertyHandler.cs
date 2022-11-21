@@ -11,15 +11,24 @@ namespace RealEstateWebApi.Application.Features.Commands.ShortProperty.DeleteSho
     public class DeleteShortPropertyHandler : IRequestHandler<DeleteShortPropertyRequest, DeleteShortPropertyResponse>
     {
         private readonly IShortPropertyWriteRepository _shortPropertyWriteRepository;
+        private readonly IShortPropertyReadRepository _shortPropertyReadRepository;
 
-        public DeleteShortPropertyHandler(IShortPropertyWriteRepository shortPropertyWriteRepository)
+        public DeleteShortPropertyHandler(IShortPropertyWriteRepository shortPropertyWriteRepository, IShortPropertyReadRepository shortPropertyReadRepository)
         {
             _shortPropertyWriteRepository = shortPropertyWriteRepository;
+            _shortPropertyReadRepository = shortPropertyReadRepository;
         }
 
         public async Task<DeleteShortPropertyResponse> Handle(DeleteShortPropertyRequest request, CancellationToken cancellationToken)
         {
-            await _shortPropertyWriteRepository.RemoveAsync(request.Id);
+            Domain.Entities.ShortProperty shortProperty = await _shortPropertyReadRepository.GetByIdAsync(request.Id);
+            if (shortProperty == null)
+                return new DeleteShortPropertyResponse()
+                {
+                    Message = "Data bulunamadı",
+                    Success = false
+                };
+            shortProperty.IsDeleted = true;
             var result = await _shortPropertyWriteRepository.SaveAsync();
             if(result<0)
                 return new DeleteShortPropertyResponse()

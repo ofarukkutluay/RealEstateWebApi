@@ -28,7 +28,8 @@ namespace RealEstateWebApi.Application.Features.Commands.Customer.DeleteCustomer
                     Message = "Müşteri bulunamadı",
                     Success = false
                 };
-            await _customerWriteRepository.RemoveAsync(request.Id);
+
+            customer.IsDeleted = true;
             var result = await _customerWriteRepository.SaveAsync();
             if (result < 0)
                 return new DeleteCustomerResponse()

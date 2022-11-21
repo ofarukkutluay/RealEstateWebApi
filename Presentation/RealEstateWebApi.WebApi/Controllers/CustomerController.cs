@@ -1,6 +1,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using RealEstateWebApi.Application.Features.Commands.Customer.ChangeActivateCustomer;
 using RealEstateWebApi.Application.Features.Commands.Customer.CreateCustomer;
 using RealEstateWebApi.Application.Features.Commands.Customer.DeleteCustomer;
 using RealEstateWebApi.Application.Features.Commands.Customer.UpdateCustomer;
@@ -40,6 +41,16 @@ namespace RealEstateWebApi.WebApi.Controllers
         public async Task<IActionResult> UpdateCustomer(UpdateCustomerRequest request)
         {
             UpdateCustomerResponse response = await _mediator.Send(request);
+            if (response.Success)
+                return Ok(response);
+            return BadRequest(response);
+        }
+
+        [HttpPut("[action]")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> ChangeActivate(ChangeActivateCustomerRequest request)
+        {
+            ChangeActivateCustomerResponse response = await _mediator.Send(request);
             if (response.Success)
                 return Ok(response);
             return BadRequest(response);

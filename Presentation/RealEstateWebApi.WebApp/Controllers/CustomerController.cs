@@ -75,21 +75,7 @@ public class CustomerController : BaseController
         return Redirect("/customer/" + customer.Id);
     }
 
-    [HttpPost]
-    public async Task<IActionResult> Delete(Customer customer)
-    {
-        customer.IsActive = false;
-        var rtnObj = await _requestService.Put<Result>("customer", customer);
-
-        if (rtnObj.Success == true)
-        {
-            SuccessAlert(rtnObj.Message);
-            return Redirect("/customer");
-        }
-
-        DangerAlert(rtnObj.Message);
-        return Redirect("/customer/" + customer.Id);
-    }
+    
 
     [HttpGet("/customer/{customerId}")]
     public async Task<IActionResult> Detail([FromRoute] uint customerId)

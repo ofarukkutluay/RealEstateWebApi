@@ -44,7 +44,7 @@ namespace RealEstateWebApi.WebApp.Controllers
         public async Task<IActionResult> ActivateUser(uint userId)
         {
             var homeResult = await _apiRequestService.GetApiStatus();
-            Result result = await _apiRequestService.Post<Result>("user/changeActivate", new { TempPass = homeResult.InternalMessage, UserId = userId, Activate = true });
+            Result result = await _apiRequestService.Put<Result>("user/changeActivate", new { TempPass = homeResult.InternalMessage, UserId = userId, Activate = true });
             if (result.Success)
             {
                 SuccessAlert(result.Message);
@@ -59,7 +59,7 @@ namespace RealEstateWebApi.WebApp.Controllers
         public async Task<IActionResult> DeactivateUser(uint userId)
         {
             var homeResult = await _apiRequestService.GetApiStatus();
-            Result result = await _apiRequestService.Post<Result>("user/changeActivate", new { TempPass = homeResult.InternalMessage, UserId = userId, Activate = false });
+            Result result = await _apiRequestService.Put<Result>("user/changeActivate", new { TempPass = homeResult.InternalMessage, UserId = userId, Activate = false });
             if (result.Success)
             {
                 SuccessAlert(result.Message);
@@ -152,6 +152,21 @@ namespace RealEstateWebApi.WebApp.Controllers
 
             DangerAlert(result.Message);
             return Redirect(Request.Headers["Referer"].ToString());
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteCustomer(Customer customer)
+        {
+            var rtnObj = await _apiRequestService.Delete<Result>("customer", new { Id = customer.Id});
+
+            if (rtnObj.Success == true)
+            {
+                SuccessAlert(rtnObj.Message);
+                return Redirect("/customer");
+            }
+
+            DangerAlert(rtnObj.Message);
+            return Redirect("/customer/" + customer.Id);
         }
 
         async Task SelectItemInitilazeRolesModalPage()

@@ -19,7 +19,7 @@ namespace RealEstateWebApi.Application.Features.Commands.UsingStatus.CreateUsing
 
         public async Task<CreateUsingStatusResponse> Handle(CreateUsingStatusRequest request, CancellationToken cancellationToken)
         {
-            Domain.Entities.UsingStatus usingStatus = await _usingStatusReadRepository.GetSingleAsync(x=>x.Title.ToLower()==request.Title.ToLower());
+            Domain.Entities.UsingStatus usingStatus = await _usingStatusReadRepository.GetSingleAsync(x=>x.Title.ToLower()==request.Title.ToLower() && x.IsDeleted == false);
             if(usingStatus != null)
                 return new CreateUsingStatusResponse()
                 {

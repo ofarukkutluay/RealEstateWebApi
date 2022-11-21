@@ -11,15 +11,25 @@ namespace RealEstateWebApi.Application.Features.Commands.Entry.DeleteEntry
     public class DeleteEntryHandler : IRequestHandler<DeleteEntryRequest, DeleteEntryResponse>
     {
         private readonly IEntryWriteRepository _entryWriteRepository;
+        private readonly IEntryReadRepository _entryReadRepository;
 
-        public DeleteEntryHandler(IEntryWriteRepository entryWriteRepository)
+        public DeleteEntryHandler(IEntryWriteRepository entryWriteRepository, IEntryReadRepository entryReadRepository)
         {
             _entryWriteRepository = entryWriteRepository;
+            _entryReadRepository = entryReadRepository;
         }
 
         public async Task<DeleteEntryResponse> Handle(DeleteEntryRequest request, CancellationToken cancellationToken)
         {
-            await _entryWriteRepository.RemoveAsync(request.Id);
+            Domain.Entities.Entry entry = await _entryReadRepository.GetByIdAsync(request.Id);
+            if (entry == null)
+                return new DeleteEntryResponse()
+                {
+                    Message = "Data bulunamadı",
+                    Success = false
+                };
+
+            entry.IsDeleted = true;
             var result = await _entryWriteRepository.SaveAsync();
             if(result<0)
                 return new DeleteEntryResponse()

@@ -19,7 +19,7 @@ namespace RealEstateWebApi.Application.Features.Queries.Entry.GetAllEntryByCusto
 
         public async Task<GetAllEntryByCustomerIdResponse> Handle(GetAllEntryByCustomerIdRequest request, CancellationToken cancellationToken)
         {
-            IEnumerable<Domain.Entities.Entry> entries = _entryReadRepository.GetWhere(e=>e.CustomerId == request.CustomerId);
+            IEnumerable<Domain.Entities.Entry> entries = _entryReadRepository.GetWhere(e=>e.CustomerId == request.CustomerId && e.IsDeleted == false );
             return await Task.FromResult(new GetAllEntryByCustomerIdResponse()
             {
                 Data = entries,

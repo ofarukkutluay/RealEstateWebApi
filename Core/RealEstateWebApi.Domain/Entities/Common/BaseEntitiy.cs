@@ -15,5 +15,6 @@ namespace RealEstateWebApi.Domain.Entities.Common
         public DateTime CreatedDate { get; set; }
         virtual public DateTime? UpdatedDate { get; set; }
         public bool IsActive { get; set; } = true;
+        public bool IsDeleted { get; set; } = false;
     }
 }

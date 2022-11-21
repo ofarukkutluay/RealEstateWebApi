@@ -19,7 +19,7 @@ namespace RealEstateWebApi.Application.Features.Queries.Customer.GetAllCustomer
 
         public async Task<GetAllCustomerResponse> Handle(GetAllCustomerRequest request, CancellationToken cancellationToken)
         {
-            IEnumerable<Domain.Entities.Customer> customers = _customerReadRepository.GetAll();
+            IEnumerable<Domain.Entities.Customer> customers = _customerReadRepository.GetWhere(x => x.IsDeleted == false);
             return await Task.FromResult(new GetAllCustomerResponse()
             {
                 Message = $"{customers.Count()} adet data getirildi",

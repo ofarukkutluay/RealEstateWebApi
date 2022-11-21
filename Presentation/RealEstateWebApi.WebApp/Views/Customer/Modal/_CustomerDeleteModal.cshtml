@@ -9,7 +9,7 @@
                 <h5 class="modal-title" id="staticBackdropLabel">Emin misin?</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form class="needs-validation" asp-action="Delete" method="post">
+            <form class="needs-validation" asp-controller="Admin" asp-action="DeleteCustomer" method="post">
                 <div class="modal-body">
                     <input asp-for="Id" value="@Model.Id" hidden />
                     <strong>@Model.Id id @Model.FullName adlı müşteri datasını gerçekten silmek istiyor musunuz?</strong>

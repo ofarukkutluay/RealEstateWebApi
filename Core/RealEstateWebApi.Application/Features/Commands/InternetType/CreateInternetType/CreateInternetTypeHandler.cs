@@ -19,7 +19,7 @@ namespace RealEstateWebApi.Application.Features.Commands.InternetType.CreateInte
 
         public async Task<CreateInternetTypeResponse> Handle(CreateInternetTypeRequest request, CancellationToken cancellationToken)
         {
-            Domain.Entities.InternetType internetType = await _internetTypeReadRepository.GetSingleAsync(x=>x.Title.ToLower()==request.Title.ToLower());
+            Domain.Entities.InternetType internetType = await _internetTypeReadRepository.GetSingleAsync(x=>x.Title.ToLower()==request.Title.ToLower() && x.IsDeleted == false);
             if(internetType != null)
                 return new CreateInternetTypeResponse()
                 {

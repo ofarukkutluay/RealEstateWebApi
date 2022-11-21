@@ -28,7 +28,7 @@ namespace RealEstateWebApi.Application.Features.Commands.Blog.DeleteBlog
                     Success = false
                 };
 
-            blog.IsActive = false;
+            blog.IsDeleted = true;
             var result = await _blogWriteRepository.SaveAsync();
             if(result<0)
                 return new DeleteBlogResponse()

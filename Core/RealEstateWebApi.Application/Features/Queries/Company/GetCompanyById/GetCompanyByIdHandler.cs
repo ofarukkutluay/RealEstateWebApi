@@ -20,6 +20,13 @@ namespace RealEstateWebApi.Application.Features.Queries.Company.GetCompanyById
         public async Task<GetCompanyByIdResponse> Handle(GetCompanyByIdRequest request, CancellationToken cancellationToken)
         {
             Domain.Entities.Company company = await _companyReadRepository.GetByIdAsync(request.CompanyId);
+            if(company.IsDeleted)
+                return new GetCompanyByIdResponse()
+                {
+                    Message = "data silinmiş",
+                    Success = false,
+                    Data = null
+                };
             return new GetCompanyByIdResponse()
             {
                 Message = "Company getirildi",

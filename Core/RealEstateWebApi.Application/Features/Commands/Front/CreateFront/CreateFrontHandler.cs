@@ -19,7 +19,7 @@ namespace RealEstateWebApi.Application.Features.Commands.Front.CreateFront
 
         public async Task<CreateFrontResponse> Handle(CreateFrontRequest request, CancellationToken cancellationToken)
         {
-            Domain.Entities.Front front = await _frontReadRepository.GetSingleAsync(x=>x.Title.ToLower()==request.Title.ToLower());
+            Domain.Entities.Front front = await _frontReadRepository.GetSingleAsync(x=>x.Title.ToLower()==request.Title.ToLower() && x.IsDeleted == false);
             if(front != null)
                 return new CreateFrontResponse()
                 {

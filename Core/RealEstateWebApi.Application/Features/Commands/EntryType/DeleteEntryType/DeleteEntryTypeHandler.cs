@@ -17,14 +17,14 @@ namespace RealEstateWebApi.Application.Features.Commands.EntryType.DeleteEntryTy
 
         public async Task<DeleteEntryTypeResponse> Handle(DeleteEntryTypeRequest request, CancellationToken cancellationToken)
         {
-            Domain.Entities.EntryType EntryType = await _entryTypeReadRepository.GetByIdAsync(request.Id);
-            if(EntryType == null)
+            Domain.Entities.EntryType entryType = await _entryTypeReadRepository.GetByIdAsync(request.Id);
+            if(entryType == null)
                 return new DeleteEntryTypeResponse()
                 {
                     Message = "Kayıt bulunamadı",
                     Success = false
                 };
-            await _entryTypeWriteRepository.RemoveAsync(request.Id);
+            entryType.IsDeleted = true;
             var result = await _entryTypeWriteRepository.SaveAsync();
             if(result<0)
                 return new DeleteEntryTypeResponse()

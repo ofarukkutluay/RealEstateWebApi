@@ -24,7 +24,7 @@ namespace RealEstateWebApi.Application.Features.Commands.HeatingType.DeleteHeati
                     Message = "Kayıt bulunamadı",
                     Success = false
                 };
-            await _heatingTypeWriteRepository.RemoveAsync(request.Id);
+            heatingType.IsDeleted = true;
             var result = await _heatingTypeWriteRepository.SaveAsync();
             if(result<0)
                 return new DeleteHeatingTypeResponse()

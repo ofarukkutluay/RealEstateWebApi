@@ -19,7 +19,7 @@ namespace RealEstateWebApi.Application.Features.Queries.ShortProperty.GetAllShor
 
         public async Task<GetAllShortPropertyResponse> Handle(GetAllShortPropertyRequest request, CancellationToken cancellationToken)
         {
-            IEnumerable<Domain.Entities.ShortProperty> shortProperties = _shortPropertyReadRepository.GetAll();
+            IEnumerable<Domain.Entities.ShortProperty> shortProperties = _shortPropertyReadRepository.GetWhere(x => x.IsDeleted == false);
             return await Task.FromResult(new GetAllShortPropertyResponse()
             {
                 Message = $"{shortProperties.Count()} adet data getirildi",

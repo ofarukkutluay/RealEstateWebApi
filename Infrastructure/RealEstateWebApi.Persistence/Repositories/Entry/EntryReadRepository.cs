@@ -17,7 +17,7 @@ namespace RealEstateWebApi.Persistence.Repositories
                         join est in _context.EntrySubTypes on e.EntrySubTypeId equals est.Id
                         join c in _context.Customers on e.CustomerId equals c.Id
                         join u in _context.Users on e.UserId equals u.Id
-                        where e.CustomerId == customerId
+                        where e.CustomerId == customerId && e.IsDeleted == false
                         select new EntryDto{
                             Content = e.Content,
                             CreatedDate = e.CreatedDate.ToLocalTime(),

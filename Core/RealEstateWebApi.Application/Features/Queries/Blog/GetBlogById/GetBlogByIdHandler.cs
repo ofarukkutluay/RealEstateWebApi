@@ -20,6 +20,13 @@ namespace RealEstateWebApi.Application.Features.Queries.Blog.GetBlogById
         public async Task<GetBlogByIdResponse> Handle(GetBlogByIdRequest request, CancellationToken cancellationToken)
         {
             Domain.Entities.Blog blog = await _blogReadRepository.GetByIdAsync(request.BlogId);
+            if (blog.IsDeleted)
+                return new GetBlogByIdResponse()
+                {
+                    Message = "Data silinmiş",
+                    Success = false,
+                    Data = null
+                };
             return new GetBlogByIdResponse()
             {
                 Data = blog,

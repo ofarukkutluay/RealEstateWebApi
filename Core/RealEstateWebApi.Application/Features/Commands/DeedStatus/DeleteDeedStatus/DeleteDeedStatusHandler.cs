@@ -28,7 +28,8 @@ namespace RealEstateWebApi.Application.Features.Commands.DeedStatus.DeleteDeedSt
                     Message = "Kayıt bulunamadı",
                     Success = false
                 };
-            await _deedStatusWriteRepository.RemoveAsync(request.Id);
+            
+            deedStatus.IsDeleted = true;
             var result = await _deedStatusWriteRepository.SaveAsync();
             if(result<0)
                 return new DeleteDeedStatusResponse()

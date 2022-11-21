@@ -12,6 +12,10 @@ namespace RealEstateWebApi.Application.Features.Commands.CustomerOwnedShortPrope
         public uint CustomerId { get; set; }
         public uint ShortPropertyId { get; set; }
         public uint? PropertyId { get; set; }
+        public string? ShLink { get; set; }
+        public string? EjLink { get; set; }
+        public string? HeLink { get; set; }
+        public string? OtherLink { get; set; }
 
 
         //short property

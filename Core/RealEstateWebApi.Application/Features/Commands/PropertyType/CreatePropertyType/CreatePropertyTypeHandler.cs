@@ -19,7 +19,7 @@ namespace RealEstateWebApi.Application.Features.Commands.PropertyType.CreateProp
 
         public async Task<CreatePropertyTypeResponse> Handle(CreatePropertyTypeRequest request, CancellationToken cancellationToken)
         {
-            Domain.Entities.PropertyType propertyType = await _propertyTypeReadRepository.GetSingleAsync(x=>x.Title.ToLower()==request.Title.ToLower());
+            Domain.Entities.PropertyType propertyType = await _propertyTypeReadRepository.GetSingleAsync(x=>x.Title.ToLower()==request.Title.ToLower() && x.IsDeleted == false);
             if(propertyType != null)
                 return new CreatePropertyTypeResponse()
                 {

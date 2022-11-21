@@ -17,6 +17,7 @@ namespace RealEstateWebApi.Application.Features.Queries.Customer.GetCustomerDtoB
         public async Task<GetCustomerDtoByIdResponse> Handle(GetCustomerDtoByIdRequest request, CancellationToken cancellationToken)
         {
             CustomerDto customer = _customerReadRepository.GetDtoById(request.Id);
+
             return await Task.FromResult( new GetCustomerDtoByIdResponse()
             {
                 Data = customer,

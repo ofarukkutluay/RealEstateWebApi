@@ -11,15 +11,25 @@ namespace RealEstateWebApi.Application.Features.Commands.CustomerSearchShortProp
     public class DeleteCustomerSearchShortPropertyHandler : IRequestHandler<DeleteCustomerSearchShortPropertyRequest, DeleteCustomerSearchShortPropertyResponse>
     {
         private readonly ICustomerSearchShortPropertyWriteRepository _customerSearchShortPropertyWriteRepository;
+        private readonly ICustomerSearchShortPropertyReadRepository _customerSearchShortPropertyReadRepository;
 
-        public DeleteCustomerSearchShortPropertyHandler(ICustomerSearchShortPropertyWriteRepository customerSearchShortPropertyWriteRepository)
+        public DeleteCustomerSearchShortPropertyHandler(ICustomerSearchShortPropertyWriteRepository customerSearchShortPropertyWriteRepository, ICustomerSearchShortPropertyReadRepository customerSearchShortPropertyReadRepository)
         {
             _customerSearchShortPropertyWriteRepository = customerSearchShortPropertyWriteRepository;
+            _customerSearchShortPropertyReadRepository = customerSearchShortPropertyReadRepository;
         }
 
         public async Task<DeleteCustomerSearchShortPropertyResponse> Handle(DeleteCustomerSearchShortPropertyRequest request, CancellationToken cancellationToken)
         {
-            await _customerSearchShortPropertyWriteRepository.RemoveAsync(request.Id);
+            Domain.Entities.CustomerSearchShortProperty customerSearchShortProperty = await _customerSearchShortPropertyReadRepository.GetByIdAsync(request.Id);
+            if (customerSearchShortProperty == null)
+                return new DeleteCustomerSearchShortPropertyResponse()
+                {
+                    Message = "Data bulunamadı",
+                    Success = false
+                };
+
+            customerSearchShortProperty.IsDeleted = true;
             var result =await _customerSearchShortPropertyWriteRepository.SaveAsync();
             if(result<0)
                 return new DeleteCustomerSearchShortPropertyResponse()

@@ -24,7 +24,7 @@ namespace RealEstateWebApi.Application.Features.Commands.InternetType.DeleteInte
                     Message = "Kayıt bulunamadı",
                     Success = false
                 };
-            await _internetTypeWriteRepository.RemoveAsync(request.Id);
+            internetType.IsDeleted = true;
             var result = await _internetTypeWriteRepository.SaveAsync();
             if(result<0)
                 return new DeleteInternetTypeResponse()
