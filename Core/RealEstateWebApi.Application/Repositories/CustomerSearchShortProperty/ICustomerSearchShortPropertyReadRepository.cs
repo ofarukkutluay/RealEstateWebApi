@@ -10,6 +10,6 @@ namespace RealEstateWebApi.Application.Repositories
 {
     public interface ICustomerSearchShortPropertyReadRepository : IReadRepository<CustomerSearchShortProperty>
     {
-        IEnumerable<ShortPropertyDto> GetAllShortPropertyDtoByCustomerId(uint customerId);
+        IEnumerable<CustomerSearchShortPropertyDto> GetAllShortPropertyDtoByCustomerId(uint customerId);
     }
 }

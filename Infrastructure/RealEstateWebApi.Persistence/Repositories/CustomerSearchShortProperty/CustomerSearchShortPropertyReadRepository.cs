@@ -17,14 +17,16 @@ namespace RealEstateWebApi.Persistence.Repositories
 
         }
 
-        public IEnumerable<ShortPropertyDto> GetAllShortPropertyDtoByCustomerId(uint customerId)
+        public IEnumerable<CustomerSearchShortPropertyDto> GetAllShortPropertyDtoByCustomerId(uint customerId)
         {
             var result = from cssp in Table
                          join sp in _context.ShortProperties on cssp.ShortPropertyId equals sp.Id
                          where cssp.CustomerId == customerId && cssp.IsDeleted == false
-                         select new ShortPropertyDto
+                         select new CustomerSearchShortPropertyDto
                          {
-                             Id = sp.Id,
+                             Id = cssp.Id,
+                             CustomerId = cssp.CustomerId,
+                             ShortPropertyId = cssp.ShortPropertyId,
                              PropertyType = _context.PropertyTypes.First(x=>x.Id==sp.PropertyTypeId).Title,
                              PropertyStatus = _context.PropertyStatuses.First(x => x.Id == sp.PropertyStatusId).Title,
                              RoomCount = sp.RoomCount,

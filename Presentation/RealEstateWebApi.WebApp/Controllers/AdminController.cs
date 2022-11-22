@@ -169,6 +169,34 @@ namespace RealEstateWebApi.WebApp.Controllers
             return Redirect("/customer/" + customer.Id);
         }
 
+        public async Task<IActionResult> DeleteOwnedProperty(uint cospId)
+        {
+            var rtnObj = await _apiRequestService.Delete<Result>("CustomerOwnedShortProperty", new { Id = cospId });
+
+            if (rtnObj.Success == true)
+            {
+                SuccessAlert(rtnObj.Message);
+                return Redirect(Request.Headers["Referer"].ToString());
+            }
+
+            DangerAlert(rtnObj.Message);
+            return Redirect(Request.Headers["Referer"].ToString());
+        }
+
+        public async Task<IActionResult> DeleteSearchProperty(uint csspId)
+        {
+            var rtnObj = await _apiRequestService.Delete<Result>("CustomerSearchShortProperty", new { Id = csspId });
+
+            if (rtnObj.Success == true)
+            {
+                SuccessAlert(rtnObj.Message);
+                return Redirect(Request.Headers["Referer"].ToString());
+            }
+
+            DangerAlert(rtnObj.Message);
+            return Redirect(Request.Headers["Referer"].ToString());
+        }
+
         async Task SelectItemInitilazeRolesModalPage()
         {
 

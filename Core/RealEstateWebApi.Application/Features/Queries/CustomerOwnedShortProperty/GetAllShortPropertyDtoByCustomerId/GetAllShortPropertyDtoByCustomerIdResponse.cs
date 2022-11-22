@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace RealEstateWebApi.Application.Features.Queries.CustomerOwnedShortProperty.GetAllShortPropertyDtoByCustomerId
 {
-    public class GetAllShortPropertyDtoByCustomerIdResponse : DataResult<IEnumerable<ShortPropertyDto>>
+    public class GetAllShortPropertyDtoByCustomerIdResponse : DataResult<IEnumerable<CustomerOwnedShortPropertyDto>>
     {
     }
 }

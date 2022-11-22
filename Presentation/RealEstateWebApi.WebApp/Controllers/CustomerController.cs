@@ -80,11 +80,16 @@ public class CustomerController : BaseController
     [HttpGet("/customer/{customerId}")]
     public async Task<IActionResult> Detail([FromRoute] uint customerId)
     {
-        DataResult<IEnumerable<EntryDto>> entries = await _requestService.Get<DataResult<IEnumerable<EntryDto>>>("entry", "?CustomerId=" + customerId);
         DataResult<CustomerDto> customerDto = await _requestService.Get<DataResult<CustomerDto>>("customer", "/dto/" + customerId);
+        if(customerDto.Data.IsActive == false) {
+            InfoAlert("Müşteri aktif olmadığı için görüntülenemez.");
+            return RedirectToAction("Index");
+        }
+        DataResult<IEnumerable<EntryDto>> entries = await _requestService.Get<DataResult<IEnumerable<EntryDto>>>("entry", "?CustomerId=" + customerId);
+        
         DataResult<Customer> customer = await _requestService.Get<DataResult<Customer>>("customer", "/" + customerId);
-        DataResult<IEnumerable<ShortPropertyDto>> ownedShortProperties = await _requestService.Get<DataResult<IEnumerable<ShortPropertyDto>>>("CustomerOwnedShortProperty", "/" + customerId);
-        DataResult<IEnumerable<ShortPropertyDto>> searchShortProperties = await _requestService.Get<DataResult<IEnumerable<ShortPropertyDto>>>("CustomerSearchShortProperty", "/" + customerId);
+        DataResult<IEnumerable<CustomerOwnedShortPropertyDto>> ownedShortProperties = await _requestService.Get<DataResult<IEnumerable<CustomerOwnedShortPropertyDto>>>("CustomerOwnedShortProperty", "/" + customerId);
+        DataResult<IEnumerable<CustomerSearchShortPropertyDto>> searchShortProperties = await _requestService.Get<DataResult<IEnumerable<CustomerSearchShortPropertyDto>>>("CustomerSearchShortProperty", "/" + customerId);
 
 
         await SelectItemInitilazeDetailPage();
@@ -110,7 +115,7 @@ public class CustomerController : BaseController
     }
 
     [HttpPost]
-    public async Task<IActionResult> OwnedShortPropertyAdd(ShortProperty shortProperty)
+    public async Task<IActionResult> OwnedShortPropertyAdd(CustomerOwnedShortProperty shortProperty)
     {
         var rtnObj = await _requestService.Post<Result>("customerOwnedShortProperty", shortProperty);
         if (rtnObj.Success)
@@ -261,6 +266,22 @@ public class CustomerController : BaseController
         });
 
         return Json(selectMahalle);
+
+    }
+    [HttpGet("/customer/SelectItemStreet")]
+    public async Task<IActionResult> SelectItemStreet([FromQuery] uint neighborhoodId)
+    {
+        int key = _dbContext.Neighborhoods.First(e => e.Id == neighborhoodId).Key;
+
+        var result = await _requestService.Get<DataResult<IEnumerable<Neighborhood>>>("LocationSupport/Street", "?NeighborhoodKey=", key.ToString());
+
+        IEnumerable<SelectListItem> selectCadde = result.Data.Select(x => new SelectListItem
+        {
+            Value = x.Id.ToString(),
+            Text = x.Name
+        });
+
+        return Json(selectCadde);
 
     }
 

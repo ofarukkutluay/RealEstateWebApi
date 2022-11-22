@@ -1,4 +1,4 @@
-﻿@model ShortProperty
+﻿@model CustomerOwnedShortProperty
 
 <script type="text/javascript">
     $(function () {
@@ -16,12 +16,23 @@
         $("#inputDistrict2").change(function () {
             var val = $(this).val();
             console.log("District : " + val)
-            var subItems = "";
+            var subItems = "<option selected>Seçiniz...</option>";
             $.get("@Url.Action("SelectItemNeighborhood","Customer")", { districtId: val }, function (data, status) {
                 $.each(data, function (index, item) {
                     subItems += "<option value='" + item.value + "'>" + item.text + "</option>"
                 });
                 $("#inputNeighborhood2").html(subItems)
+            });
+        });
+        $("#inputNeighborhood2").change(function () {
+            var val = $(this).val();
+            console.log("Neighborhood : " + val)
+            var subItems = "<option selected>Seçiniz...</option>";
+            $.get("@Url.Action("SelectItemStreet","Customer")", { neighborhoodId: val }, function (data, status) {
+                $.each(data, function (index, item) {
+                    subItems += "<option value='" + item.value + "'>" + item.text + "</option>"
+                });
+                $("#inputStreet2").html(subItems)
             });
         });
 
@@ -62,7 +73,7 @@
                     </div>
 
                     <div class="row mb-3">
-                        <label for="inputCity" class="col-sm-2 form-label">Şehir</label>
+                        <label for="inputCity2" class="col-sm-2 form-label">Şehir</label>
                         <div class="col-sm-10">
                             <select asp-for="CityId" asp-items="@ViewData["Cities"] as IEnumerable<SelectListItem>" class="form-select" id="inputCity2" required>
                                 <option selected disabled>Seçiniz...</option>
@@ -70,13 +81,31 @@
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <label for="inputDistrict" class="col-sm-2 form-label">İlçe</label>
+                        <label for="inputDistrict2" class="col-sm-2 form-label">İlçe</label>
                         <div class="col-sm-10">
                             <select asp-for="DistrictId" class="form-select" id="inputDistrict2">
                                 <option selected disabled>Seçiniz...</option>
                             </select>
                         </div>
                     </div>
+                    <div class="row mb-3">
+                        <label for="inputNeighborhood2" class="col-sm-2 form-label">Mahalle</label>
+                        <div class="col-sm-10">
+                            <select asp-for="NeighborhoodId" class="form-select" id="inputNeighborhood2">
+                                <option selected>Seçiniz...</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="inputStreet2" class="col-sm-2 form-label">Cadde/Sokak</label>
+                        <div class="col-sm-10">
+                            <select asp-for="StreetId" class="form-select" id="inputStreet2">
+                                <option selected>Seçiniz...</option>
+                            </select>
+                        </div>
+                    </div>
+
                     <div class="row mb-3">
                         <label for="inputRooms" class="col-sm-2 form-label">Oda Sayısı</label>
                         <div class="col-sm-10">
@@ -105,7 +134,46 @@
                             <textarea asp-for="Description" class="form-control" style="height: 100px" required></textarea>
                         </div>
                     </div>
-
+                    <div class="row mb-3">
+                        <label for="inputPropertyId" class="col-sm-2 col-form-label">Mülk Id</label>
+                        <div class="col-sm-10">
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control" asp-for="PropertyId" >
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="inputShLink" class="col-sm-2 col-form-label">Sahibinden</label>
+                        <div class="col-sm-10">
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control" asp-for="ShLink" >
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="inputEjLink" class="col-sm-2 col-form-label">Emlakjet</label>
+                        <div class="col-sm-10">
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control" asp-for="EjLink" >
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="inputHeLink" class="col-sm-2 col-form-label">Hepsiemlak</label>
+                        <div class="col-sm-10">
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control" asp-for="HeLink">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="inputOtherLink" class="col-sm-2 col-form-label">Diğer Link</label>
+                        <div class="col-sm-10">
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control" asp-for="OtherLink">
+                            </div>
+                        </div>
+                    </div>
 
                 </div>
                 <div class="modal-footer">

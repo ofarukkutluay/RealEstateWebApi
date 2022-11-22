@@ -20,7 +20,7 @@ namespace RealEstateWebApi.Application.Features.Queries.CustomerSearchShortPrope
 
         public Task<GetAllShortPropertyDtoByCustomerIdResponse> Handle(GetAllShortPropertyDtoByCustomerIdRequest request, CancellationToken cancellationToken)
         {
-            IEnumerable<ShortPropertyDto> shortPropertyDtos = _customerSearchShortPropertyReadRepository.GetAllShortPropertyDtoByCustomerId(request.CustomerId);
+            IEnumerable<CustomerSearchShortPropertyDto> shortPropertyDtos = _customerSearchShortPropertyReadRepository.GetAllShortPropertyDtoByCustomerId(request.CustomerId);
             return Task.FromResult(new GetAllShortPropertyDtoByCustomerIdResponse()
             {
                 Data = shortPropertyDtos,

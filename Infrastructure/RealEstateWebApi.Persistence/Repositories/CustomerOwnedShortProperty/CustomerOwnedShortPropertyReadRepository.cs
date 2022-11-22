@@ -12,14 +12,16 @@ namespace RealEstateWebApi.Persistence.Repositories
         {
         }
 
-        public IEnumerable<ShortPropertyDto> GetAllShortPropertyDtoByCustomerId(uint customerId)
+        public IEnumerable<CustomerOwnedShortPropertyDto> GetAllShortPropertyDtoByCustomerId(uint customerId)
         {
             var result = from cosp in Table
                          join sp in _context.ShortProperties on cosp.ShortPropertyId equals sp.Id
                          where cosp.CustomerId == customerId && cosp.IsDeleted == false
-                         select new ShortPropertyDto
+                         select new CustomerOwnedShortPropertyDto
                          {
-                             Id = sp.Id,
+                             Id= cosp.Id,
+                             CustomerId = cosp.CustomerId,
+                             ShortPropertyId = sp.Id,
                              PropertyType = _context.PropertyTypes.First(x => x.Id == sp.PropertyTypeId).Title,
                              PropertyStatus = _context.PropertyStatuses.First(x => x.Id == sp.PropertyStatusId).Title,
                              RoomCount = sp.RoomCount,
@@ -30,6 +32,11 @@ namespace RealEstateWebApi.Persistence.Repositories
                              Street = _context.Streets.First(x => x.Id == sp.StreetId).Name,
                              Price = sp.Price,
                              Description = sp.Description,
+                             ShLink = cosp.ShLink,
+                             HeLink = cosp.HeLink,
+                             EjLink = cosp.EjLink,
+                             OtherLink = cosp.OtherLink,
+                             PropertyId = cosp.PropertyId,
                              CreatedDate = cosp.CreatedDate,
                              UpdatedDate = cosp.UpdatedDate,
                              IsActive = cosp.IsActive

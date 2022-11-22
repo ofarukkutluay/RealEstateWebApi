@@ -15,7 +15,7 @@ public class GetAllCustomerDtoHandler : IRequestHandler<GetAllCustomerDtoRequest
 
     public Task<GetAllCustomerDtoResponse> Handle(GetAllCustomerDtoRequest request, CancellationToken cancellationToken)
     {
-        IEnumerable<CustomerDto> customerDtos = _customerReadRepository.GetAllDto().Where(x=>x.IsActive);
+        IEnumerable<CustomerDto> customerDtos = _customerReadRepository.GetAllDto();
         return Task.FromResult(new GetAllCustomerDtoResponse(){
             Data = customerDtos,
             Success = true,
