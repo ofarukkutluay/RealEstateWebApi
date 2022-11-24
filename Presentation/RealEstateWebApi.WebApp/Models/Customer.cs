@@ -15,14 +15,10 @@ public class Customer{
         public uint CityId { get; set; }
         public uint DistrictId { get; set; }
         public uint? NeighborhoodId { get; set; }
-
-        [DataType(DataType.Date)]
         public DateTime? BirthDay { get; set; }
         public long? CitizenNumber { get; set; }
         public uint RegisterUserId { get; set; }
         public uint AssignedUserId { get; set; }
-
-        [DataType(DataType.Date)]
         public DateTime? CreatedDate { get; set; }
         public bool IsActive { get; set; }
 

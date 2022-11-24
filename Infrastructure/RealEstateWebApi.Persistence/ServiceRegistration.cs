@@ -16,8 +16,8 @@ namespace RealEstateWebApi.Persistence
     {
         public static void AddPersistenceServices(this IServiceCollection services,IConfiguration configuration)
         {
-            services.AddDbContext<RealEstateWebApiDbContext>(options => options.UseNpgsql(Configuration.ConnectionString));
-            //services.AddDbContext<RealEstateWebApiDbContext>(options => options.UseNpgsql(configuration.GetConnectionString("PostgreSQL"))); 
+            //services.AddDbContext<RealEstateWebApiDbContext>(options => options.UseNpgsql(Configuration.ConnectionString));
+            services.AddDbContext<RealEstateWebApiDbContext>(options => options.UseNpgsql(configuration.GetConnectionString("PostgreSQL"))); 
             
             services.AddDbContext<LocalDbContext>(options => options.UseInMemoryDatabase("LocalDb"));
             services.AddScoped<ILocalDbContext>(provider => provider.GetService<LocalDbContext>());

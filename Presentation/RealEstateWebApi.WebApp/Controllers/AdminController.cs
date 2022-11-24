@@ -169,6 +169,35 @@ namespace RealEstateWebApi.WebApp.Controllers
             return Redirect("/customer/" + customer.Id);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> UpdateCustomer(Customer customer)
+        {
+            var rtnObj = await _apiRequestService.Put<Result>("customer", customer);
+
+            if (rtnObj.Success == true)
+            {
+                SuccessAlert(rtnObj.Message);
+                return Redirect(Request.Headers["Referer"].ToString());
+            }
+
+            DangerAlert(rtnObj.Message);
+            return Redirect(Request.Headers["Referer"].ToString());
+        }
+
+        public async Task<IActionResult> ActivateCustomer(uint customerId)
+        {
+            var rtnObj = await _apiRequestService.Put<Result>("customer/ChangeActivate", new {CustomerId = customerId , Activate = true});
+
+            if (rtnObj.Success == true)
+            {
+                SuccessAlert(rtnObj.Message);
+                return Redirect(Request.Headers["Referer"].ToString());
+            }
+
+            DangerAlert(rtnObj.Message);
+            return Redirect(Request.Headers["Referer"].ToString());
+        }
+
         public async Task<IActionResult> DeleteOwnedProperty(uint cospId)
         {
             var rtnObj = await _apiRequestService.Delete<Result>("CustomerOwnedShortProperty", new { Id = cospId });

@@ -25,10 +25,24 @@
             <div class="card overflow-auto">
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center">
-                        <h5 class="card-title">Müşteri Detay</h5>
+                        <h5 class="card-title">
+                            @if (Model.Item1.IsActive)
+                            {
+                                <span class="badge bg-success text-white">Aktif</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-danger text-white">Deaktif</span>
+                            }
+                        </h5>
                         @if (Context.User.Claims.FirstOrDefault(e => e.Type == System.Security.Claims.ClaimTypes.Role)?.Value == "Admin")
                         {
                             <div class="btn-group" role="group" >
+                                @if (!Model.Item1.IsActive)
+                                {
+                                    <a asp-controller="Admin" asp-action="ActivateCustomer" asp-route-customerId="@Model.Item1.Id" class="btn btn-outline-success">Onayla</a>
+                                }
+
                                 <button class="btn btn-primary" type="button" data-bs-toggle="modal"
                                     data-bs-target="#customerUpdateModal">
                                     <i class="bi bi-pencil-square"></i>
@@ -38,6 +52,8 @@
                                     data-bs-target="#customerDeleteModal">
                                     <i class="bi bi-trash"></i>
                                 </button>
+
+                                
                             </div>
                             var customer = Model.Item5;
                             await Html.RenderPartialAsync("~/Views/Customer/Modal/_CustomerUpdateModal.cshtml", customer);

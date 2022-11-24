@@ -60,31 +60,17 @@ public class CustomerController : BaseController
         return RedirectToAction("Add");
     }
 
-    [HttpPost]
-    public async Task<IActionResult> Update(Customer customer)
-    {
-        var rtnObj = await _requestService.Put<Result>("customer", customer);
-
-        if (rtnObj.Success == true)
-        {
-            SuccessAlert(rtnObj.Message);
-            return Redirect("/customer/" + customer.Id);
-        }
-
-        DangerAlert(rtnObj.Message);
-        return Redirect("/customer/" + customer.Id);
-    }
-
     
-
     [HttpGet("/customer/{customerId}")]
     public async Task<IActionResult> Detail([FromRoute] uint customerId)
     {
         DataResult<CustomerDto> customerDto = await _requestService.Get<DataResult<CustomerDto>>("customer", "/dto/" + customerId);
-        if(customerDto.Data.IsActive == false) {
+        
+        if (customerDto.Data.IsActive == false && HttpContext.User.Claims.First(e => e.Type == ClaimTypes.Role).Value != "Admin") {
             InfoAlert("Müşteri aktif olmadığı için görüntülenemez.");
             return RedirectToAction("Index");
         }
+
         DataResult<IEnumerable<EntryDto>> entries = await _requestService.Get<DataResult<IEnumerable<EntryDto>>>("entry", "?CustomerId=" + customerId);
         
         DataResult<Customer> customer = await _requestService.Get<DataResult<Customer>>("customer", "/" + customerId);
