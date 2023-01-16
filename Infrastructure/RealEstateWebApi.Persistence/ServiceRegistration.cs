@@ -16,8 +16,8 @@ namespace RealEstateWebApi.Persistence
     {
         public static void AddPersistenceServices(this IServiceCollection services,IConfiguration configuration)
         {
-            //services.AddDbContext<RealEstateWebApiDbContext>(options => options.UseNpgsql(Configuration.ConnectionString));
-            services.AddDbContext<RealEstateWebApiDbContext>(options => options.UseNpgsql(configuration.GetConnectionString("PostgreSQL"))); 
+            services.AddDbContext<RealEstateWebApiDbContext>(options => options.UseNpgsql(Configuration.ConnectionString));
+            //services.AddDbContext<RealEstateWebApiDbContext>(options => options.UseNpgsql(configuration.GetConnectionString("PostgreSQL"))); 
             
             services.AddDbContext<LocalDbContext>(options => options.UseInMemoryDatabase("LocalDb"));
             services.AddScoped<ILocalDbContext>(provider => provider.GetService<LocalDbContext>());
@@ -74,18 +74,20 @@ namespace RealEstateWebApi.Persistence
             services.AddScoped<IUserLoginWriteRepository,UserLoginWriteRepository>();
             services.AddScoped<ICustomerReadRepository,CustomerReadRepository>();
             services.AddScoped<ICustomerWriteRepository,CustomerWriteRepository>();
-            services.AddScoped<ICustomerOwnedShortPropertyReadRepository,CustomerOwnedShortPropertyReadRepository>();
-            services.AddScoped<ICustomerOwnedShortPropertyWriteRepository,CustomerOwnedShortPropertyWriteRepository>();
-            services.AddScoped<ICustomerSearchShortPropertyReadRepository, CustomerSearchShortPropertyReadRepository>();
-            services.AddScoped<ICustomerSearchShortPropertyWriteRepository,CustomerSearchShortPropertyWriteRepository>();
+            services.AddScoped<ICustomerOwnedPropertyReadRepository,CustomerOwnedPropertyReadRepository>();
+            services.AddScoped<ICustomerOwnedPropertyWriteRepository,CustomerOwnedPropertyWriteRepository>();
+            services.AddScoped<ICustomerSearchPropertyReadRepository, CustomerSearchPropertyReadRepository>();
+            services.AddScoped<ICustomerSearchPropertyWriteRepository,CustomerSearchPropertyWriteRepository>();
             services.AddScoped<IEntryReadRepository,EntryReadRepository>();
             services.AddScoped<IEntryWriteRepository,EntryWriteRepository>();
             services.AddScoped<IEntryTypeReadRepository,EntryTypeReadRepository>();
             services.AddScoped<IEntryTypeWriteRepository,EntryTypeWriteRepository>();
             services.AddScoped<IEntrySubTypeReadRepository,EntrySubTypeReadRepository>();
             services.AddScoped<IEntrySubTypeWriteRepository,EntrySubTypeWriteRepository>();
-            services.AddScoped<IShortPropertyReadRepository,ShortPropertyReadRepository>();
-            services.AddScoped<IShortPropertyWriteRepository,ShortPropertyWriteRepository>();
+            services.AddScoped<IPropertyListingPhotoReadRepository, PropertyListingPhotoReadRepository>();
+            services.AddScoped<IPropertyListingPhotoWriteRepository, PropertyListingPhotoWriteRepository>();
+            services.AddScoped<IPropertyListingDetailReadRepository,PropertyListingDetailReadRepository>();
+            services.AddScoped<IPropertyListingDetailWriteRepository,PropertyListingDetailWriteRepository>();
 
         }
     }

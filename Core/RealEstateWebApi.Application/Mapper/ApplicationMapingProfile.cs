@@ -6,8 +6,8 @@ using RealEstateWebApi.Application.Features.Commands.BlogType.CreateBlogType;
 using RealEstateWebApi.Application.Features.Commands.Client.CreateClient;
 using RealEstateWebApi.Application.Features.Commands.Company.CreateCompany;
 using RealEstateWebApi.Application.Features.Commands.Customer.CreateCustomer;
-using RealEstateWebApi.Application.Features.Commands.CustomerOwnedShortProperty.CreateCustomerOwnedShortProperty;
-using RealEstateWebApi.Application.Features.Commands.CustomerSearchShortProperty.CreateCustomerSearchShortProperty;
+using RealEstateWebApi.Application.Features.Commands.CustomerOwnedProperty.CreateCustomerOwnedProperty;
+using RealEstateWebApi.Application.Features.Commands.CustomerSearchProperty.CreateCustomerSearchProperty;
 using RealEstateWebApi.Application.Features.Commands.DeedStatus.CreateDeedStatus;
 using RealEstateWebApi.Application.Features.Commands.Entry.CreateEntry;
 using RealEstateWebApi.Application.Features.Commands.EntrySubType.CreateEntrySubType;
@@ -18,7 +18,6 @@ using RealEstateWebApi.Application.Features.Commands.InternetType.CreateInternet
 using RealEstateWebApi.Application.Features.Commands.JobTitle.CreateJobTitle;
 using RealEstateWebApi.Application.Features.Commands.PropertyStatus.CreatePropertyStatus;
 using RealEstateWebApi.Application.Features.Commands.PropertyType.CreatePropertyType;
-using RealEstateWebApi.Application.Features.Commands.ShortProperty.CreateShortProperty;
 using RealEstateWebApi.Application.Features.Commands.UserOperationClaim.CreateUserOperationClaim;
 using RealEstateWebApi.Application.Features.Commands.UsingStatus.CreateUsingStatus;
 using RealEstateWebApi.Domain.Entities;
@@ -45,15 +44,13 @@ namespace RealEstateWebApi.Application.Utilities.Mapper
             CreateMap<CreatePropertyTypeRequest, PropertyType>();
             CreateMap<CreateUsingStatusRequest, UsingStatus>();
             CreateMap<CreateCustomerRequest,Customer>().ForMember(dest=>dest.FullName,opt=>opt.MapFrom(x=>$"{x.FirstName} {x.LastName}"));
-            CreateMap<CreateCustomerSearchShortPropertyRequest, CustomerSearchShortProperty>();
-            CreateMap<CreateCustomerOwnedShortPropertyRequest, CustomerOwnedShortProperty>();
-            CreateMap<CreateCustomerSearchShortPropertyRequest, ShortProperty>();
-            CreateMap<CreateCustomerOwnedShortPropertyRequest, ShortProperty>();
+            CreateMap<CreateCustomerSearchPropertyRequest, CustomerSearchProperty>();
+            CreateMap<CreateCustomerOwnedPropertyRequest, CustomerOwnedProperty>();
+            CreateMap<CreateCustomerSearchPropertyRequest, ShortProperty>();
+            CreateMap<CreateCustomerOwnedPropertyRequest, ShortProperty>();
             CreateMap<CreateEntryRequest,Entry>();
             CreateMap<CreateEntryTypeRequest, EntryType>();
             CreateMap<CreateEntrySubTypeRequest, EntrySubType>();
-            CreateMap<CreateShortPropertyRequest, ShortProperty>();
-
 
             CreateMap<User, UserDto>();
 

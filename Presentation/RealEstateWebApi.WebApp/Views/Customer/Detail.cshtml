@@ -2,7 +2,7 @@
     ViewData["Title"] = "Müşteri Detayı";
 }
 
-@model Tuple<CustomerDto,IEnumerable<EntryDto>,IEnumerable<CustomerSearchShortPropertyDto>,IEnumerable<CustomerOwnedShortPropertyDto>,Customer>
+@model Tuple<CustomerDto,IEnumerable<EntryDto>,IEnumerable<CustomerSearchPropertyDto>,IEnumerable<CustomerOwnedPropertyDto>,Customer>
 
 
 
@@ -37,7 +37,7 @@
                         </h5>
                         @if (Context.User.Claims.FirstOrDefault(e => e.Type == System.Security.Claims.ClaimTypes.Role)?.Value == "Admin")
                         {
-                            <div class="btn-group" role="group" >
+                            <div class="btn-group" role="group">
                                 @if (!Model.Item1.IsActive)
                                 {
                                     <a asp-controller="Admin" asp-action="ActivateCustomer" asp-route-customerId="@Model.Item1.Id" class="btn btn-outline-success">Onayla</a>
@@ -53,7 +53,7 @@
                                     <i class="bi bi-trash"></i>
                                 </button>
 
-                                
+
                             </div>
                             var customer = Model.Item5;
                             await Html.RenderPartialAsync("~/Views/Customer/Modal/_CustomerUpdateModal.cshtml", customer);
@@ -162,7 +162,7 @@
 
         </div>
     </div>
-    
+
     <div class="row">
         <div class="col">
             <div class="card overflow-auto">
@@ -174,7 +174,7 @@
                             <i class="bi bi-plus-lg"></i>
                         </button>
                         @{
-                            CustomerOwnedShortProperty ownedShortProperty = new CustomerOwnedShortProperty()
+                            CustomerOwnedProperty ownedShortProperty = new CustomerOwnedProperty()
             {
                 CustomerId = Model.Item1.Id
             };
@@ -210,17 +210,46 @@
                             {
                                 <tr>
                                     <th scope="row">
-                                        @item.ShortPropertyId
+                                        @item.Id
 
                                     </th>
-                                    <td>@item.PropertyType</td>
-                                    <td>@item.PropertyStatus</td>
-                                    <td>@item.RoomCount + @item.LivingRoomCount</td>
-                                    <td>@item.City / @item.District / @item.Neighborhood / @item.Street</td>
-                                    <td>@item.Price.ToString("##,#")</td>
-                                    <td>@item.Description</td>
+                                    @if (item.PropertyListingDetail != null)
+                                    {
+                                        <td>
+                                            @item.PropertyListingDetail?.Type
+
+                                        </td>
+                                        <td>@item.PropertyListingDetail?.Status</td>
+                                        <td>@item.PropertyListingDetail?.RoomCount + @item.PropertyListingDetail?.LivingRoomCount</td>
+                                        <td>@item.PropertyListingDetail?.City / @item.PropertyListingDetail?.District / @item.PropertyListingDetail?.Neighborhood</td>
+                                        <td>@item.PropertyListingDetail?.Price.ToString("##,#")</td>
+                                        <td>@item.PropertyListingDetail?.Description</td>
+
+
+
+                                        await Html.RenderPartialAsync("~/Views/Customer/Modal/_OwnedPropertyDetailModal.cshtml", item.PropertyListingDetail);
+
+                                    }
+                                    else
+                                    {
+                                        <td>@item.PropertyType</td>
+                                        <td>@item.PropertyStatus</td>
+                                        <td>@item.RoomCount + @item.LivingRoomCount</td>
+                                        <td>@item.City / @item.District / @item.Neighborhood</td>
+                                        <td>@item.Price?.ToString("##,#")</td>
+                                        <td>@item.Description</td>
+                                    }
                                     <td>@item.PropertyId</td>
-                                    <td>@item.ShLink</td>
+                                    <td>
+                                        @item.ShLink 
+                                        @if (item.PropertyListingDetail != null)
+                                        {
+                                            <button class="btn btn-sm btn-info" type="button" data-bs-toggle="modal"
+                                            data-bs-target="#ownedPropertyDetailModal">
+                                                Tüm Detaylar
+                                            </button>
+                                        }
+                                    </td>
                                     <td>@item.EjLink</td>
                                     <td>@item.HeLink</td>
                                     <td>@item.OtherLink</td>
@@ -247,7 +276,7 @@
                             <i class="bi bi-plus-lg"></i>
                         </button>
                         @{
-                            CustomerSearchShortProperty searchShortProperty = new CustomerSearchShortProperty()
+                            CustomerSearchProperty searchShortProperty = new CustomerSearchProperty()
             {
                 CustomerId = Model.Item1.Id
             };
@@ -277,7 +306,7 @@
 
                                 <tr>
                                     <th scope="row">
-                                        @item.ShortPropertyId
+                                        @item.Id
 
                                     </th>
                                     <td>@item.PropertyType</td>

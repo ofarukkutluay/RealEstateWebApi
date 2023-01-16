@@ -200,7 +200,7 @@ namespace RealEstateWebApi.WebApp.Controllers
 
         public async Task<IActionResult> DeleteOwnedProperty(uint cospId)
         {
-            var rtnObj = await _apiRequestService.Delete<Result>("CustomerOwnedShortProperty", new { Id = cospId });
+            var rtnObj = await _apiRequestService.Delete<Result>("CustomerOwnedProperty", new { Id = cospId });
 
             if (rtnObj.Success == true)
             {
@@ -214,7 +214,7 @@ namespace RealEstateWebApi.WebApp.Controllers
 
         public async Task<IActionResult> DeleteSearchProperty(uint csspId)
         {
-            var rtnObj = await _apiRequestService.Delete<Result>("CustomerSearchShortProperty", new { Id = csspId });
+            var rtnObj = await _apiRequestService.Delete<Result>("CustomerSearchProperty", new { Id = csspId });
 
             if (rtnObj.Success == true)
             {

@@ -394,7 +394,7 @@ namespace RealEstateWebApi.Persistence.Migrations
                     b.ToTable("Customers");
                 });
 
-            modelBuilder.Entity("RealEstateWebApi.Domain.Entities.CustomerOwnedShortProperty", b =>
+            modelBuilder.Entity("RealEstateWebApi.Domain.Entities.CustomerOwnedProperty", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -443,10 +443,10 @@ namespace RealEstateWebApi.Persistence.Migrations
 
                     b.HasIndex("ShortPropertyId");
 
-                    b.ToTable("CustomerOwnedShortProperties");
+                    b.ToTable("CustomerOwnedProperties");
                 });
 
-            modelBuilder.Entity("RealEstateWebApi.Domain.Entities.CustomerSearchShortProperty", b =>
+            modelBuilder.Entity("RealEstateWebApi.Domain.Entities.CustomerSearchProperty", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -478,7 +478,7 @@ namespace RealEstateWebApi.Persistence.Migrations
 
                     b.HasIndex("ShortPropertyId");
 
-                    b.ToTable("CustomerSearchShortProperties");
+                    b.ToTable("CustomerSearchProperties");
                 });
 
             modelBuilder.Entity("RealEstateWebApi.Domain.Entities.DeedStatus", b =>
@@ -1924,7 +1924,7 @@ namespace RealEstateWebApi.Persistence.Migrations
                         .HasForeignKey("NeighborhoodId");
                 });
 
-            modelBuilder.Entity("RealEstateWebApi.Domain.Entities.CustomerOwnedShortProperty", b =>
+            modelBuilder.Entity("RealEstateWebApi.Domain.Entities.CustomerOwnedProperty", b =>
                 {
                     b.HasOne("RealEstateWebApi.Domain.Entities.Customer", null)
                         .WithMany()
@@ -1943,7 +1943,7 @@ namespace RealEstateWebApi.Persistence.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("RealEstateWebApi.Domain.Entities.CustomerSearchShortProperty", b =>
+            modelBuilder.Entity("RealEstateWebApi.Domain.Entities.CustomerSearchProperty", b =>
                 {
                     b.HasOne("RealEstateWebApi.Domain.Entities.Customer", null)
                         .WithMany()

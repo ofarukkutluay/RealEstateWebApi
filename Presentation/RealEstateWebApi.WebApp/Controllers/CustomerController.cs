@@ -1,12 +1,11 @@
-using RealEstateWebApi.WebApp.Data.Local;
-using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using RealEstateWebApi.WebApp.Data.Local;
 using RealEstateWebApi.WebApp.Models;
 using RealEstateWebApi.WebApp.Models.Common;
 using RealEstateWebApi.WebApp.Services.ApiRequest;
-using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace RealEstateWebApi.WebApp.Controllers;
 
@@ -74,13 +73,13 @@ public class CustomerController : BaseController
         DataResult<IEnumerable<EntryDto>> entries = await _requestService.Get<DataResult<IEnumerable<EntryDto>>>("entry", "?CustomerId=" + customerId);
         
         DataResult<Customer> customer = await _requestService.Get<DataResult<Customer>>("customer", "/" + customerId);
-        DataResult<IEnumerable<CustomerOwnedShortPropertyDto>> ownedShortProperties = await _requestService.Get<DataResult<IEnumerable<CustomerOwnedShortPropertyDto>>>("CustomerOwnedShortProperty", "/" + customerId);
-        DataResult<IEnumerable<CustomerSearchShortPropertyDto>> searchShortProperties = await _requestService.Get<DataResult<IEnumerable<CustomerSearchShortPropertyDto>>>("CustomerSearchShortProperty", "/" + customerId);
+        DataResult<IEnumerable<CustomerOwnedPropertyDto>> ownedProperties = await _requestService.Get<DataResult<IEnumerable<CustomerOwnedPropertyDto>>>("CustomerOwnedProperty", "/" + customerId);
+        DataResult<IEnumerable<CustomerSearchPropertyDto>> searchProperties = await _requestService.Get<DataResult<IEnumerable<CustomerSearchPropertyDto>>>("CustomerSearchProperty", "/" + customerId);
 
 
         await SelectItemInitilazeDetailPage();
 
-        return View(Tuple.Create(customerDto.Data, entries.Data,searchShortProperties.Data,ownedShortProperties.Data, customer.Data));
+        return View(Tuple.Create(customerDto.Data, entries.Data,searchProperties.Data,ownedProperties.Data, customer.Data));
 
 
     }
@@ -101,9 +100,9 @@ public class CustomerController : BaseController
     }
 
     [HttpPost]
-    public async Task<IActionResult> OwnedShortPropertyAdd(CustomerOwnedShortProperty shortProperty)
+    public async Task<IActionResult> OwnedPropertyAdd(CustomerOwnedProperty shortProperty)
     {
-        var rtnObj = await _requestService.Post<Result>("customerOwnedShortProperty", shortProperty);
+        var rtnObj = await _requestService.Post<Result>("customerOwnedProperty", shortProperty);
         if (rtnObj.Success)
         {
             SuccessAlert("Kayıt eklendi");
@@ -114,9 +113,9 @@ public class CustomerController : BaseController
     }
 
     [HttpPost]
-    public async Task<IActionResult> SearchShortPropertyAdd(ShortProperty shortProperty)
+    public async Task<IActionResult> SearchPropertyAdd(CustomerSearchProperty shortProperty)
     {
-        var rtnObj = await _requestService.Post<Result>("customerSearchShortProperty", shortProperty);
+        var rtnObj = await _requestService.Post<Result>("customerSearchProperty", shortProperty);
         if (rtnObj.Success)
         {
             SuccessAlert("Kayıt eklendi");

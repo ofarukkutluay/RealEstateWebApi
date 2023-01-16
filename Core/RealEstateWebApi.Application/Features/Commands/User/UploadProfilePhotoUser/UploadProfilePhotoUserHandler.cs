@@ -41,7 +41,7 @@ namespace RealEstateWebApi.Application.Features.Commands.User.UploadProfilePhoto
             {
                 FileName = storageResult.FileName,
                 Path = storageResult.DirectoryOrContainer,
-                Storage = "Local",
+                Storage = storageResult.Storage,
             });
 
             user.ProfileImgFileId = fileResult.Id;

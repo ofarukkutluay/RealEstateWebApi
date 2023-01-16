@@ -41,12 +41,13 @@ namespace RealEstateWebApi.Persistence.Contexts
         public DbSet<UserOperationClaim> UserOperationClaims { get; set; }
         public DbSet<UserLogin> UserLogins { get; set; }
         public DbSet<Customer> Customers { get; set; }
-        public DbSet<CustomerOwnedShortProperty> CustomerOwnedShortProperties { get; set; }
-        public DbSet<CustomerSearchShortProperty> CustomerSearchShortProperties { get; set; }
+        public DbSet<CustomerOwnedProperty> CustomerOwnedProperties { get; set; }
+        public DbSet<CustomerSearchProperty> CustomerSearchProperties { get; set; }
         public DbSet<Entry> Entries { get; set; }
         public DbSet<EntryType> EntryTypes { get; set; }
         public DbSet<EntrySubType> EntrySubTypes { get; set; }
-        public DbSet<ShortProperty> ShortProperties { get; set; }
+        public DbSet<PropertyListingDetail> PropertyListingDetails { get; set; }
+        public DbSet<PropertyListingPhoto> PropertyListingPhotos { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

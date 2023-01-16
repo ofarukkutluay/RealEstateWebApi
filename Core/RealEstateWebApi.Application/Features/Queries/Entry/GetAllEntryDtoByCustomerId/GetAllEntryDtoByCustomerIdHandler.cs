@@ -16,7 +16,8 @@ namespace RealEstateWebApi.Application.Features.Queries.Entry.GetAllEntryDtoByCu
 
         public async Task<GetAllEntryDtoByCustomerIdResponse> Handle(GetAllEntryDtoByCustomerIdRequest request, CancellationToken cancellationToken)
         {
-            IEnumerable<EntryDto> entries = _entryReadRepository.GetEntryDtoByCustomerId(request.CustomerId).OrderByDescending(e=>e.CreatedDate);
+            IEnumerable<EntryDto> entries = _entryReadRepository.GetEntryDtoByCustomerId(request.CustomerId).OrderByDescending(e => e.CreatedDate)
+                .Skip((request.Page - 1) * request.PageSize).Take(request.PageSize);
             return await Task.FromResult(new GetAllEntryDtoByCustomerIdResponse()
             {
                 Data = entries,

@@ -21,7 +21,7 @@ namespace RealEstateWebApi.Infrastructure.Operations
                .Replace(")", "")
                .Replace("=", "")
                .Replace("?", "")
-               .Replace("_", "")
+               //.Replace("_", "")
                .Replace(" ", "-")
                .Replace("@", "")
                .Replace("€", "")

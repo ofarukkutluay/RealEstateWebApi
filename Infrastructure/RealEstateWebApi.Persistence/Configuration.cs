@@ -11,20 +11,28 @@ namespace RealEstateWebApi.Persistence
     {
         public static string ConnectionString
         {
-            //get
-            //{
-
-            //    ConfigurationManager configurationManager = new ConfigurationManager();
-            //    configurationManager.SetBasePath(Path.Combine(Directory.GetCurrentDirectory(), "../../Presentation/RealEstateWebApi.WebApi"));
-            //    configurationManager.AddJsonFile("appsettings.json");
-            //    return configurationManager.GetConnectionString("PostgreSQL");
-
-
-            //}
             get
             {
-                return String.Empty;
+
+                ConfigurationManager configurationManager = new ConfigurationManager();
+                try
+                {
+                    configurationManager.SetBasePath(Path.Combine(Directory.GetCurrentDirectory(), "../../Presentation/RealEstateWebApi.WebApi"));
+                    configurationManager.AddJsonFile("appsettings.json");
+                }
+                catch (Exception)
+                {
+                    configurationManager.AddJsonFile("appsettings.json");
+                }
+
+                return configurationManager.GetConnectionString("PostgreSQL");
+
+
             }
+            //get
+            //{
+            //    return String.Empty;
+            //}
         }
     }
 }

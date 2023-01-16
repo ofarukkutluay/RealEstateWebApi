@@ -19,6 +19,7 @@ namespace RealEstateWebApi.Infrastructure.Services.Storage.Local
         }
 
         private string WebRootPath { get=> _webHostEnvironment.WebRootPath;}
+        private string Storage { get => "Local"; }
 
         public Task<bool> DeleteAsync(string directory, string fileName)
         {
@@ -47,7 +48,7 @@ namespace RealEstateWebApi.Infrastructure.Services.Storage.Local
 
             File.Move(path, movePath);
 
-            return new FilePath(newDirectory, fileNewName);
+            return new FilePath(newDirectory, fileNewName,Storage);
         }
 
         async Task<bool> CopyFileAsync(string path, IFormFile file)
@@ -80,7 +81,7 @@ namespace RealEstateWebApi.Infrastructure.Services.Storage.Local
                 string fileNewName = await FileRenameAsync(pathDirectory, file.FileName, HasFile);
                 string path = Path.Combine(pathDirectory, fileNewName);
                 await CopyFileAsync(pathDirectory, file);
-                datas.Add(new FilePath(directory, fileNewName));
+                datas.Add(new FilePath(directory, fileNewName, Storage));
             }
 
 
@@ -99,7 +100,7 @@ namespace RealEstateWebApi.Infrastructure.Services.Storage.Local
             string path = Path.Combine(pathDirectory, fileNewName);
             await CopyFileAsync(path, formFile);
 
-            return new FilePath(directory, fileNewName);
+            return new FilePath(directory, fileNewName, Storage);
         }
 
         public bool HasFile(string directory, string fileName)
@@ -107,5 +108,6 @@ namespace RealEstateWebApi.Infrastructure.Services.Storage.Local
             string path = Path.Combine(directory, fileName);
             return File.Exists(path);
         }
+
     }
 }
