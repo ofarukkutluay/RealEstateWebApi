@@ -63,7 +63,8 @@ Logger log = new LoggerConfiguration()
             {"time_stamp", new TimestampColumnWriter(NpgsqlDbType.Timestamp)},
             {"exception", new ExceptionColumnWriter(NpgsqlDbType.Text)},
             {"log_event", new LogEventSerializedColumnWriter(NpgsqlDbType.Json)},
-            {"user_id", new UserIdColumnWriter()}
+            {"user_id", new UserIdColumnWriter()},
+            {"remote_ip",new RemoteIpColumnWriter()},
         })
     .Enrich.FromLogContext()
     .MinimumLevel.Information()
@@ -145,8 +146,10 @@ app.UseAuthorization();
 
 app.Use(async (context, next) =>
 {
-    var userid = context.User?.Identity?.IsAuthenticated == true ? context.User.Claims.First(x=>x.Type == ClaimTypes.NameIdentifier)?.Value : null;
+    var userid = context.User?.Identity?.IsAuthenticated == true ? context.User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier)?.Value : null;
     LogContext.PushProperty("user_id", userid);
+    var remoteIp = context.Connection.RemoteIpAddress?.ToString();
+    LogContext.PushProperty("remote_ip", remoteIp);
     await next();
 });
 

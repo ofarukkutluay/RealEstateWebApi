@@ -150,7 +150,7 @@
                                     </th>
                                     <td>@item.Content</td>
                                     <td>@item.User</td>
-                                    <td>@item.CreatedDate</td>
+                                    <td>@item.CreatedDate.ToString("dd-MM-yyyy HH:mm")</td>
                                 </tr>
                             }
 
@@ -222,8 +222,8 @@
                                         <td>@item.PropertyListingDetail?.Status</td>
                                         <td>@item.PropertyListingDetail?.RoomCount + @item.PropertyListingDetail?.LivingRoomCount</td>
                                         <td>@item.PropertyListingDetail?.City / @item.PropertyListingDetail?.District / @item.PropertyListingDetail?.Neighborhood</td>
-                                        <td>@item.PropertyListingDetail?.Price.ToString("##,#")</td>
-                                        <td>@item.PropertyListingDetail?.Description</td>
+                                        <td><div class="d-inline" > @item.PropertyListingDetail?.Price.ToString("##,#") <span>@item.PropertyListingDetail?.Currency</span></div></td>
+                                        <td><div class="overflow-hidden" style="max-height:150px;max-width:250px">@item.PropertyListingDetail?.Description</div></td>
 
 
 
@@ -236,27 +236,38 @@
                                         <td>@item.PropertyStatus</td>
                                         <td>@item.RoomCount + @item.LivingRoomCount</td>
                                         <td>@item.City / @item.District / @item.Neighborhood</td>
-                                        <td>@item.Price?.ToString("##,#")</td>
-                                        <td>@item.Description</td>
+                                        <td>@item.Price?.ToString("##,#") <span>₺</span></td>
+                                        <td>
+                                            @item.Description
+                                        </td>
                                     }
                                     <td>@item.PropertyId</td>
                                     <td>
-                                        @item.ShLink 
-                                        @if (item.PropertyListingDetail != null)
-                                        {
-                                            <button class="btn btn-sm btn-info" type="button" data-bs-toggle="modal"
-                                            data-bs-target="#ownedPropertyDetailModal">
-                                                Tüm Detaylar
-                                            </button>
-                                        }
+                                        <div class="text-truncate" style="max-width:150px">
+                                            <a href="@item.ShLink" target="_blank" rel="noopener noreferrer">@item.ShLink</a>
+                                        </div>
+
                                     </td>
-                                    <td>@item.EjLink</td>
-                                    <td>@item.HeLink</td>
-                                    <td>@item.OtherLink</td>
-                                    @if (Context.User.Claims.FirstOrDefault(e => e.Type == System.Security.Claims.ClaimTypes.Role)?.Value == "Admin")
-                                    {
-                                        <td><a class="btn btn-danger btn-sm" asp-controller="Admin" asp-action="DeleteOwnedProperty" asp-route-cospId="@item.Id"><i class="bi bi-trash"></i></a></td>
-                                    }
+                                    <td><div class="text-truncate" style="max-width:150px"><a href="@item.EjLink" target="_blank" rel="noopener noreferrer">@item.EjLink</a></div></td>
+                                    <td><div class="text-truncate" style="max-width:150px"><a href="@item.HeLink" target="_blank" rel="noopener noreferrer">@item.HeLink</a></div></td>
+                                    <td><div class="text-truncate" style="max-width:150px"><a href="@item.OtherLink" target="_blank" rel="noopener noreferrer">@item.OtherLink</a></div></td>
+                                    <td>
+                                        <div class="btn-group" role="group">
+                                            @if (Context.User.Claims.FirstOrDefault(e => e.Type == System.Security.Claims.ClaimTypes.Role)?.Value == "Admin")
+                                            {
+                                                <a class="btn btn-danger btn-sm" asp-controller="Admin" asp-action="DeleteOwnedProperty" asp-route-cospId="@item.Id"><i class="bi bi-trash"></i></a>
+                                            }
+                                            @if (item.PropertyListingDetail != null)
+                                            {
+                                                string IdString = $"#modal{item.PropertyListingDetail.Id.ToString()}";
+
+                                                <button class="btn btn-sm btn-info" type="button" data-bs-toggle="modal"
+                                                data-bs-target="@IdString">
+                                                    Detail
+                                                </button>
+                                            }
+                                        </div>
+                                    </td>
                                 </tr>
                             }
                         </tbody>

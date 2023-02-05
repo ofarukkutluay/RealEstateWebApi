@@ -10,7 +10,7 @@ namespace RealEstateWebApi.Application.Features.Commands.Extension.ChromeExtensi
 {
     public class ChromeExtensionRequest : IRequest<ChromeExtensionResponse>
     {
-        public uint CustomerId { get; set; }
+        public uint? CustomerId { get; set; }
         public string OuterHTML { get; set; }
         public string Url { get; set; }
     }

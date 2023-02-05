@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using RealEstateWebApi.Persistence.Contexts;
@@ -11,9 +12,10 @@ using RealEstateWebApi.Persistence.Contexts;
 namespace RealEstateWebApi.Persistence.Migrations
 {
     [DbContext(typeof(RealEstateWebApiDbContext))]
-    partial class RealEstateWebApiDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230120152313_mig_19")]
+    partial class mig_19
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -77,7 +79,7 @@ namespace RealEstateWebApi.Persistence.Migrations
 
                     b.HasIndex("JobTitleId");
 
-                    b.ToTable("Agents", (string)null);
+                    b.ToTable("Agents");
                 });
 
             modelBuilder.Entity("RealEstateWebApi.Domain.Entities.Blog", b =>
@@ -139,7 +141,7 @@ namespace RealEstateWebApi.Persistence.Migrations
 
                     b.HasIndex("CompanyId");
 
-                    b.ToTable("Blogs", (string)null);
+                    b.ToTable("Blogs");
                 });
 
             modelBuilder.Entity("RealEstateWebApi.Domain.Entities.BlogType", b =>
@@ -173,7 +175,7 @@ namespace RealEstateWebApi.Persistence.Migrations
 
                     b.HasIndex("ClientId");
 
-                    b.ToTable("BlogTypes", (string)null);
+                    b.ToTable("BlogTypes");
                 });
 
             modelBuilder.Entity("RealEstateWebApi.Domain.Entities.City", b =>
@@ -193,7 +195,7 @@ namespace RealEstateWebApi.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Cities", (string)null);
+                    b.ToTable("Cities");
                 });
 
             modelBuilder.Entity("RealEstateWebApi.Domain.Entities.Client", b =>
@@ -266,7 +268,7 @@ namespace RealEstateWebApi.Persistence.Migrations
 
                     b.HasIndex("LogoImgFileId");
 
-                    b.ToTable("Clients", (string)null);
+                    b.ToTable("Clients");
                 });
 
             modelBuilder.Entity("RealEstateWebApi.Domain.Entities.Company", b =>
@@ -309,7 +311,7 @@ namespace RealEstateWebApi.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Companies", (string)null);
+                    b.ToTable("Companies");
                 });
 
             modelBuilder.Entity("RealEstateWebApi.Domain.Entities.Customer", b =>
@@ -389,7 +391,7 @@ namespace RealEstateWebApi.Persistence.Migrations
 
                     b.HasIndex("NeighborhoodId");
 
-                    b.ToTable("Customers", (string)null);
+                    b.ToTable("Customers");
                 });
 
             modelBuilder.Entity("RealEstateWebApi.Domain.Entities.CustomerOwnedProperty", b =>
@@ -471,7 +473,7 @@ namespace RealEstateWebApi.Persistence.Migrations
 
                     b.HasIndex("PropertyListingDetailId");
 
-                    b.ToTable("CustomerOwnedProperties", (string)null);
+                    b.ToTable("CustomerOwnedProperties");
                 });
 
             modelBuilder.Entity("RealEstateWebApi.Domain.Entities.CustomerSearchProperty", b =>
@@ -532,7 +534,7 @@ namespace RealEstateWebApi.Persistence.Migrations
 
                     b.HasIndex("CustomerId");
 
-                    b.ToTable("CustomerSearchProperties", (string)null);
+                    b.ToTable("CustomerSearchProperties");
                 });
 
             modelBuilder.Entity("RealEstateWebApi.Domain.Entities.DeedStatus", b =>
@@ -561,7 +563,7 @@ namespace RealEstateWebApi.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("DeedStatuses", (string)null);
+                    b.ToTable("DeedStatuses");
 
                     b.HasData(
                         new
@@ -618,7 +620,7 @@ namespace RealEstateWebApi.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Districts", (string)null);
+                    b.ToTable("Districts");
                 });
 
             modelBuilder.Entity("RealEstateWebApi.Domain.Entities.Entry", b =>
@@ -670,7 +672,7 @@ namespace RealEstateWebApi.Persistence.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Entries", (string)null);
+                    b.ToTable("Entries");
                 });
 
             modelBuilder.Entity("RealEstateWebApi.Domain.Entities.EntrySubType", b =>
@@ -704,7 +706,7 @@ namespace RealEstateWebApi.Persistence.Migrations
 
                     b.HasIndex("EntryTypeId");
 
-                    b.ToTable("EntrySubTypes", (string)null);
+                    b.ToTable("EntrySubTypes");
 
                     b.HasData(
                         new
@@ -753,7 +755,7 @@ namespace RealEstateWebApi.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("EntryTypes", (string)null);
+                    b.ToTable("EntryTypes");
 
                     b.HasData(
                         new
@@ -801,7 +803,7 @@ namespace RealEstateWebApi.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Files", (string)null);
+                    b.ToTable("Files");
 
                     b.HasDiscriminator<string>("Discriminator").HasValue("File");
                 });
@@ -832,7 +834,7 @@ namespace RealEstateWebApi.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Fronts", (string)null);
+                    b.ToTable("Fronts");
 
                     b.HasData(
                         new
@@ -927,7 +929,7 @@ namespace RealEstateWebApi.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("HeatingTypes", (string)null);
+                    b.ToTable("HeatingTypes");
 
                     b.HasData(
                         new
@@ -1012,7 +1014,7 @@ namespace RealEstateWebApi.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("OperationClaims", (string)null);
+                    b.ToTable("OperationClaims");
 
                     b.HasData(
                         new
@@ -1107,7 +1109,7 @@ namespace RealEstateWebApi.Persistence.Migrations
 
                     b.HasIndex("ProfileImgFileId");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("RealEstateWebApi.Domain.Entities.Identity.UserLogin", b =>
@@ -1142,7 +1144,7 @@ namespace RealEstateWebApi.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("UserLogins", (string)null);
+                    b.ToTable("UserLogins");
                 });
 
             modelBuilder.Entity("RealEstateWebApi.Domain.Entities.Identity.UserOperationClaim", b =>
@@ -1177,7 +1179,7 @@ namespace RealEstateWebApi.Persistence.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserOperationClaims", (string)null);
+                    b.ToTable("UserOperationClaims");
                 });
 
             modelBuilder.Entity("RealEstateWebApi.Domain.Entities.InternetType", b =>
@@ -1206,7 +1208,7 @@ namespace RealEstateWebApi.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("InternetTypes", (string)null);
+                    b.ToTable("InternetTypes");
 
                     b.HasData(
                         new
@@ -1278,7 +1280,7 @@ namespace RealEstateWebApi.Persistence.Migrations
 
                     b.HasIndex("CompanyId");
 
-                    b.ToTable("JobTitles", (string)null);
+                    b.ToTable("JobTitles");
                 });
 
             modelBuilder.Entity("RealEstateWebApi.Domain.Entities.Message", b =>
@@ -1328,7 +1330,7 @@ namespace RealEstateWebApi.Persistence.Migrations
 
                     b.HasIndex("CompanyId");
 
-                    b.ToTable("Messages", (string)null);
+                    b.ToTable("Messages");
                 });
 
             modelBuilder.Entity("RealEstateWebApi.Domain.Entities.Neighborhood", b =>
@@ -1351,7 +1353,7 @@ namespace RealEstateWebApi.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Neighborhoods", (string)null);
+                    b.ToTable("Neighborhoods");
                 });
 
             modelBuilder.Entity("RealEstateWebApi.Domain.Entities.Property", b =>
@@ -1520,7 +1522,7 @@ namespace RealEstateWebApi.Persistence.Migrations
 
                     b.HasIndex("UsingStatusId");
 
-                    b.ToTable("Properties", (string)null);
+                    b.ToTable("Properties");
                 });
 
             modelBuilder.Entity("RealEstateWebApi.Domain.Entities.PropertyListingDetail", b =>
@@ -1706,7 +1708,7 @@ namespace RealEstateWebApi.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PropertyListingDetails", (string)null);
+                    b.ToTable("PropertyListingDetails");
                 });
 
             modelBuilder.Entity("RealEstateWebApi.Domain.Entities.PropertyStatus", b =>
@@ -1735,7 +1737,7 @@ namespace RealEstateWebApi.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PropertyStatuses", (string)null);
+                    b.ToTable("PropertyStatuses");
 
                     b.HasData(
                         new
@@ -1798,7 +1800,7 @@ namespace RealEstateWebApi.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PropertyTypes", (string)null);
+                    b.ToTable("PropertyTypes");
 
                     b.HasData(
                         new
@@ -1932,7 +1934,7 @@ namespace RealEstateWebApi.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Streets", (string)null);
+                    b.ToTable("Streets");
                 });
 
             modelBuilder.Entity("RealEstateWebApi.Domain.Entities.UsingStatus", b =>
@@ -1961,7 +1963,7 @@ namespace RealEstateWebApi.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("UsingStatuses", (string)null);
+                    b.ToTable("UsingStatuses");
 
                     b.HasData(
                         new

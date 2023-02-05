@@ -1,8 +1,11 @@
 ﻿using Newtonsoft.Json;
+using RealEstateWebApi.WebApp.Models;
+using RealEstateWebApi.WebApp.Models.Common;
 using RealEstateWebApi.WebApp.Services.ApiRequest;
 using RealEstateWebApi.WebApp.Services.Logger;
 using System.Diagnostics;
 using System.Net;
+using System.Security.Claims;
 
 namespace RealEstateWebApi.WebApp.Middlewares
 {
@@ -10,11 +13,13 @@ namespace RealEstateWebApi.WebApp.Middlewares
     {
         private readonly RequestDelegate _next;
         private readonly ILoggerService _loggerService;
+        private readonly ApiRequestService _apiRequestService;
 
-        public CustomExceptionMiddleware(RequestDelegate next, ILoggerService loggerService)
+        public CustomExceptionMiddleware(RequestDelegate next, ILoggerService loggerService, ApiRequestService apiRequestService)
         {
             _next = next;
             _loggerService = loggerService;
+            _apiRequestService = apiRequestService;
         }
 
         public async Task Invoke(HttpContext context)
@@ -23,7 +28,7 @@ namespace RealEstateWebApi.WebApp.Middlewares
             var watch = Stopwatch.StartNew();
             try
             {
-                string message = $"[Request]  HTTP {context.Request.Method} - {context.Request.Path}";
+                string message = $"[Request]  HTTP {context.Request.Method} - {context.Request.Path} - {context.Connection.RemoteIpAddress} : {context.Connection.RemotePort}";
                 _loggerService.Write(message);
 
                 await _next(context);
@@ -40,10 +45,13 @@ namespace RealEstateWebApi.WebApp.Middlewares
 
                 string message = $"[Error]    HTTP {context.Request.Method} - {context.Response.StatusCode} Error Message: {ex.Message} in {watch.Elapsed.TotalMilliseconds} ms";
                 _loggerService.Write(message);
+
+                string userId = context.User.Claims.First(e => e.Type == ClaimTypes.NameIdentifier).Value;
+                string subject = $"{userId} UserId'nin clientta oluşturduğu hata";
+                string body = $"Hata alındı : {message}";
+                await _apiRequestService.Post<Result>("contact/postmail", new { To = "ofarukkutluay@outlook.com", Subject = subject, Body = body });
             }
-
         }
-
         private Task HandleException(HttpContext context, Exception ex, Stopwatch watch)
         {
          

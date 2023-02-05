@@ -5,6 +5,7 @@ using RealEstateWebApi.Application.Abstractions.Scraping;
 using RealEstateWebApi.Application.Abstractions.Storage;
 using RealEstateWebApi.Domain.Entities;
 using System;
+using System.Globalization;
 using System.IO;
 using System.Text;
 using System.Text.Json;
@@ -39,7 +40,7 @@ namespace RealEstateWebApi.Infrastructure.Services.Scraping
 
             HtmlNode infoBox = contentArea.SelectSingleNode("//div[@class='classifiedInfo ']");
 
-            string[] price = infoBox.Element("h3").FirstChild.InnerText.Trim().Replace(".", "").Split(" ");
+            string[] price = HtmlEntity.DeEntitize(infoBox.Element("h3").FirstChild.InnerText).Trim().Replace(".", "").Split(" ");
             listingDetail.Price = double.Parse(price[0]);
             listingDetail.Currency = price[1];
 
@@ -59,7 +60,7 @@ namespace RealEstateWebApi.Infrastructure.Services.Scraping
                 string value = HtmlEntity.DeEntitize(item.Element("span").InnerText).Trim().Replace("&nbsp;", "");
 
                 listingDetail.Id = name == "İlan No" ? uint.Parse(value) : listingDetail.Id;
-                listingDetail.ListingDate = name == "İlan Tarihi" ? DateTime.Parse(value) : listingDetail.ListingDate;
+                listingDetail.ListingDate = name == "İlan Tarihi" ? DateTime.Parse(value, CultureInfo.CreateSpecificCulture("tr-TR")) : listingDetail.ListingDate;
 
                 if (name == "Emlak Tipi")
                 {
@@ -211,11 +212,9 @@ namespace RealEstateWebApi.Infrastructure.Services.Scraping
             listingDetail.DescriptionHtml = HtmlEntity.DeEntitize(descriptionArea.OuterHtml).Trim();
 
             HtmlNode mapArea = htmlDoc.GetElementbyId("gmap");
-            listingDetail.LocationLat = double.Parse(mapArea.Attributes["data-lat"].Value.Replace(".", ","));
-            listingDetail.LocationLon = double.Parse(mapArea.Attributes["data-lon"].Value.Replace(".", ","));
+            listingDetail.LocationLat = HtmlEntity.DeEntitize(mapArea.Attributes["data-lat"].Value);
+            listingDetail.LocationLon = HtmlEntity.DeEntitize(mapArea.Attributes["data-lon"].Value);
 
-            HtmlNode megaPhotoImg = htmlDoc.DocumentNode.SelectSingleNode("//*[@id=\"megaPhotoBox\"]/div[2]/div[1]/div/div/div").Element("img");
-            string megaPhotoImgSrc = megaPhotoImg.Attributes["lazy-src"].Value;
 
             HtmlNodeCollection thmbImgs = htmlDoc.DocumentNode.SelectNodes("//img[@class='thmbImg']");
             if (thmbImgs == null)
@@ -228,81 +227,86 @@ namespace RealEstateWebApi.Infrastructure.Services.Scraping
 
             string datePath = Path.Combine(directoryPath, listingDetail.ListingDate?.ToString("dd-MM-yyyy"), listingDetail.Id.ToString());
 
-            using (var httpClient = new HttpClient())
+            if (thmbImgs != null)
             {
-                string megaPhotoImgLinkTemp = megaPhotoImgSrc.Split("_")[0];
-                int thmbImgCount = thmbImgs.Count;
-                foreach (var item in thmbImgs)
+                HtmlNode megaPhotoImg = htmlDoc.DocumentNode.SelectSingleNode("//*[@id=\"megaPhotoBox\"]/div[2]/div[1]/div/div/div").Element("img");
+                using (var httpClient = new HttpClient())
                 {
-                    string thmbImgIndex;
-                    try
-                    {
-                        thmbImgIndex = item.ParentNode.Attributes["data-megaindex"].Value;
-                    }
-                    catch (Exception)
-                    {
-                        thmbImgCount += 1;
-                        thmbImgIndex = thmbImgCount.ToString();
-                    }
 
-                    string thmbImgSrcExtension = item.Attributes["src"].Value.Split("_")[1];
-                    string megaLink = megaPhotoImgLinkTemp + "_" + thmbImgSrcExtension;
-
-                    int i = 0;
-                    while (i < 3)
+                    string megaPhotoImgSrc = megaPhotoImg.Attributes["lazy-src"].Value;
+                    string megaPhotoImgLinkTemp = megaPhotoImgSrc.Split("_")[0];
+                    int thmbImgCount = thmbImgs.Count;
+                    foreach (var item in thmbImgs)
                     {
-
+                        string thmbImgIndex;
                         try
                         {
-                            Uri uri = new Uri(megaLink);
-                            string fileNameAndExtension = uri.Segments.Last();
+                            thmbImgIndex = item.ParentNode.Attributes["data-megaindex"].Value;
+                        }
+                        catch (Exception)
+                        {
+                            thmbImgCount += 1;
+                            thmbImgIndex = thmbImgCount.ToString();
+                        }
 
-                            if (_storageService.HasFile(Path.Combine(_webHostEnvironment.WebRootPath, datePath), $"{thmbImgIndex}_{fileNameAndExtension}"))
+                        string thmbImgSrcExtension = item.Attributes["src"].Value.Split("_")[1];
+                        string megaLink = megaPhotoImgLinkTemp + "_" + thmbImgSrcExtension;
+
+                        int i = 0;
+                        while (i < 3)
+                        {
+
+                            try
                             {
-                                photoPaths.Add(Path.Combine(datePath, $"{thmbImgIndex}_{fileNameAndExtension}"));
+                                Uri uri = new Uri(megaLink);
+                                string fileNameAndExtension = uri.Segments.Last();
+
+                                if (_storageService.HasFile(Path.Combine(_webHostEnvironment.WebRootPath, datePath), $"{thmbImgIndex}_{fileNameAndExtension}"))
+                                {
+                                    photoPaths.Add(Path.Combine(datePath, $"{thmbImgIndex}_{fileNameAndExtension}"));
+                                    photolinks.Add(megaLink);
+                                    break;
+                                }
+                                var imageBytes = await httpClient.GetByteArrayAsync(uri);
+
+                                using (Stream stream = new MemoryStream(imageBytes))
+                                {
+                                    IFormFile formFile = new FormFile(stream, 0, imageBytes.Length, Path.GetFileNameWithoutExtension(fileNameAndExtension), $"{thmbImgIndex}_{fileNameAndExtension}");
+
+                                    var fileResult = await _storageService.UploadSingleAsync(datePath, formFile);
+                                    listingDetail.PropertyListingPhotos.Add(new PropertyListingPhoto
+                                    {
+                                        FileName = fileResult.FileName,
+                                        Path = fileResult.DirectoryOrContainer,
+                                        Storage = fileResult.Storage,
+                                        SortIndex = int.Parse(thmbImgIndex),
+                                        PropertyListingDetailId = listingDetail.Id
+                                    });
+                                    photoPaths.Add(fileResult.FullPath);
+                                }
                                 photolinks.Add(megaLink);
+
                                 break;
                             }
-                            var imageBytes = await httpClient.GetByteArrayAsync(uri);
-
-                            using (Stream stream = new MemoryStream(imageBytes))
+                            catch (Exception ex)
                             {
-                                IFormFile formFile = new FormFile(stream, 0, imageBytes.Length, Path.GetFileNameWithoutExtension(fileNameAndExtension), $"{thmbImgIndex}_{fileNameAndExtension}");
+                                i++;
+                                Console.WriteLine(megaLink + " - " + ex.Message);
+                                string code = megaLink.Split("_")[0].Split("/").Last();
 
-                                var fileResult = await _storageService.UploadSingleAsync(datePath, formFile);
-                                listingDetail.PropertyListingPhotos.Add(new PropertyListingPhoto
-                                {
-                                    FileName = fileResult.FileName,
-                                    Path = fileResult.DirectoryOrContainer,
-                                    Storage = fileResult.Storage,
-                                    SortIndex = int.Parse(thmbImgIndex),
-                                    PropertyListingDetailId = listingDetail.Id
-                                });
-                                photoPaths.Add(fileResult.FullPath);
+                                if (i == 2)
+                                    megaLink = megaLink.Replace(code, "x5");
+                                else if (code == "big")
+                                    megaLink = megaLink.Replace(code, "x16");
+                                else if (code == "x16")
+                                    megaLink = megaLink.Replace(code, "big");
+
                             }
-                            photolinks.Add(megaLink);
-
-                            break;
                         }
-                        catch (Exception ex)
-                        {
-                            i++;
-                            Console.WriteLine(megaLink + " - " + ex.Message);
-                            string code = megaLink.Split("_")[0].Split("/").Last();
 
-                            if (i == 2)
-                                megaLink = megaLink.Replace(code, "x5");
-                            else if (code == "big")
-                                megaLink = megaLink.Replace(code, "x16");
-                            else if (code == "x16")
-                                megaLink = megaLink.Replace(code, "big");
-
-                        }
                     }
-
                 }
             }
-
             listingDetail.ShPhotoLinks = JsonSerializer.Serialize(photolinks.ToArray());
             listingDetail.PhotoPaths = JsonSerializer.Serialize(photoPaths.ToArray());
             listingDetail.CreatedDate = DateTime.UtcNow;

@@ -12,7 +12,7 @@ namespace RealEstateWebApi.Infrastructure.Operations
     {
         public static string TrMobilePhoneCheckAndReplace(string value)
         {
-
+            value = NameOperation.CharacterRegulatory(value);
             value = value.Trim().Replace(" ", "");
             Regex regexMobilePhone = new Regex(@"^([5]{1})([0-9]{9})$");
             if (!regexMobilePhone.IsMatch(value))

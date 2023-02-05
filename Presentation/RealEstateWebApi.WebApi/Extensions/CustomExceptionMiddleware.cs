@@ -23,7 +23,7 @@ namespace RealEstateWebApi.WebApi.Extensions
             var watch = Stopwatch.StartNew();
             try
             {
-                string message = $"[Request]  HTTP {context.Request.Method} - {context.Request.Path}";
+                string message = $"[Request]  HTTP {context.Request.Method} - {context.Request.Path} - {context.Connection.RemoteIpAddress} : {context.Connection.RemotePort}";
                 Console.WriteLine(message);
 
                 await _next(context);
@@ -40,7 +40,7 @@ namespace RealEstateWebApi.WebApi.Extensions
 
                 string message = $"[Error]    HTTP {context.Request.Method} - {context.Response.StatusCode} Error Message: {ex.Message} in {watch.Elapsed.TotalMilliseconds} ms {DateTime.Now}";
                 Console.WriteLine(message);
-                await _mailService.SendMailAsync("ofarukkutluay@utlook.com", $"Api hata mesajı", message);
+                await _mailService.SendMailAsync("ofarukkutluay@outlook.com", $"Api hata mesajı", message);
 
             }
 

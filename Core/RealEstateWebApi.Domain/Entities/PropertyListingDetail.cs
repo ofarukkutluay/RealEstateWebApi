@@ -22,8 +22,8 @@ namespace RealEstateWebApi.Domain.Entities
         public string? City { get; set; }
         public string? District { get; set; }
         public string? Neighborhood { get; set; }
-        public double? LocationLat { get; set; }
-        public double? LocationLon { get; set; }
+        public string? LocationLat { get; set; }
+        public string? LocationLon { get; set; }
         public double Price { get; set; }
         public string? Currency { get; set; }
         public string? Category { get; set; }
