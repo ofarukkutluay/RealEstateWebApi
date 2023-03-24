@@ -7,6 +7,7 @@ using NpgsqlTypes;
 using RealEstateWebApi.Application;
 using RealEstateWebApi.Application.DTOs.TokenOperation;
 using RealEstateWebApi.Infrastructure;
+using RealEstateWebApi.Infrastructure.Services.Storage.Aws;
 using RealEstateWebApi.Infrastructure.Services.Storage.Local;
 using RealEstateWebApi.Persistence;
 using RealEstateWebApi.WebApi.Configurations.ColumWriters;
@@ -26,7 +27,7 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddPersistenceServices(builder.Configuration);
 builder.Services.AddApplicationServices();
 builder.Services.AddInfrastructureServices();
-builder.Services.AddStorage<LocalStorage>();
+builder.Services.AddStorage<AwsStorage>();
 
 var tokenOptions = builder.Configuration.GetSection("TokenOptions").Get<TokenOptions>();
 

@@ -22,6 +22,7 @@ namespace RealEstateWebApi.Persistence.Repositories
                              CustomerId = cosp.CustomerId,
                              Property = _context.Properties.FirstOrDefault(x=>x.Id == cosp.PropertyId),
                              PropertyListingDetail = _context.PropertyListingDetails.FirstOrDefault(x => x.Id == cosp.PropertyListingDetailId),
+                             PropertyListingPhotos = _context.PropertyListingPhotos.Where(x=>x.PropertyListingDetailId == cosp.PropertyListingDetailId).AsEnumerable(),
                              PropertyType = _context.PropertyTypes.First(x => x.Id == cosp.PropertyTypeId).Title,
                              PropertyStatus = _context.PropertyStatuses.First(x => x.Id == cosp.PropertyStatusId).Title,
                              RoomCount = cosp.RoomCount,

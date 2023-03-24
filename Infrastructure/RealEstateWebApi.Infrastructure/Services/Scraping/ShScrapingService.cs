@@ -15,12 +15,9 @@ namespace RealEstateWebApi.Infrastructure.Services.Scraping
     public class ShScrapingService : IShScrapingService
     {
         private readonly IStorageService _storageService;
-        private readonly IWebHostEnvironment _webHostEnvironment;
-
-        public ShScrapingService(IStorageService storageService, IWebHostEnvironment webHostEnvironment)
+        public ShScrapingService(IStorageService storageService)
         {
             _storageService = storageService;
-            _webHostEnvironment = webHostEnvironment;
         }
 
         public async Task<PropertyListingDetail> GetListingDetail(string url, string document, string directoryPath)
@@ -222,7 +219,7 @@ namespace RealEstateWebApi.Infrastructure.Services.Scraping
                 thmbImgs = htmlDoc.DocumentNode.SelectNodes("//img[@class='stdImg']");
             }
             List<string> photolinks = new List<string>();
-            List<string> photoPaths = new List<string>();
+            List<object> photoPaths = new List<object>();
             listingDetail.PropertyListingPhotos = new List<PropertyListingPhoto>();
 
             string datePath = Path.Combine(directoryPath, listingDetail.ListingDate?.ToString("dd-MM-yyyy"), listingDetail.Id.ToString());
@@ -261,7 +258,7 @@ namespace RealEstateWebApi.Infrastructure.Services.Scraping
                                 Uri uri = new Uri(megaLink);
                                 string fileNameAndExtension = uri.Segments.Last();
 
-                                if (_storageService.HasFile(Path.Combine(_webHostEnvironment.WebRootPath, datePath), $"{thmbImgIndex}_{fileNameAndExtension}"))
+                                if (_storageService.HasFile(Path.Combine(datePath), $"{thmbImgIndex}_{fileNameAndExtension}"))
                                 {
                                     photoPaths.Add(Path.Combine(datePath, $"{thmbImgIndex}_{fileNameAndExtension}"));
                                     photolinks.Add(megaLink);
@@ -282,7 +279,10 @@ namespace RealEstateWebApi.Infrastructure.Services.Scraping
                                         SortIndex = int.Parse(thmbImgIndex),
                                         PropertyListingDetailId = listingDetail.Id
                                     });
-                                    photoPaths.Add(fileResult.FullPath);
+
+                                    photoPaths.Add(new { StorageName = _storageService.StorageName, Path = fileResult.FullPath, SortIndex = int.Parse(thmbImgIndex) });
+
+
                                 }
                                 photolinks.Add(megaLink);
 

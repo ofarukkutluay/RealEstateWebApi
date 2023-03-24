@@ -36,5 +36,7 @@ namespace RealEstateWebApi.Infrastructure.Services.Storage
 
         public async Task<FilePath> UploadSingleAsync(string directory, IFormFile formFile)
             => await _storage.UploadSingleAsync(directory,formFile);
+
+
     }
 }

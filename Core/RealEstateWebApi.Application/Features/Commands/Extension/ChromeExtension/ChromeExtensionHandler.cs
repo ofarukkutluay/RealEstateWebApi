@@ -75,10 +75,10 @@ namespace RealEstateWebApi.Application.Features.Commands.Extension.ChromeExtensi
                 string[] fullname = propertyListingDetail.ListingUserName.Split(" ");
                 var numbers = propertyListingDetail.ListingPhoneNumbers.Split(" ").Where(x => x.StartsWith("05")).ToArray();
 
-                customer = await _customerReadRepository.GetSingleAsync(x => x.MobileNumber == numbers[0] || x.MobileNumber2 == numbers[0]);
+                customer = await _customerReadRepository.GetSingleAsync(x => x.MobileNumber == numbers[0].Remove(0,1) || x.MobileNumber2 == numbers[0].Remove(0, 1));
 
                 if (customer == null && numbers.Length > 1)
-                    customer = await _customerReadRepository.GetSingleAsync(x => x.MobileNumber == numbers[1] || x.MobileNumber2 == numbers[1]);
+                    customer = await _customerReadRepository.GetSingleAsync(x => x.MobileNumber == numbers[1].Remove(0, 1) || x.MobileNumber2 == numbers[1].Remove(0, 1));
 
                 if (customer == null)
                 {

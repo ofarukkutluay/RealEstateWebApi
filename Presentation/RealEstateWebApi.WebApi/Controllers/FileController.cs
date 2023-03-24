@@ -7,7 +7,7 @@ namespace RealEstateWebApi.WebApi.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    [Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "Admin")]
     public class FileController : Controller
     {
         private readonly IWebHostEnvironment _webHostEnvironment;
@@ -21,10 +21,10 @@ namespace RealEstateWebApi.WebApi.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> Upload(IFormFileCollection formFiles)
+        public async Task<IActionResult> Upload(IFormFile formFile)
         {
-            string directory = Path.Combine(Environment.CurrentDirectory,"upload-files");
-            var result = await _storageService.UploadAsync(directory,formFiles);
+            string directory = "example";
+            var result = await _storageService.UploadSingleAsync(directory,formFile);
             return Ok(result);
         
         }
@@ -34,6 +34,14 @@ namespace RealEstateWebApi.WebApi.Controllers
         {
             var result = await _storageService.MoveFileAsync(directory,fileName,Path.Combine(_webHostEnvironment.WebRootPath,"upload-file"));
             return Ok(result);
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> Delete(string directory, string fileName)
+        {
+            var result = await _storageService.DeleteAsync(directory, fileName);
+            return Ok(result);
+
         }
     }
 }

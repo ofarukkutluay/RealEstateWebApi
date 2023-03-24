@@ -227,7 +227,7 @@
 
 
 
-                                        await Html.RenderPartialAsync("~/Views/Customer/Modal/_OwnedPropertyDetailModal.cshtml", item.PropertyListingDetail);
+                                        await Html.RenderPartialAsync("~/Views/Customer/Modal/_OwnedPropertyDetailModal.cshtml", Tuple.Create(item.PropertyListingDetail,item.PropertyListingPhotos));
 
                                     }
                                     else
