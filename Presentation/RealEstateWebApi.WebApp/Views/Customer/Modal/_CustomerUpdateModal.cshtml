@@ -2,6 +2,26 @@
 
 <script type="text/javascript">
     $(function () {
+
+            var dSubItems = "";
+            $.get("@Url.Action("SelectItemDistrict","Customer")", { cityId: @Model.CityId }, function (data, status) {
+                $.each(data, function (index, item) {
+                    dSubItems += "<option value='" + item.value + "'>" + item.text + "</option>"
+                });
+                $("#inputDistrict3").html(dSubItems)
+                $("#inputDistrict3").val(@Model.DistrictId)
+            }).done(function () {
+                var nSubItems = "<option selected>Seçiniz...</option>";
+                $.get("@Url.Action("SelectItemNeighborhood","Customer")", { districtId: @Model.DistrictId }, function (data, status) {
+                    $.each(data, function (index, item) {
+                        nSubItems += "<option value='" + item.value + "'>" + item.text + "</option>"
+                    });
+                    $("#inputNeighborhood3").html(nSubItems)
+                    $("#inputNeighborhood3").val(@Model.NeighborhoodId)
+                });
+            });
+
+
         $("#inputCity3").change(function () {
             var val = $(this).val();
             console.log("City : " + val)
@@ -13,6 +33,7 @@
                 $("#inputDistrict3").html(subItems)
             });
         });
+
         $("#inputDistrict3").change(function () {
             var val = $(this).val();
             console.log("District : " + val)

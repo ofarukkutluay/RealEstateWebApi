@@ -1,8 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Http;
 using RealEstateWebApi.Application.Abstractions.Scraping;
-using RealEstateWebApi.Application.Abstractions.Storage;
-using RealEstateWebApi.Application.Features.Commands.Customer.CreateCustomer;
 using RealEstateWebApi.Application.Repositories;
 using RealEstateWebApi.Domain.Entities;
 using System.Globalization;
@@ -83,8 +81,8 @@ namespace RealEstateWebApi.Application.Features.Commands.Extension.ChromeExtensi
                 if (customer == null)
                 {
                     uint loginUserId = uint.Parse(_httpContextAccessor.HttpContext?.User?.Claims?.FirstOrDefault(e => ClaimTypes.NameIdentifier == e.Type)?.Value ?? "0");
-                    var city = await _cityReadRepository.GetSingleAsync(x => x.Name == propertyListingDetail.City.ToUpper(CultureInfo.CreateSpecificCulture("tr-TR")));
-                    var district = await _districtReadRepository.GetSingleAsync(x => x.Name == propertyListingDetail.District.ToUpper(CultureInfo.CreateSpecificCulture("tr-TR")));
+                    var city = await _cityReadRepository.GetSingleAsync(x => x.Name.Trim() == propertyListingDetail.City.ToUpper(CultureInfo.CreateSpecificCulture("tr-TR")));
+                    var district = await _districtReadRepository.GetSingleAsync(x => x.Name.Trim() == propertyListingDetail.District.ToUpper(CultureInfo.CreateSpecificCulture("tr-TR")));
                     customer = await _customerWriteRepository.AddAndSaveAsync(new Domain.Entities.Customer()
                     {
                         FirstName = fullname[0] + (fullname.Length > 2 ? " "+fullname[1] : ""),

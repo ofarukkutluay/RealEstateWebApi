@@ -46,7 +46,7 @@ namespace RealEstateWebApi.WebApp.Middlewares
                 string message = $"[Error]    HTTP {context.Request.Method} - {context.Response.StatusCode} Error Message: {ex.Message} in {watch.Elapsed.TotalMilliseconds} ms";
                 _loggerService.Write(message);
 
-                string userId = context.User.Claims.First(e => e.Type == ClaimTypes.NameIdentifier).Value;
+                string? userId = context.User.Claims.FirstOrDefault(e => e.Type == ClaimTypes.NameIdentifier).Value ?? null;
                 string subject = $"{userId} UserId'nin clientta oluşturduğu hata";
                 string body = $"Hata alındı : {message}";
                 await _apiRequestService.Post<Result>("contact/postmail", new { To = "ofarukkutluay@outlook.com", Subject = subject, Body = body });

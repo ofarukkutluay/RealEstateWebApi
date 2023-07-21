@@ -88,7 +88,8 @@ namespace RealEstateWebApi.Persistence
             services.AddScoped<IPropertyListingPhotoWriteRepository, PropertyListingPhotoWriteRepository>();
             services.AddScoped<IPropertyListingDetailReadRepository,PropertyListingDetailReadRepository>();
             services.AddScoped<IPropertyListingDetailWriteRepository,PropertyListingDetailWriteRepository>();
-
+            services.AddScoped<IReminderReadRepository, ReminderReadRepository>();
+            services.AddScoped<IReminderWriteRepository, ReminderWriteRepository>();
         }
     }
 }

@@ -11,5 +11,9 @@
         public string? EntrySubTitle { get; set; }
         public uint UserId { get; set; }
         public DateTime? CreatedDate { get; set; }
+
+
+        //Reminder incoming
+        public DateTime? ReminderDate { get; set; }
     }
 }

@@ -878,10 +878,23 @@ h1, h2, h3, h4, h5, h6 {
     margin-top: 15px;
 }
 
-.dashboard .news img {
+/*.dashboard .news img {
     width: 80px;
     float: left;
     border-radius: 5px;
+}*/
+.dashboard .news h6 {
+    width: 100px;
+    float: left;
+    font-weight: bold;
+    color: #012970;
+    transition: 0.3s;
+}
+
+.dashboard .news .reminderBtn {
+    width: 20px;
+    float: right;
+    margin-left : 5px;
 }
 
 .dashboard .news h4 {

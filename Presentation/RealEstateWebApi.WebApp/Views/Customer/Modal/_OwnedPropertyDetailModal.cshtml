@@ -25,23 +25,22 @@
                                 @{
 
 
-                                    string localhost = "https://localhost:7045/";
-                                    string awshost = "https://realestateapibucket.s3.eu-central-1.amazonaws.com/";
+                                    var host = ViewData["host"];
 
                                     if (Model.Item2.Count() == 0)
                                     {
-                                        localhost += "default-img/image-not-found.png";
+                                        host += "default-img/image-not-found.png";
                                         <div class="carousel-item active">
                                             <div class="d-flex justify-content-center align-items-center" style="height: 537px;">
 
-                                                <img src="@localhost" class="d-block w-auto h-100" alt="...">
+                                                <img src="@host" class="d-block w-auto h-100" alt="...">
                                             </div>
                                         </div>
                                     }
                                     else
                                     {
                                         var photo = Model.Item2.OrderBy(x => x.SortIndex).FirstOrDefault();
-                                        string src = photo.Storage.Equals("AWS") ? awshost+photo.FullPath : localhost+photo.FullPath;
+                                        string src = host+photo.FullPath;
 
                                         <div class="carousel-item active">
                                             <div class="d-flex justify-content-center align-items-center" style="height: 537px;">
@@ -52,7 +51,7 @@
 
                                         foreach (var item in Model.Item2.OrderBy(x => x.SortIndex).Skip(1))
                                         {
-                                            src = item.Storage.Equals("AWS") ? awshost + item.FullPath : localhost + item.FullPath;
+                                            src = host + item.FullPath;
 
                                             <div class="carousel-item">
                                                 <div class="d-flex justify-content-center align-items-center " style="height: 537px;">

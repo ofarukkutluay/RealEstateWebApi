@@ -1,12 +1,5 @@
 ﻿using RealEstateWebApi.Domain.Entities.Common;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Runtime.ConstrainedExecution;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RealEstateWebApi.Domain.Entities
 {
@@ -64,9 +57,9 @@ namespace RealEstateWebApi.Domain.Entities
         public bool AlcoholLicense { get; set; }
         public bool SoilSurvey { get; set; }
 
-        public string? Shlink { get; set; }
+        public string? ListingLink { get; set; }
 
-        public string ShPhotoLinks { get; set; } = String.Empty;
+        public string PhotoLinks { get; set; } = String.Empty;
         public string PhotoPaths { get; set; } = String.Empty;
 
         [NotMapped]

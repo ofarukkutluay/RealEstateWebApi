@@ -226,6 +226,19 @@ namespace RealEstateWebApi.WebApp.Controllers
             return Redirect(Request.Headers["Referer"].ToString());
         }
 
+        public async Task<IActionResult> ReminderCheck(uint reminderId)
+        {
+            var rtnObj = await _apiRequestService.Delete<Result>("Reminder", new { Id = reminderId });
+            if (rtnObj.Success == true)
+            {
+                SuccessAlert("Hatırlatma silindi");
+                return Redirect(Request.Headers["Referer"].ToString());
+            }
+
+            DangerAlert(rtnObj.Message);
+            return Redirect(Request.Headers["Referer"].ToString());
+        }
+
         async Task SelectItemInitilazeRolesModalPage()
         {
 

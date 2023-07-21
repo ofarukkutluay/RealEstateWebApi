@@ -25,10 +25,14 @@ namespace RealEstateWebApi.WebApp.Controllers
         [Authorize]
         public async Task<IActionResult> Index()
         {
-            
+            uint userId = uint.Parse(HttpContext.User.Claims.First(e => e.Type == ClaimTypes.NameIdentifier).Value);
+
             DataResult<IEnumerable<CustomerDto>> recentCustomers = await _requestService.Get<DataResult<IEnumerable<CustomerDto>>>("customer", "/recent", "?take=5");
             DataResult<int> countCustomer = await _requestService.Get<DataResult<int>>("customer","/count");
+            DataResult<IEnumerable<Reminder>> remiders = await _requestService.Get<DataResult<IEnumerable<Reminder>>>("reminder", "?userId="+userId);
             ViewData.Add("CustomerCount",countCustomer.Data);
+            ViewBag.reminders = remiders.Data;
+
             _logger.LogInformation("Ana sayfaya girildi");
             _logger.LogCritical("Kritik ana sayfa aksiyonu");
             return View(recentCustomers.Data);

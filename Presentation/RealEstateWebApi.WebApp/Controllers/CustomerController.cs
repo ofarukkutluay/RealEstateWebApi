@@ -15,10 +15,12 @@ public class CustomerController : BaseController
 
     private readonly ApiRequestService _requestService;
     private readonly WebAppLocalDbContext _dbContext;
-    public CustomerController(ApiRequestService requestService, WebAppLocalDbContext dbContext)
+    private readonly IConfiguration _configuration;
+    public CustomerController(ApiRequestService requestService, WebAppLocalDbContext dbContext, IConfiguration configuration)
     {
         _requestService = requestService;
         _dbContext = dbContext;
+        _configuration = configuration;
     }
 
     public async Task<IActionResult> Index()
@@ -59,27 +61,29 @@ public class CustomerController : BaseController
         return RedirectToAction("Add");
     }
 
-    
+
     [HttpGet("/customer/{customerId}")]
     public async Task<IActionResult> Detail([FromRoute] uint customerId)
     {
         DataResult<CustomerDto> customerDto = await _requestService.Get<DataResult<CustomerDto>>("customer", "/dto/" + customerId);
-        
-        if (customerDto.Data.IsActive == false && HttpContext.User.Claims.First(e => e.Type == ClaimTypes.Role).Value != "Admin") {
+
+        if (customerDto.Data.IsActive == false && HttpContext.User.Claims.First(e => e.Type == ClaimTypes.Role).Value != "Admin")
+        {
             InfoAlert("Müşteri aktif olmadığı için görüntülenemez.");
             return RedirectToAction("Index");
         }
 
         DataResult<IEnumerable<EntryDto>> entries = await _requestService.Get<DataResult<IEnumerable<EntryDto>>>("entry", "?CustomerId=" + customerId);
-        
+
         DataResult<Customer> customer = await _requestService.Get<DataResult<Customer>>("customer", "/" + customerId);
         DataResult<IEnumerable<CustomerOwnedPropertyDto>> ownedProperties = await _requestService.Get<DataResult<IEnumerable<CustomerOwnedPropertyDto>>>("CustomerOwnedProperty", "/" + customerId);
         DataResult<IEnumerable<CustomerSearchPropertyDto>> searchProperties = await _requestService.Get<DataResult<IEnumerable<CustomerSearchPropertyDto>>>("CustomerSearchProperty", "/" + customerId);
 
+        ViewData.Add("host", _configuration.GetSection("PhotoHost").Value);
 
         await SelectItemInitilazeDetailPage();
 
-        return View(Tuple.Create(customerDto.Data, entries.Data,searchProperties.Data,ownedProperties.Data, customer.Data));
+        return View(Tuple.Create(customerDto.Data, entries.Data, searchProperties.Data, ownedProperties.Data, customer.Data));
 
 
     }
@@ -90,6 +94,25 @@ public class CustomerController : BaseController
         entry.UserId = uint.Parse(HttpContext.User.Claims.First(e => e.Type == ClaimTypes.NameIdentifier).Value);
 
         var rtnObj = await _requestService.Post<Result>("entry", entry);
+
+        if (entry.ReminderDate != null)
+        {
+            Reminder reminder = new Reminder()
+            {
+                UserId = entry.UserId,
+                EntryId = uint.Parse(rtnObj.Message.Split(" ")[0]),
+                CustomerId = entry.CustomerId,
+                ReminderDate = (DateTime)entry.ReminderDate,
+                Description = entry.Content,
+            };
+
+            var rmdrOj = await _requestService.Post<Result>("reminder", reminder);
+            InfoAlert(rmdrOj.Message);
+
+        }
+
+
+
         if (rtnObj.Success)
         {
             SuccessAlert("Kayıt eklendi");

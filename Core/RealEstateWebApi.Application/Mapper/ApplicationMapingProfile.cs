@@ -18,6 +18,7 @@ using RealEstateWebApi.Application.Features.Commands.InternetType.CreateInternet
 using RealEstateWebApi.Application.Features.Commands.JobTitle.CreateJobTitle;
 using RealEstateWebApi.Application.Features.Commands.PropertyStatus.CreatePropertyStatus;
 using RealEstateWebApi.Application.Features.Commands.PropertyType.CreatePropertyType;
+using RealEstateWebApi.Application.Features.Commands.Reminder.CreateReminder;
 using RealEstateWebApi.Application.Features.Commands.UserOperationClaim.CreateUserOperationClaim;
 using RealEstateWebApi.Application.Features.Commands.UsingStatus.CreateUsingStatus;
 using RealEstateWebApi.Domain.Entities;
@@ -51,6 +52,7 @@ namespace RealEstateWebApi.Application.Utilities.Mapper
             CreateMap<CreateEntryRequest,Entry>();
             CreateMap<CreateEntryTypeRequest, EntryType>();
             CreateMap<CreateEntrySubTypeRequest, EntrySubType>();
+            CreateMap<CreateReminderRequest, Reminder>();
 
             CreateMap<User, UserDto>();
 

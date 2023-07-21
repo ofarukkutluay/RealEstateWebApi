@@ -17,7 +17,7 @@ namespace RealEstateWebApi.Persistence.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.6")
+                .HasAnnotation("ProductVersion", "7.0.9")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -77,7 +77,7 @@ namespace RealEstateWebApi.Persistence.Migrations
 
                     b.HasIndex("JobTitleId");
 
-                    b.ToTable("Agents", (string)null);
+                    b.ToTable("Agents");
                 });
 
             modelBuilder.Entity("RealEstateWebApi.Domain.Entities.Blog", b =>
@@ -139,7 +139,7 @@ namespace RealEstateWebApi.Persistence.Migrations
 
                     b.HasIndex("CompanyId");
 
-                    b.ToTable("Blogs", (string)null);
+                    b.ToTable("Blogs");
                 });
 
             modelBuilder.Entity("RealEstateWebApi.Domain.Entities.BlogType", b =>
@@ -173,7 +173,7 @@ namespace RealEstateWebApi.Persistence.Migrations
 
                     b.HasIndex("ClientId");
 
-                    b.ToTable("BlogTypes", (string)null);
+                    b.ToTable("BlogTypes");
                 });
 
             modelBuilder.Entity("RealEstateWebApi.Domain.Entities.City", b =>
@@ -193,7 +193,7 @@ namespace RealEstateWebApi.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Cities", (string)null);
+                    b.ToTable("Cities");
                 });
 
             modelBuilder.Entity("RealEstateWebApi.Domain.Entities.Client", b =>
@@ -266,7 +266,7 @@ namespace RealEstateWebApi.Persistence.Migrations
 
                     b.HasIndex("LogoImgFileId");
 
-                    b.ToTable("Clients", (string)null);
+                    b.ToTable("Clients");
                 });
 
             modelBuilder.Entity("RealEstateWebApi.Domain.Entities.Company", b =>
@@ -309,7 +309,7 @@ namespace RealEstateWebApi.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Companies", (string)null);
+                    b.ToTable("Companies");
                 });
 
             modelBuilder.Entity("RealEstateWebApi.Domain.Entities.Customer", b =>
@@ -389,7 +389,7 @@ namespace RealEstateWebApi.Persistence.Migrations
 
                     b.HasIndex("NeighborhoodId");
 
-                    b.ToTable("Customers", (string)null);
+                    b.ToTable("Customers");
                 });
 
             modelBuilder.Entity("RealEstateWebApi.Domain.Entities.CustomerOwnedProperty", b =>
@@ -471,7 +471,7 @@ namespace RealEstateWebApi.Persistence.Migrations
 
                     b.HasIndex("PropertyListingDetailId");
 
-                    b.ToTable("CustomerOwnedProperties", (string)null);
+                    b.ToTable("CustomerOwnedProperties");
                 });
 
             modelBuilder.Entity("RealEstateWebApi.Domain.Entities.CustomerSearchProperty", b =>
@@ -532,7 +532,7 @@ namespace RealEstateWebApi.Persistence.Migrations
 
                     b.HasIndex("CustomerId");
 
-                    b.ToTable("CustomerSearchProperties", (string)null);
+                    b.ToTable("CustomerSearchProperties");
                 });
 
             modelBuilder.Entity("RealEstateWebApi.Domain.Entities.DeedStatus", b =>
@@ -561,13 +561,13 @@ namespace RealEstateWebApi.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("DeedStatuses", (string)null);
+                    b.ToTable("DeedStatuses");
 
                     b.HasData(
                         new
                         {
                             Id = 1L,
-                            CreatedDate = new DateTime(2023, 1, 20, 15, 23, 12, 861, DateTimeKind.Utc).AddTicks(6914),
+                            CreatedDate = new DateTime(2023, 7, 18, 22, 42, 24, 386, DateTimeKind.Utc).AddTicks(8360),
                             IsActive = true,
                             IsDeleted = false,
                             Title = "Kat Mülkiyetli"
@@ -575,7 +575,7 @@ namespace RealEstateWebApi.Persistence.Migrations
                         new
                         {
                             Id = 2L,
-                            CreatedDate = new DateTime(2023, 1, 20, 15, 23, 12, 861, DateTimeKind.Utc).AddTicks(6916),
+                            CreatedDate = new DateTime(2023, 7, 18, 22, 42, 24, 386, DateTimeKind.Utc).AddTicks(8360),
                             IsActive = true,
                             IsDeleted = false,
                             Title = "Kat İrtifaklı"
@@ -583,7 +583,7 @@ namespace RealEstateWebApi.Persistence.Migrations
                         new
                         {
                             Id = 3L,
-                            CreatedDate = new DateTime(2023, 1, 20, 15, 23, 12, 861, DateTimeKind.Utc).AddTicks(6917),
+                            CreatedDate = new DateTime(2023, 7, 18, 22, 42, 24, 386, DateTimeKind.Utc).AddTicks(8360),
                             IsActive = true,
                             IsDeleted = false,
                             Title = "Arsa"
@@ -591,7 +591,7 @@ namespace RealEstateWebApi.Persistence.Migrations
                         new
                         {
                             Id = 4L,
-                            CreatedDate = new DateTime(2023, 1, 20, 15, 23, 12, 861, DateTimeKind.Utc).AddTicks(6918),
+                            CreatedDate = new DateTime(2023, 7, 18, 22, 42, 24, 386, DateTimeKind.Utc).AddTicks(8360),
                             IsActive = true,
                             IsDeleted = false,
                             Title = "Tarla"
@@ -618,7 +618,7 @@ namespace RealEstateWebApi.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Districts", (string)null);
+                    b.ToTable("Districts");
                 });
 
             modelBuilder.Entity("RealEstateWebApi.Domain.Entities.Entry", b =>
@@ -670,7 +670,7 @@ namespace RealEstateWebApi.Persistence.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Entries", (string)null);
+                    b.ToTable("Entries");
                 });
 
             modelBuilder.Entity("RealEstateWebApi.Domain.Entities.EntrySubType", b =>
@@ -704,13 +704,13 @@ namespace RealEstateWebApi.Persistence.Migrations
 
                     b.HasIndex("EntryTypeId");
 
-                    b.ToTable("EntrySubTypes", (string)null);
+                    b.ToTable("EntrySubTypes");
 
                     b.HasData(
                         new
                         {
                             Id = 1L,
-                            CreatedDate = new DateTime(2023, 1, 20, 15, 23, 12, 863, DateTimeKind.Utc).AddTicks(8490),
+                            CreatedDate = new DateTime(2023, 7, 18, 22, 42, 24, 387, DateTimeKind.Utc).AddTicks(6280),
                             EntryTypeId = 1L,
                             IsActive = true,
                             IsDeleted = false,
@@ -719,7 +719,7 @@ namespace RealEstateWebApi.Persistence.Migrations
                         new
                         {
                             Id = 2L,
-                            CreatedDate = new DateTime(2023, 1, 20, 15, 23, 12, 863, DateTimeKind.Utc).AddTicks(8492),
+                            CreatedDate = new DateTime(2023, 7, 18, 22, 42, 24, 387, DateTimeKind.Utc).AddTicks(6280),
                             EntryTypeId = 1L,
                             IsActive = true,
                             IsDeleted = false,
@@ -753,13 +753,13 @@ namespace RealEstateWebApi.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("EntryTypes", (string)null);
+                    b.ToTable("EntryTypes");
 
                     b.HasData(
                         new
                         {
                             Id = 1L,
-                            CreatedDate = new DateTime(2023, 1, 20, 15, 23, 12, 863, DateTimeKind.Utc).AddTicks(8868),
+                            CreatedDate = new DateTime(2023, 7, 18, 22, 42, 24, 387, DateTimeKind.Utc).AddTicks(6690),
                             IsActive = true,
                             IsDeleted = false,
                             Title = "Görüşme"
@@ -801,9 +801,11 @@ namespace RealEstateWebApi.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Files", (string)null);
+                    b.ToTable("Files");
 
                     b.HasDiscriminator<string>("Discriminator").HasValue("File");
+
+                    b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("RealEstateWebApi.Domain.Entities.Front", b =>
@@ -832,13 +834,13 @@ namespace RealEstateWebApi.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Fronts", (string)null);
+                    b.ToTable("Fronts");
 
                     b.HasData(
                         new
                         {
                             Id = 1L,
-                            CreatedDate = new DateTime(2023, 1, 20, 15, 23, 12, 863, DateTimeKind.Utc).AddTicks(9226),
+                            CreatedDate = new DateTime(2023, 7, 18, 22, 42, 24, 387, DateTimeKind.Utc).AddTicks(7070),
                             IsActive = true,
                             IsDeleted = false,
                             Title = "Kuzey"
@@ -846,7 +848,7 @@ namespace RealEstateWebApi.Persistence.Migrations
                         new
                         {
                             Id = 2L,
-                            CreatedDate = new DateTime(2023, 1, 20, 15, 23, 12, 863, DateTimeKind.Utc).AddTicks(9227),
+                            CreatedDate = new DateTime(2023, 7, 18, 22, 42, 24, 387, DateTimeKind.Utc).AddTicks(7070),
                             IsActive = true,
                             IsDeleted = false,
                             Title = "Kuzey Doğu"
@@ -854,7 +856,7 @@ namespace RealEstateWebApi.Persistence.Migrations
                         new
                         {
                             Id = 3L,
-                            CreatedDate = new DateTime(2023, 1, 20, 15, 23, 12, 863, DateTimeKind.Utc).AddTicks(9228),
+                            CreatedDate = new DateTime(2023, 7, 18, 22, 42, 24, 387, DateTimeKind.Utc).AddTicks(7080),
                             IsActive = true,
                             IsDeleted = false,
                             Title = "Doğu"
@@ -862,7 +864,7 @@ namespace RealEstateWebApi.Persistence.Migrations
                         new
                         {
                             Id = 4L,
-                            CreatedDate = new DateTime(2023, 1, 20, 15, 23, 12, 863, DateTimeKind.Utc).AddTicks(9229),
+                            CreatedDate = new DateTime(2023, 7, 18, 22, 42, 24, 387, DateTimeKind.Utc).AddTicks(7080),
                             IsActive = true,
                             IsDeleted = false,
                             Title = "Güney Doğu"
@@ -870,7 +872,7 @@ namespace RealEstateWebApi.Persistence.Migrations
                         new
                         {
                             Id = 5L,
-                            CreatedDate = new DateTime(2023, 1, 20, 15, 23, 12, 863, DateTimeKind.Utc).AddTicks(9229),
+                            CreatedDate = new DateTime(2023, 7, 18, 22, 42, 24, 387, DateTimeKind.Utc).AddTicks(7080),
                             IsActive = true,
                             IsDeleted = false,
                             Title = "Güney"
@@ -878,7 +880,7 @@ namespace RealEstateWebApi.Persistence.Migrations
                         new
                         {
                             Id = 6L,
-                            CreatedDate = new DateTime(2023, 1, 20, 15, 23, 12, 863, DateTimeKind.Utc).AddTicks(9230),
+                            CreatedDate = new DateTime(2023, 7, 18, 22, 42, 24, 387, DateTimeKind.Utc).AddTicks(7080),
                             IsActive = true,
                             IsDeleted = false,
                             Title = "Güney Batı"
@@ -886,7 +888,7 @@ namespace RealEstateWebApi.Persistence.Migrations
                         new
                         {
                             Id = 7L,
-                            CreatedDate = new DateTime(2023, 1, 20, 15, 23, 12, 863, DateTimeKind.Utc).AddTicks(9230),
+                            CreatedDate = new DateTime(2023, 7, 18, 22, 42, 24, 387, DateTimeKind.Utc).AddTicks(7080),
                             IsActive = true,
                             IsDeleted = false,
                             Title = "Batı"
@@ -894,7 +896,7 @@ namespace RealEstateWebApi.Persistence.Migrations
                         new
                         {
                             Id = 8L,
-                            CreatedDate = new DateTime(2023, 1, 20, 15, 23, 12, 863, DateTimeKind.Utc).AddTicks(9231),
+                            CreatedDate = new DateTime(2023, 7, 18, 22, 42, 24, 387, DateTimeKind.Utc).AddTicks(7080),
                             IsActive = true,
                             IsDeleted = false,
                             Title = "Kuzey Batı"
@@ -927,13 +929,13 @@ namespace RealEstateWebApi.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("HeatingTypes", (string)null);
+                    b.ToTable("HeatingTypes");
 
                     b.HasData(
                         new
                         {
                             Id = 1L,
-                            CreatedDate = new DateTime(2023, 1, 20, 15, 23, 12, 863, DateTimeKind.Utc).AddTicks(9644),
+                            CreatedDate = new DateTime(2023, 7, 18, 22, 42, 24, 387, DateTimeKind.Utc).AddTicks(7430),
                             IsActive = true,
                             IsDeleted = false,
                             Title = "Doğalgaz Sobalı"
@@ -941,7 +943,7 @@ namespace RealEstateWebApi.Persistence.Migrations
                         new
                         {
                             Id = 2L,
-                            CreatedDate = new DateTime(2023, 1, 20, 15, 23, 12, 863, DateTimeKind.Utc).AddTicks(9645),
+                            CreatedDate = new DateTime(2023, 7, 18, 22, 42, 24, 387, DateTimeKind.Utc).AddTicks(7440),
                             IsActive = true,
                             IsDeleted = false,
                             Title = "Sobalı"
@@ -949,7 +951,7 @@ namespace RealEstateWebApi.Persistence.Migrations
                         new
                         {
                             Id = 3L,
-                            CreatedDate = new DateTime(2023, 1, 20, 15, 23, 12, 863, DateTimeKind.Utc).AddTicks(9646),
+                            CreatedDate = new DateTime(2023, 7, 18, 22, 42, 24, 387, DateTimeKind.Utc).AddTicks(7440),
                             IsActive = true,
                             IsDeleted = false,
                             Title = "Yerden Isıtma"
@@ -957,7 +959,7 @@ namespace RealEstateWebApi.Persistence.Migrations
                         new
                         {
                             Id = 4L,
-                            CreatedDate = new DateTime(2023, 1, 20, 15, 23, 12, 863, DateTimeKind.Utc).AddTicks(9646),
+                            CreatedDate = new DateTime(2023, 7, 18, 22, 42, 24, 387, DateTimeKind.Utc).AddTicks(7440),
                             IsActive = true,
                             IsDeleted = false,
                             Title = "Kombili"
@@ -965,7 +967,7 @@ namespace RealEstateWebApi.Persistence.Migrations
                         new
                         {
                             Id = 5L,
-                            CreatedDate = new DateTime(2023, 1, 20, 15, 23, 12, 863, DateTimeKind.Utc).AddTicks(9647),
+                            CreatedDate = new DateTime(2023, 7, 18, 22, 42, 24, 387, DateTimeKind.Utc).AddTicks(7440),
                             IsActive = true,
                             IsDeleted = false,
                             Title = "Merkezi Sistem"
@@ -973,7 +975,7 @@ namespace RealEstateWebApi.Persistence.Migrations
                         new
                         {
                             Id = 6L,
-                            CreatedDate = new DateTime(2023, 1, 20, 15, 23, 12, 863, DateTimeKind.Utc).AddTicks(9648),
+                            CreatedDate = new DateTime(2023, 7, 18, 22, 42, 24, 387, DateTimeKind.Utc).AddTicks(7440),
                             IsActive = true,
                             IsDeleted = false,
                             Title = "FuelOil"
@@ -1012,14 +1014,14 @@ namespace RealEstateWebApi.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("OperationClaims", (string)null);
+                    b.ToTable("OperationClaims");
 
                     b.HasData(
                         new
                         {
                             Id = 1L,
                             Alias = "ADMIN",
-                            CreatedDate = new DateTime(2023, 1, 20, 15, 23, 12, 864, DateTimeKind.Utc).AddTicks(9086),
+                            CreatedDate = new DateTime(2023, 7, 18, 22, 42, 24, 388, DateTimeKind.Utc).AddTicks(2900),
                             Description = "Admin account",
                             IsActive = true,
                             IsDeleted = false,
@@ -1029,7 +1031,7 @@ namespace RealEstateWebApi.Persistence.Migrations
                         {
                             Id = 2L,
                             Alias = "USER",
-                            CreatedDate = new DateTime(2023, 1, 20, 15, 23, 12, 864, DateTimeKind.Utc).AddTicks(9089),
+                            CreatedDate = new DateTime(2023, 7, 18, 22, 42, 24, 388, DateTimeKind.Utc).AddTicks(2900),
                             Description = "User account",
                             IsActive = true,
                             IsDeleted = false,
@@ -1039,7 +1041,7 @@ namespace RealEstateWebApi.Persistence.Migrations
                         {
                             Id = 3L,
                             Alias = "AGENT",
-                            CreatedDate = new DateTime(2023, 1, 20, 15, 23, 12, 864, DateTimeKind.Utc).AddTicks(9089),
+                            CreatedDate = new DateTime(2023, 7, 18, 22, 42, 24, 388, DateTimeKind.Utc).AddTicks(2910),
                             Description = "Agent account",
                             IsActive = true,
                             IsDeleted = false,
@@ -1107,7 +1109,7 @@ namespace RealEstateWebApi.Persistence.Migrations
 
                     b.HasIndex("ProfileImgFileId");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("RealEstateWebApi.Domain.Entities.Identity.UserLogin", b =>
@@ -1142,7 +1144,7 @@ namespace RealEstateWebApi.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("UserLogins", (string)null);
+                    b.ToTable("UserLogins");
                 });
 
             modelBuilder.Entity("RealEstateWebApi.Domain.Entities.Identity.UserOperationClaim", b =>
@@ -1177,7 +1179,7 @@ namespace RealEstateWebApi.Persistence.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserOperationClaims", (string)null);
+                    b.ToTable("UserOperationClaims");
                 });
 
             modelBuilder.Entity("RealEstateWebApi.Domain.Entities.InternetType", b =>
@@ -1206,13 +1208,13 @@ namespace RealEstateWebApi.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("InternetTypes", (string)null);
+                    b.ToTable("InternetTypes");
 
                     b.HasData(
                         new
                         {
                             Id = 1L,
-                            CreatedDate = new DateTime(2023, 1, 20, 15, 23, 12, 863, DateTimeKind.Utc).AddTicks(9959),
+                            CreatedDate = new DateTime(2023, 7, 18, 22, 42, 24, 387, DateTimeKind.Utc).AddTicks(7770),
                             IsActive = true,
                             IsDeleted = false,
                             Title = "Adsl/Vdsl"
@@ -1220,7 +1222,7 @@ namespace RealEstateWebApi.Persistence.Migrations
                         new
                         {
                             Id = 2L,
-                            CreatedDate = new DateTime(2023, 1, 20, 15, 23, 12, 863, DateTimeKind.Utc).AddTicks(9960),
+                            CreatedDate = new DateTime(2023, 7, 18, 22, 42, 24, 387, DateTimeKind.Utc).AddTicks(7770),
                             IsActive = true,
                             IsDeleted = false,
                             Title = "Fiber"
@@ -1228,7 +1230,7 @@ namespace RealEstateWebApi.Persistence.Migrations
                         new
                         {
                             Id = 3L,
-                            CreatedDate = new DateTime(2023, 1, 20, 15, 23, 12, 864, DateTimeKind.Utc).AddTicks(31),
+                            CreatedDate = new DateTime(2023, 7, 18, 22, 42, 24, 387, DateTimeKind.Utc).AddTicks(7770),
                             IsActive = true,
                             IsDeleted = false,
                             Title = "Uydu"
@@ -1236,7 +1238,7 @@ namespace RealEstateWebApi.Persistence.Migrations
                         new
                         {
                             Id = 4L,
-                            CreatedDate = new DateTime(2023, 1, 20, 15, 23, 12, 864, DateTimeKind.Utc).AddTicks(32),
+                            CreatedDate = new DateTime(2023, 7, 18, 22, 42, 24, 387, DateTimeKind.Utc).AddTicks(7770),
                             IsActive = true,
                             IsDeleted = false,
                             Title = "Altyapı Yok"
@@ -1278,7 +1280,7 @@ namespace RealEstateWebApi.Persistence.Migrations
 
                     b.HasIndex("CompanyId");
 
-                    b.ToTable("JobTitles", (string)null);
+                    b.ToTable("JobTitles");
                 });
 
             modelBuilder.Entity("RealEstateWebApi.Domain.Entities.Message", b =>
@@ -1328,7 +1330,7 @@ namespace RealEstateWebApi.Persistence.Migrations
 
                     b.HasIndex("CompanyId");
 
-                    b.ToTable("Messages", (string)null);
+                    b.ToTable("Messages");
                 });
 
             modelBuilder.Entity("RealEstateWebApi.Domain.Entities.Neighborhood", b =>
@@ -1351,7 +1353,7 @@ namespace RealEstateWebApi.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Neighborhoods", (string)null);
+                    b.ToTable("Neighborhoods");
                 });
 
             modelBuilder.Entity("RealEstateWebApi.Domain.Entities.Property", b =>
@@ -1520,7 +1522,7 @@ namespace RealEstateWebApi.Persistence.Migrations
 
                     b.HasIndex("UsingStatusId");
 
-                    b.ToTable("Properties", (string)null);
+                    b.ToTable("Properties");
                 });
 
             modelBuilder.Entity("RealEstateWebApi.Domain.Entities.PropertyListingDetail", b =>
@@ -1627,6 +1629,9 @@ namespace RealEstateWebApi.Persistence.Migrations
                     b.Property<DateTime?>("ListingDate")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<string>("ListingLink")
+                        .HasColumnType("text");
+
                     b.Property<string>("ListingPhoneNumbers")
                         .HasColumnType("text");
 
@@ -1651,6 +1656,10 @@ namespace RealEstateWebApi.Persistence.Migrations
                     b.Property<int>("OutdoorAreaSquareMeter")
                         .HasColumnType("integer");
 
+                    b.Property<string>("PhotoLinks")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("PhotoPaths")
                         .IsRequired()
                         .HasColumnType("text");
@@ -1669,13 +1678,6 @@ namespace RealEstateWebApi.Persistence.Migrations
 
                     b.Property<double>("RoomCount")
                         .HasColumnType("double precision");
-
-                    b.Property<string>("ShPhotoLinks")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Shlink")
-                        .HasColumnType("text");
 
                     b.Property<string>("SiteName")
                         .HasColumnType("text");
@@ -1706,7 +1708,7 @@ namespace RealEstateWebApi.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PropertyListingDetails", (string)null);
+                    b.ToTable("PropertyListingDetails");
                 });
 
             modelBuilder.Entity("RealEstateWebApi.Domain.Entities.PropertyStatus", b =>
@@ -1735,13 +1737,13 @@ namespace RealEstateWebApi.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PropertyStatuses", (string)null);
+                    b.ToTable("PropertyStatuses");
 
                     b.HasData(
                         new
                         {
                             Id = 1L,
-                            CreatedDate = new DateTime(2023, 1, 20, 15, 23, 12, 871, DateTimeKind.Utc).AddTicks(8140),
+                            CreatedDate = new DateTime(2023, 7, 18, 22, 42, 24, 392, DateTimeKind.Utc).AddTicks(680),
                             IsActive = true,
                             IsDeleted = false,
                             Title = "Satılık"
@@ -1749,7 +1751,7 @@ namespace RealEstateWebApi.Persistence.Migrations
                         new
                         {
                             Id = 2L,
-                            CreatedDate = new DateTime(2023, 1, 20, 15, 23, 12, 871, DateTimeKind.Utc).AddTicks(8143),
+                            CreatedDate = new DateTime(2023, 7, 18, 22, 42, 24, 392, DateTimeKind.Utc).AddTicks(680),
                             IsActive = true,
                             IsDeleted = false,
                             Title = "Kiralık"
@@ -1757,7 +1759,7 @@ namespace RealEstateWebApi.Persistence.Migrations
                         new
                         {
                             Id = 3L,
-                            CreatedDate = new DateTime(2023, 1, 20, 15, 23, 12, 871, DateTimeKind.Utc).AddTicks(8144),
+                            CreatedDate = new DateTime(2023, 7, 18, 22, 42, 24, 392, DateTimeKind.Utc).AddTicks(680),
                             IsActive = true,
                             IsDeleted = false,
                             Title = "Devren Satılık"
@@ -1765,7 +1767,7 @@ namespace RealEstateWebApi.Persistence.Migrations
                         new
                         {
                             Id = 4L,
-                            CreatedDate = new DateTime(2023, 1, 20, 15, 23, 12, 871, DateTimeKind.Utc).AddTicks(8148),
+                            CreatedDate = new DateTime(2023, 7, 18, 22, 42, 24, 392, DateTimeKind.Utc).AddTicks(680),
                             IsActive = true,
                             IsDeleted = false,
                             Title = "Devren Kiralık"
@@ -1798,13 +1800,13 @@ namespace RealEstateWebApi.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PropertyTypes", (string)null);
+                    b.ToTable("PropertyTypes");
 
                     b.HasData(
                         new
                         {
                             Id = 1L,
-                            CreatedDate = new DateTime(2023, 1, 20, 15, 23, 12, 873, DateTimeKind.Utc).AddTicks(3726),
+                            CreatedDate = new DateTime(2023, 7, 18, 22, 42, 24, 392, DateTimeKind.Utc).AddTicks(1100),
                             IsActive = true,
                             IsDeleted = false,
                             Title = "Daire"
@@ -1812,7 +1814,7 @@ namespace RealEstateWebApi.Persistence.Migrations
                         new
                         {
                             Id = 2L,
-                            CreatedDate = new DateTime(2023, 1, 20, 15, 23, 12, 873, DateTimeKind.Utc).AddTicks(3730),
+                            CreatedDate = new DateTime(2023, 7, 18, 22, 42, 24, 392, DateTimeKind.Utc).AddTicks(1100),
                             IsActive = true,
                             IsDeleted = false,
                             Title = "Residans"
@@ -1820,7 +1822,7 @@ namespace RealEstateWebApi.Persistence.Migrations
                         new
                         {
                             Id = 3L,
-                            CreatedDate = new DateTime(2023, 1, 20, 15, 23, 12, 873, DateTimeKind.Utc).AddTicks(3731),
+                            CreatedDate = new DateTime(2023, 7, 18, 22, 42, 24, 392, DateTimeKind.Utc).AddTicks(1100),
                             IsActive = true,
                             IsDeleted = false,
                             Title = "Müstakil Ev"
@@ -1828,7 +1830,7 @@ namespace RealEstateWebApi.Persistence.Migrations
                         new
                         {
                             Id = 4L,
-                            CreatedDate = new DateTime(2023, 1, 20, 15, 23, 12, 873, DateTimeKind.Utc).AddTicks(3732),
+                            CreatedDate = new DateTime(2023, 7, 18, 22, 42, 24, 392, DateTimeKind.Utc).AddTicks(1110),
                             IsActive = true,
                             IsDeleted = false,
                             Title = "Müstakil Bina"
@@ -1836,7 +1838,7 @@ namespace RealEstateWebApi.Persistence.Migrations
                         new
                         {
                             Id = 5L,
-                            CreatedDate = new DateTime(2023, 1, 20, 15, 23, 12, 873, DateTimeKind.Utc).AddTicks(3733),
+                            CreatedDate = new DateTime(2023, 7, 18, 22, 42, 24, 392, DateTimeKind.Utc).AddTicks(1110),
                             IsActive = true,
                             IsDeleted = false,
                             Title = "Villa"
@@ -1844,7 +1846,7 @@ namespace RealEstateWebApi.Persistence.Migrations
                         new
                         {
                             Id = 6L,
-                            CreatedDate = new DateTime(2023, 1, 20, 15, 23, 12, 873, DateTimeKind.Utc).AddTicks(3733),
+                            CreatedDate = new DateTime(2023, 7, 18, 22, 42, 24, 392, DateTimeKind.Utc).AddTicks(1110),
                             IsActive = true,
                             IsDeleted = false,
                             Title = "Çiftlik Evi"
@@ -1852,7 +1854,7 @@ namespace RealEstateWebApi.Persistence.Migrations
                         new
                         {
                             Id = 7L,
-                            CreatedDate = new DateTime(2023, 1, 20, 15, 23, 12, 873, DateTimeKind.Utc).AddTicks(3734),
+                            CreatedDate = new DateTime(2023, 7, 18, 22, 42, 24, 392, DateTimeKind.Utc).AddTicks(1110),
                             IsActive = true,
                             IsDeleted = false,
                             Title = "Yazlık"
@@ -1860,7 +1862,7 @@ namespace RealEstateWebApi.Persistence.Migrations
                         new
                         {
                             Id = 8L,
-                            CreatedDate = new DateTime(2023, 1, 20, 15, 23, 12, 873, DateTimeKind.Utc).AddTicks(3735),
+                            CreatedDate = new DateTime(2023, 7, 18, 22, 42, 24, 392, DateTimeKind.Utc).AddTicks(1110),
                             IsActive = true,
                             IsDeleted = false,
                             Title = "Büro/Ofis"
@@ -1868,7 +1870,7 @@ namespace RealEstateWebApi.Persistence.Migrations
                         new
                         {
                             Id = 9L,
-                            CreatedDate = new DateTime(2023, 1, 20, 15, 23, 12, 873, DateTimeKind.Utc).AddTicks(3736),
+                            CreatedDate = new DateTime(2023, 7, 18, 22, 42, 24, 392, DateTimeKind.Utc).AddTicks(1110),
                             IsActive = true,
                             IsDeleted = false,
                             Title = "Depo/Antrepo"
@@ -1876,7 +1878,7 @@ namespace RealEstateWebApi.Persistence.Migrations
                         new
                         {
                             Id = 10L,
-                            CreatedDate = new DateTime(2023, 1, 20, 15, 23, 12, 873, DateTimeKind.Utc).AddTicks(3736),
+                            CreatedDate = new DateTime(2023, 7, 18, 22, 42, 24, 392, DateTimeKind.Utc).AddTicks(1110),
                             IsActive = true,
                             IsDeleted = false,
                             Title = "Dükkan/Mağaza"
@@ -1884,7 +1886,7 @@ namespace RealEstateWebApi.Persistence.Migrations
                         new
                         {
                             Id = 11L,
-                            CreatedDate = new DateTime(2023, 1, 20, 15, 23, 12, 873, DateTimeKind.Utc).AddTicks(3737),
+                            CreatedDate = new DateTime(2023, 7, 18, 22, 42, 24, 392, DateTimeKind.Utc).AddTicks(1110),
                             IsActive = true,
                             IsDeleted = false,
                             Title = "Plaza"
@@ -1892,7 +1894,7 @@ namespace RealEstateWebApi.Persistence.Migrations
                         new
                         {
                             Id = 12L,
-                            CreatedDate = new DateTime(2023, 1, 20, 15, 23, 12, 873, DateTimeKind.Utc).AddTicks(3738),
+                            CreatedDate = new DateTime(2023, 7, 18, 22, 42, 24, 392, DateTimeKind.Utc).AddTicks(1110),
                             IsActive = true,
                             IsDeleted = false,
                             Title = "Palaza Katı"
@@ -1900,7 +1902,7 @@ namespace RealEstateWebApi.Persistence.Migrations
                         new
                         {
                             Id = 13L,
-                            CreatedDate = new DateTime(2023, 1, 20, 15, 23, 12, 873, DateTimeKind.Utc).AddTicks(3739),
+                            CreatedDate = new DateTime(2023, 7, 18, 22, 42, 24, 392, DateTimeKind.Utc).AddTicks(1110),
                             IsActive = true,
                             IsDeleted = false,
                             Title = "Sağlık Merkezi"
@@ -1908,11 +1910,57 @@ namespace RealEstateWebApi.Persistence.Migrations
                         new
                         {
                             Id = 14L,
-                            CreatedDate = new DateTime(2023, 1, 20, 15, 23, 12, 873, DateTimeKind.Utc).AddTicks(3739),
+                            CreatedDate = new DateTime(2023, 7, 18, 22, 42, 24, 392, DateTimeKind.Utc).AddTicks(1110),
                             IsActive = true,
                             IsDeleted = false,
                             Title = "Spor Tesisi"
                         });
+                });
+
+            modelBuilder.Entity("RealEstateWebApi.Domain.Entities.Reminder", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<long?>("CustomerId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
+
+                    b.Property<long?>("EntryId")
+                        .HasColumnType("bigint");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime>("ReminderDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CustomerId");
+
+                    b.HasIndex("EntryId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Reminder");
                 });
 
             modelBuilder.Entity("RealEstateWebApi.Domain.Entities.Street", b =>
@@ -1932,7 +1980,7 @@ namespace RealEstateWebApi.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Streets", (string)null);
+                    b.ToTable("Streets");
                 });
 
             modelBuilder.Entity("RealEstateWebApi.Domain.Entities.UsingStatus", b =>
@@ -1961,13 +2009,13 @@ namespace RealEstateWebApi.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("UsingStatuses", (string)null);
+                    b.ToTable("UsingStatuses");
 
                     b.HasData(
                         new
                         {
                             Id = 1L,
-                            CreatedDate = new DateTime(2023, 1, 20, 15, 23, 12, 874, DateTimeKind.Utc).AddTicks(5640),
+                            CreatedDate = new DateTime(2023, 7, 18, 22, 42, 24, 393, DateTimeKind.Utc).AddTicks(5360),
                             IsActive = true,
                             IsDeleted = false,
                             Title = "Boş"
@@ -1975,7 +2023,7 @@ namespace RealEstateWebApi.Persistence.Migrations
                         new
                         {
                             Id = 2L,
-                            CreatedDate = new DateTime(2023, 1, 20, 15, 23, 12, 874, DateTimeKind.Utc).AddTicks(5642),
+                            CreatedDate = new DateTime(2023, 7, 18, 22, 42, 24, 393, DateTimeKind.Utc).AddTicks(5370),
                             IsActive = true,
                             IsDeleted = false,
                             Title = "Mülk Sahibi"
@@ -1983,7 +2031,7 @@ namespace RealEstateWebApi.Persistence.Migrations
                         new
                         {
                             Id = 3L,
-                            CreatedDate = new DateTime(2023, 1, 20, 15, 23, 12, 874, DateTimeKind.Utc).AddTicks(5643),
+                            CreatedDate = new DateTime(2023, 7, 18, 22, 42, 24, 393, DateTimeKind.Utc).AddTicks(5370),
                             IsActive = true,
                             IsDeleted = false,
                             Title = "Kiracılı"
@@ -2011,8 +2059,13 @@ namespace RealEstateWebApi.Persistence.Migrations
                         .HasColumnType("bigint");
 
                     b.Property<int>("SortIndex")
-                        .HasColumnType("integer")
-                        .HasColumnName("PropertyPhoto_SortIndex");
+                        .HasColumnType("integer");
+
+                    b.ToTable("Files", t =>
+                        {
+                            t.Property("SortIndex")
+                                .HasColumnName("PropertyPhoto_SortIndex");
+                        });
 
                     b.HasDiscriminator().HasValue("PropertyPhoto");
                 });
@@ -2297,6 +2350,23 @@ namespace RealEstateWebApi.Persistence.Migrations
                     b.HasOne("RealEstateWebApi.Domain.Entities.UsingStatus", null)
                         .WithMany()
                         .HasForeignKey("UsingStatusId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("RealEstateWebApi.Domain.Entities.Reminder", b =>
+                {
+                    b.HasOne("RealEstateWebApi.Domain.Entities.Customer", null)
+                        .WithMany()
+                        .HasForeignKey("CustomerId");
+
+                    b.HasOne("RealEstateWebApi.Domain.Entities.Entry", null)
+                        .WithMany()
+                        .HasForeignKey("EntryId");
+
+                    b.HasOne("RealEstateWebApi.Domain.Entities.Identity.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

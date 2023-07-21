@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using RealEstateWebApi.WebApp.Data.Local;
 using RealEstateWebApi.WebApp.Middlewares;
+using RealEstateWebApi.WebApp.Models.Common;
 using RealEstateWebApi.WebApp.Services.ApiRequest;
 using RealEstateWebApi.WebApp.Services.Logger;
 using Serilog;
@@ -23,7 +24,7 @@ builder.Services.AddDbContext<WebAppLocalDbContext>(opt => opt.UseInMemoryDataba
 builder.Services.AddSingleton<ILoggerService, ConsoleLogger>();
 builder.Services.AddSingleton<ApiRequestService>();
 
-var tokenOptions = builder.Configuration.GetSection("ApiTokenOptions");
+var tokenOptions = builder.Configuration.GetSection("ApiTokenOptions").Get<ApiTokenOption>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(opt =>
 {
@@ -33,9 +34,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
         ValidateIssuer = true,
         ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
-        ValidIssuer = tokenOptions["Issuer"],
-        ValidAudience = tokenOptions["Audience"],
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenOptions["SecurityKey"])),
+        ValidIssuer = tokenOptions.Issuer,
+        ValidAudience = tokenOptions.Audience,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenOptions.SecurityKey)),
         ClockSkew = TimeSpan.Zero
     };
 });
@@ -101,6 +102,9 @@ app.Use(async (context, next) =>
     }
     await next();
 });
+
+
+
 
 app.UseStatusCodePages(async context =>
 {

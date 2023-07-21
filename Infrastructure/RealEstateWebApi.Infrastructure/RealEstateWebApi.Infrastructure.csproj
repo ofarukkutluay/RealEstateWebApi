@@ -1,21 +1,36 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AWSSDK.Extensions.NETCore.Setup" Version="3.7.2" />
-    <PackageReference Include="AWSSDK.S3" Version="3.7.9.16" />
-    <PackageReference Include="HtmlAgilityPack" Version="1.11.46" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.6" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
+    <PackageReference Include="AWSSDK.Extensions.NETCore.Setup" Version="3.7.7" />
+    <PackageReference Include="AWSSDK.S3" Version="3.7.107.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.9" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.49" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Core\RealEstateWebApi.Application\RealEstateWebApi.Application.csproj" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <None Remove="Mapper\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Mapper\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="ListingWebsiteScrapingLibrary">
+      <HintPath>..\..\..\ListingWebsiteScraping\ListingWebsiteScrapingLibrary\bin\Debug\net6.0\ListingWebsiteScrapingLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="ListingWebsiteScrapingLibrary">
+      <HintPath>..\..\..\ListingWebsiteScraping\ListingWebsiteScrapingLibrary\bin\Debug\net7.0\ListingWebsiteScrapingLibrary.dll</HintPath>
+    </Reference>
+  </ItemGroup>
 </Project>

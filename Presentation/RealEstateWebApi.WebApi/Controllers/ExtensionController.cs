@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RealEstateWebApi.Application.Features.Commands.Extension.ChromeExtension;
-using RealEstateWebApi.Infrastructure.Services.Scraping;
 
 namespace RealEstateWebApi.WebApi.Controllers
 {
