@@ -397,3 +397,8 @@ FodyWeavers.xsd
 # JetBrains Rider
 *.sln.iml
 /Presentation/RealEstateWebApi.WebApi/wwwroot/ShScraping/
+/Presentation/RealEstateWebApi.WebApi/logs/
+/Presentation/RealEstateWebApi.WebApp/logs/
+/Presentation/RealEstateWebApi.WebApi/*.json
+/Presentation/RealEstateWebApi.WebApp/*.json
+

@@ -24,7 +24,7 @@
 
         $("#inputCity3").change(function () {
             var val = $(this).val();
-            console.log("City : " + val)
+            //console.log("City : " + val)
             var subItems = "";
             $.get("@Url.Action("SelectItemDistrict","Customer")", { cityId: val }, function (data, status) {
                 $.each(data, function (index, item) {
@@ -36,7 +36,7 @@
 
         $("#inputDistrict3").change(function () {
             var val = $(this).val();
-            console.log("District : " + val)
+            //console.log("District : " + val)
             var subItems = "<option selected>Seçiniz...</option>";
             $.get("@Url.Action("SelectItemNeighborhood","Customer")", { districtId: val }, function (data, status) {
                 $.each(data, function (index, item) {

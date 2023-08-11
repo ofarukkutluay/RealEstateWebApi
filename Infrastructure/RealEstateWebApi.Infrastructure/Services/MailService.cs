@@ -19,6 +19,10 @@ namespace RealEstateWebApi.Infrastructure.Services
             _configuration = configuration;
         }
 
+        string Username = "";
+        string Pass = "";
+        string Host = "";
+
         public async Task SendMailAsync(string to, string subject, string body, bool isBodyHtml = true)
         {
             await SendMailAsync(new[] { to }, subject, body, isBodyHtml);
@@ -32,13 +36,13 @@ namespace RealEstateWebApi.Infrastructure.Services
                 mail.To.Add(to);
             mail.Subject = subject;
             mail.Body = body;
-            mail.From = new(_configuration["Mail:Username"], "RealEstate API", System.Text.Encoding.UTF8);
+            mail.From = new(Username, "RealEstate API", System.Text.Encoding.UTF8);
 
             SmtpClient smtp = new();
-            smtp.Credentials = new NetworkCredential(_configuration["Mail:Username"], _configuration["Mail:Password"]);
+            smtp.Credentials = new NetworkCredential(Username, Pass);
             smtp.Port = 587;
             smtp.EnableSsl = true;
-            smtp.Host = _configuration["Mail:Host"];
+            smtp.Host = Host;
             await smtp.SendMailAsync(mail);
         }
     }

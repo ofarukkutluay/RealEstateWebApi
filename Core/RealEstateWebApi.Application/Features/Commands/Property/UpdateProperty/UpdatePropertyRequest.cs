@@ -1,14 +1,11 @@
-﻿using RealEstateWebApi.Domain.Entities.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MediatR;
 
-namespace RealEstateWebApi.Domain.Entities
+
+namespace RealEstateWebApi.Application.Features.Commands.Property.UpdateProperty
 {
-    public class Property : BaseEntity
+    public class UpdatePropertyRequest : IRequest<UpdatePropertyResponse>
     {
+        public uint Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public uint CityId { get; set; }
@@ -52,5 +49,6 @@ namespace RealEstateWebApi.Domain.Entities
         public bool IsAvailableLoan { get; set; }
         public string? YoutubeLink { get; set; }
         public string? KonumIFrame { get; set; }
+        public bool IsActive { get; set; }
     }
 }

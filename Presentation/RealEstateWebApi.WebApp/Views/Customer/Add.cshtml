@@ -10,8 +10,8 @@
     $(function() {
         $("#inputCity").change(function() {
             var val = $(this).val();
-            console.log("City : " + val)
-            var subItems = "";
+            //console.log("City : " + val)
+            var subItems = "<option selected>Seçiniz...</option>";
             $.get("@Url.Action("SelectItemDistrict","Customer")", { cityId: val }, function(data, status) {
                 $.each(data, function(index, item) {
                     subItems += "<option value='" + item.value + "'>" + item.text + "</option>"
@@ -21,8 +21,8 @@
         });
         $("#inputDistrict").change(function() {
             var val = $(this).val();
-            console.log("District : " + val)
-            var subItems = "";
+            //console.log("District : " + val)
+            var subItems = "<option selected>Seçiniz...</option>";
             $.get("@Url.Action("SelectItemNeighborhood","Customer")", { districtId: val }, function(data, status) {
                 $.each(data, function(index, item) {
                     subItems += "<option value='" + item.value + "'>" + item.text + "</option>"
@@ -72,31 +72,37 @@
                             <div class="input-group has-validation">
                                 <span class="input-group-text" id="inputGroupPrepend">+90</span>
                                 <input asp-for="MobileNumber" type="text" class="form-control" id="mobilenumber"
-                                    aria-describedby="inputGroupPrepend" required>
+                                       aria-describedby="inputGroupPrepend" required>
                                 <div class="invalid-feedback">Cep Telefonu zorunludur.</div>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <label for="inputCity" class="form-label">Şehir</label>
                             <select asp-for="CityId" asp-items="@ViewData["Cities"] as IEnumerable<SelectListItem>" class="form-select" id="inputCity" required>
-                                <option selected value="1">Seçiniz...</option>
+                                <option selected>Seçiniz...</option>
                             </select>
                             <div class="invalid-feedback">Şehir zorunludur</div>
                         </div>
                         <div class="col-md-3">
                             <label for="inputDistrict" class="form-label">İlçe</label>
                             <select asp-for="DistrictId" class="form-select" id="inputDistrict" required>
-                                <option selected value="1">Seçiniz...</option>
+                                <option selected >Seçiniz...</option>
                             </select>
                             <div class="invalid-feedback">
                                 İlçe zorunludur
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-3">
+                            <label for="inputNeighborhood" class="form-label">Mahalle</label>
+                            <select asp-for="NeighborhoodId" class="form-select" id="inputNeighborhood" >
+                                <option selected>Seçiniz...</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
                             <label for="email" class="form-label">Email</label>
                             <input asp-for="Email" type="email" class="form-control" id="email">
                         </div>
-                    
+
                         <div class="col-12">
                             <button class="btn btn-primary" type="submit">Kaydet</button>
                         </div>

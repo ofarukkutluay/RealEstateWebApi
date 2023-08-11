@@ -12,21 +12,6 @@
                 $("#entrySubType").html(subItems)
             });
         });
-        $("#entrySubType").change(function () {
-            var val = $(this).val();
-            if (val == 2) {
-                $("#entrySubTitle").prop("hidden", false);
-                $("#entrySubTitleInput").prop("required", true);
-                return;
-            }
-            $("#entrySubTitle").prop("hidden", true);
-            $("#entrySubTitleInput").prop("required", false);
-        });
-        if ($("#reminderCheck").is(":checked")) {
-            $("#reminderDate").prop("required", true);
-        } else {
-            $("#reminderDate").prop("required", false);
-        }
 
     });
 
@@ -67,10 +52,10 @@
                             </select>
                         </div>
                     </div>
-                    <div class="row mb-3" id="entrySubTitle" hidden>
+                    <div class="row mb-3" id="entrySubTitle">
                         <label class="col-sm-2 col-form-label">Ek başlık</label>
                         <div class="col-sm-10">
-                            <input id="entrySubTitleInput" asp-for="EntrySubTitle" type="text" class="form-control">
+                            <input id="entrySubTitleInput" asp-for="EntrySubTitle" type="text" class="form-control" placeholder="(Opsiyonel)">
                         </div>
                     </div>
 

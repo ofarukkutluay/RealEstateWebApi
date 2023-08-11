@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using RealEstateWebApi.WebApp.Models;
 using RealEstateWebApi.WebApp.Models.Common;
 using RealEstateWebApi.WebApp.Services.ApiRequest;
@@ -43,6 +44,7 @@ namespace RealEstateWebApi.WebApp.Controllers
         public async Task<IActionResult> UpdateUser(User user)
         {
             Result result = await _requestService.Put<Result>("user",user);
+
             if (result.Success)
             {
                 SuccessAlert(result.Message);

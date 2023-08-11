@@ -1,13 +1,9 @@
-﻿using RealEstateWebApi.Domain.Entities.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MediatR;
 
-namespace RealEstateWebApi.Domain.Entities
+
+namespace RealEstateWebApi.Application.Features.Commands.Property.CreateProperty
 {
-    public class Property : BaseEntity
+    public class CreatePropertyRequest : IRequest<CreatePropertyResponse>
     {
         public string Title { get; set; }
         public string Description { get; set; }

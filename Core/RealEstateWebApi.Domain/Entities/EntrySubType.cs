@@ -11,5 +11,6 @@ namespace RealEstateWebApi.Domain.Entities
     {
         public uint EntryTypeId { get; set; }
         public string Title { get; set; }
+        public string Key { get; set; }
     }
 }

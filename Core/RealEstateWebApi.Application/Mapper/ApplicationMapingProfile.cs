@@ -16,6 +16,7 @@ using RealEstateWebApi.Application.Features.Commands.Front.CreateFront;
 using RealEstateWebApi.Application.Features.Commands.HeatingType.CreateHeatingType;
 using RealEstateWebApi.Application.Features.Commands.InternetType.CreateInternetType;
 using RealEstateWebApi.Application.Features.Commands.JobTitle.CreateJobTitle;
+using RealEstateWebApi.Application.Features.Commands.Property.CreateProperty;
 using RealEstateWebApi.Application.Features.Commands.PropertyStatus.CreatePropertyStatus;
 using RealEstateWebApi.Application.Features.Commands.PropertyType.CreatePropertyType;
 using RealEstateWebApi.Application.Features.Commands.Reminder.CreateReminder;
@@ -53,6 +54,8 @@ namespace RealEstateWebApi.Application.Utilities.Mapper
             CreateMap<CreateEntryTypeRequest, EntryType>();
             CreateMap<CreateEntrySubTypeRequest, EntrySubType>();
             CreateMap<CreateReminderRequest, Reminder>();
+
+            CreateMap<CreatePropertyRequest, Property>();
 
             CreateMap<User, UserDto>();
 

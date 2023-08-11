@@ -12,7 +12,7 @@ namespace RealEstateWebApi.Application.Features.Commands.Entry.CreateEntry
         public uint CustomerId { get; set; }
         public string Content { get; set; }
         public uint EntryTypeId { get; set; }
-        public uint? EntrySubTypeId { get; set; }
+        public uint EntrySubTypeId { get; set; }
         public string? EntrySubTitle { get; set; }
         public uint UserId { get; set; }
     }

@@ -1,3 +1,4 @@
+@using RealEstateWebApi.WebApp.Tools;
 @{
     ViewData["Title"] = "Tüm Müşteriler";
 }
@@ -52,6 +53,7 @@
                                         {
                                             <span class="badge bg-danger">Deaktif</span>
                                         }
+                                        <span class="badge bg-secondary">@item.Status</span>
 
                                     </td>
                                     <td>@item.City</td>
@@ -59,7 +61,7 @@
                                     <td>@item.MobileNumber</td>
                                     <td>@item.RegisterUser</td>
                                     <td>@item.AssignedUser</td>
-                                    <td>@item.CreatedDate.ToString("dd-MM-yyyy HH:mm")</td>
+                                    <td>@item.CreatedDate.UtcToLocalTR().ToString("dd-MM-yyyy HH:mm")</td>
                                 </tr>
                             }
 

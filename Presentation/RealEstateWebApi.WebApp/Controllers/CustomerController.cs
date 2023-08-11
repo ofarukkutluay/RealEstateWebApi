@@ -5,6 +5,7 @@ using RealEstateWebApi.WebApp.Data.Local;
 using RealEstateWebApi.WebApp.Models;
 using RealEstateWebApi.WebApp.Models.Common;
 using RealEstateWebApi.WebApp.Services.ApiRequest;
+using System.Linq;
 using System.Security.Claims;
 
 namespace RealEstateWebApi.WebApp.Controllers;
@@ -148,14 +149,25 @@ public class CustomerController : BaseController
         return Redirect("/customer/" + shortProperty.CustomerId);
     }
 
+    public async Task<IActionResult> ReminderCheck(uint reminderId)
+    {
+        var rtnObj = await _requestService.Delete<Result>("Reminder", new { Id = reminderId });
+        if (rtnObj.Success == true)
+        {
+            SuccessAlert("Hatırlatma silindi");
+            return Redirect(Request.Headers["Referer"].ToString());
+        }
+
+        DangerAlert(rtnObj.Message);
+        return Redirect(Request.Headers["Referer"].ToString());
+    }
+
 
     async Task SelectItemInitilazeAddPage()
     {
         if (!_dbContext.Cities.Any())
         {
-            var result = await _requestService.Get<DataResult<IEnumerable<City>>>("LocationSupport/City");
-            _dbContext.Cities.AddRange(result.Data);
-            _dbContext.SaveChanges();
+            await GetCities();
         }
 
         IEnumerable<SelectListItem> selectCities = _dbContext.Cities.Select(x => new SelectListItem
@@ -171,9 +183,7 @@ public class CustomerController : BaseController
     {
         if (!_dbContext.Cities.Any())
         {
-            var result = await _requestService.Get<DataResult<IEnumerable<City>>>("LocationSupport/City");
-            _dbContext.Cities.AddRange(result.Data);
-            _dbContext.SaveChanges();
+            await GetCities();
         }
 
         var entryTypes = await _requestService.Get<DataResult<IEnumerable<EntryType>>>("entryType");
@@ -237,16 +247,11 @@ public class CustomerController : BaseController
     public async Task<IActionResult> SelectItemDistrict([FromQuery] uint cityId)
     {
         int key = _dbContext.Cities.First(x => x.Id == cityId).Key;
-        if (_dbContext.Districts.Any())
-        {
-            _dbContext.Districts.RemoveRange(_dbContext.Districts);
-            _dbContext.SaveChanges();
-        }
 
-        var result = await _requestService.Get<DataResult<IEnumerable<District>>>("LocationSupport/District", "?CityKey=", key.ToString());
-        _dbContext.Districts.AddRange(result.Data);
-        _dbContext.SaveChanges();
-        IEnumerable<SelectListItem> selectDistricts = _dbContext.Districts.Select(x => new SelectListItem
+        await GetDistricts(key);
+
+
+        IEnumerable<SelectListItem> selectDistricts = _dbContext.Districts.Where(x => x.CityKey == key).Select(x => new SelectListItem
         {
             Value = x.Id.ToString(),
             Text = x.Name
@@ -258,16 +263,10 @@ public class CustomerController : BaseController
     public async Task<IActionResult> SelectItemNeighborhood([FromQuery] uint districtId)
     {
         int key = _dbContext.Districts.First(e => e.Id == districtId).Key;
-        if (_dbContext.Neighborhoods.Any())
-        {
-            _dbContext.Neighborhoods.RemoveRange(_dbContext.Neighborhoods);
-            _dbContext.SaveChanges();
-        }
+        await GetNeighborhoods(key);
 
-        var result = await _requestService.Get<DataResult<IEnumerable<Neighborhood>>>("LocationSupport/Neighborhood", "?DistrictKey=", key.ToString());
-        _dbContext.Neighborhoods.AddRange(result.Data);
-        _dbContext.SaveChanges();
-        IEnumerable<SelectListItem> selectMahalle = _dbContext.Neighborhoods.Select(x => new SelectListItem
+
+        IEnumerable<SelectListItem> selectMahalle = _dbContext.Neighborhoods.Where(x => x.DistrictKey == key).Select(x => new SelectListItem
         {
             Value = x.Id.ToString(),
             Text = x.Name
@@ -291,6 +290,42 @@ public class CustomerController : BaseController
 
         return Json(selectCadde);
 
+    }
+
+    private async Task GetCities()
+    {
+        var result = await _requestService.Get<DataResult<IEnumerable<City>>>("LocationSupport/City");
+        foreach (var item in result.Data)
+        {
+            if (_dbContext.Cities.Contains(item))
+                continue;
+            _dbContext.Cities.Add(item);
+        }
+        _dbContext.SaveChanges();
+    }
+
+    private async Task GetDistricts(int cityKey)
+    {
+        var result = await _requestService.Get<DataResult<IEnumerable<District>>>("LocationSupport/District", "?CityKey=", cityKey.ToString());
+        foreach (var item in result.Data)
+        {
+            if (_dbContext.Districts.Contains(item))
+                continue;
+            _dbContext.Districts.Add(item);
+        }
+        _dbContext.SaveChanges();
+    }
+
+    private async Task GetNeighborhoods(int districtKey)
+    {
+        var result = await _requestService.Get<DataResult<IEnumerable<Neighborhood>>>("LocationSupport/Neighborhood", "?DistrictKey=", districtKey.ToString());
+        foreach (var item in result.Data)
+        {
+            if (_dbContext.Neighborhoods.Contains(item))
+                continue;
+            _dbContext.Neighborhoods.Add(item);
+        }
+        _dbContext.SaveChanges();
     }
 
 

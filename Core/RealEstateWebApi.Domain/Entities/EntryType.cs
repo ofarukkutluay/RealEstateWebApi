@@ -10,5 +10,6 @@ namespace RealEstateWebApi.Domain.Entities
     public class EntryType : BaseEntity
     {
         public string Title { get; set; }
+        public string Key { get; set; }
     }
 }

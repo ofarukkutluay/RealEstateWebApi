@@ -1,4 +1,5 @@
 ﻿@using System.Globalization;
+@using RealEstateWebApi.WebApp.Tools;
 
 @{
     ViewData["Title"] = "Home";
@@ -12,7 +13,6 @@
     <nav>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="/"><i class="bi bi-house-door"></i></a></li>
-            <li class="breadcrumb-item active">Dashboard</li>
         </ol>
     </nav>
 </div><!-- End Page Title -->
@@ -146,7 +146,7 @@
                                                 {
                                                     <span class="badge bg-warning">Beklemede</span>
                                                 }
-
+                                                <span class="badge bg-secondary">@item.Status</span>
                                             </td>
                                         </tr>
                                     }
@@ -264,9 +264,24 @@
                         }
                         @foreach (var item in ViewBag.reminders as IEnumerable<Reminder>)
                         {
+
+
                             <div class="post-item clearfix">
-                                <h6>@item.ReminderDate.ToString("dd-MM-yyyy dddd", CultureInfo.CreateSpecificCulture("tr-TR"))</h6>
-                                <a asp-controller="Admin" asp-action="ReminderCheck" asp-route-reminderId="@item.Id" class="btn btn-lg reminderBtn"><i class="bi bi-check2-circle"></i></a>
+                                @if (DateTime.UtcNow.Date > item.ReminderDate.Date)
+                                {
+                                    <h6 class="text-danger">@item.ReminderDate.ToString("dd-MM-yyyy dddd", CultureInfo.CreateSpecificCulture("tr-TR"))</h6>
+                                }
+                                else if (DateTime.UtcNow.Date == item.ReminderDate.Date)
+                                {
+                                    <h6 class="text-success">@item.ReminderDate.ToString("dd-MM-yyyy dddd", CultureInfo.CreateSpecificCulture("tr-TR"))</h6>
+
+                                }
+                                else
+                                {
+                                    <h6>@item.ReminderDate.ToString("dd-MM-yyyy dddd", CultureInfo.CreateSpecificCulture("tr-TR"))</h6>
+                                }
+
+                                <a asp-controller="Customer" asp-action="ReminderCheck" asp-route-reminderId="@item.Id" class="btn btn-lg reminderBtn"><i class="bi bi-check2-circle"></i></a>
                                 <h4><a href="/customer/@item.CustomerId">@item.CustomerName</a></h4>
                                 <p>@item.Description</p>
                             </div>
@@ -275,7 +290,7 @@
 
 
                     </div><!-- End sidebar recent posts-->
-
+                    <p class="fw-lighter">*Tarihi geçen hatırlatmalar kırmızı ile görüntülenmektedir.</p>
                 </div>
             </div><!-- End News & Updates -->
 

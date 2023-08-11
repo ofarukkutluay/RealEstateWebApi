@@ -1,10 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using RealEstateWebApi.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RealEstateWebApi.Persistence.EntityConfigurations
 {
@@ -12,7 +7,10 @@ namespace RealEstateWebApi.Persistence.EntityConfigurations
     {
         public override void Configure(EntityTypeBuilder<EntryType> builder)
         {
-            builder.HasData(new EntryType { Id = 1, Title = "Görüşme" , CreatedDate = DateTime.UtcNow});
+            builder.HasData(new EntryType { Id = 1, Title = "Potansiyel",Key = "PTNSYL", CreatedDate = DateTime.UtcNow},
+                new EntryType { Id = 2, Title = "Görüşme",Key = "GRSM", CreatedDate = DateTime.UtcNow },
+                new EntryType { Id = 3, Title = "Teklif",Key="TKLF", CreatedDate = DateTime.UtcNow },
+                new EntryType { Id = 4, Title = "Sözleşme",Key="SZLSM", CreatedDate = DateTime.UtcNow });
             base.Configure(builder);
         }
     }
