@@ -17,6 +17,7 @@ class CustomerDto
     public DateTime? BirthDay { get; set; }
     public long? CitizenNumber { get; set; }
     public string? Status { get; set; }
+    public string? StatusKey { get; set; }
 
     public string RegisterUser { get; set; }
     public string AssignedUser { get; set; }

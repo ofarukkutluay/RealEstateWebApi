@@ -8,6 +8,7 @@ using RealEstateWebApi.Application.Features.Commands.Customer.UpdateCustomer;
 using RealEstateWebApi.Application.Features.Queries.Customer.GetAllCustomer;
 using RealEstateWebApi.Application.Features.Queries.Customer.GetAllCustomerCount;
 using RealEstateWebApi.Application.Features.Queries.Customer.GetAllCustomerDto;
+using RealEstateWebApi.Application.Features.Queries.Customer.GetAllCustomerDtoByStatusKey;
 using RealEstateWebApi.Application.Features.Queries.Customer.GetCustomerById;
 using RealEstateWebApi.Application.Features.Queries.Customer.GetCustomerDtoById;
 using RealEstateWebApi.Application.Features.Queries.Customer.GetRecentCustomerDtoList;
@@ -109,6 +110,16 @@ namespace RealEstateWebApi.WebApi.Controllers
         public async Task<IActionResult> GetRecentCustomerDtoList([FromQuery] GetRecentCustomerDtoListRequest request)
         {
             GetRecentCustomerDtoListResponse response = await _mediator.Send(request);
+            if (response.Success)
+                return Ok(response);
+            return BadRequest(response);
+        }
+
+        [HttpGet("status")]
+        [Authorize]
+        public async Task<IActionResult> GetAllCustomerDtoByStatusKey([FromQuery] GetAllCustomerDtoByStatusKeyRequest request)
+        {
+            GetAllCustomerDtoByStatusKeyResponse response = await _mediator.Send(request);
             if (response.Success)
                 return Ok(response);
             return BadRequest(response);

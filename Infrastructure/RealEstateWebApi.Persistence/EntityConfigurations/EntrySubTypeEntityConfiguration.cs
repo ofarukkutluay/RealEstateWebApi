@@ -23,7 +23,9 @@ namespace RealEstateWebApi.Persistence.EntityConfigurations
 
                 new EntrySubType { Id = 10, EntryTypeId = 4, Title = "Sunulan", Key ="SNLN", CreatedDate = DateTime.UtcNow },
                 new EntrySubType { Id = 11, EntryTypeId = 4, Title = "Yapıldı", Key= "YPLD", CreatedDate = DateTime.UtcNow },
-                new EntrySubType { Id = 12, EntryTypeId = 4, Title = "Kabul Etmedi", Key="DOWN", CreatedDate = DateTime.UtcNow });
+                new EntrySubType { Id = 12, EntryTypeId = 4, Title = "Kabul Etmedi", Key="GDOWN", CreatedDate = DateTime.UtcNow },
+                new EntrySubType { Id = 13, EntryTypeId = 4, Title = "Sözleşme Bitti", Key = "PDOWN", CreatedDate = DateTime.UtcNow });
+
 
             base.Configure(builder);
         }

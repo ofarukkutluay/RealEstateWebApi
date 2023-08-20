@@ -68,7 +68,7 @@ Logger log = new LoggerConfiguration()
             {"remote_ip",new RemoteIpColumnWriter()},
         })
     .Enrich.FromLogContext()
-    .MinimumLevel.Error()
+    .MinimumLevel.Information()
     .CreateLogger();
 
 builder.Host.UseSerilog(log);

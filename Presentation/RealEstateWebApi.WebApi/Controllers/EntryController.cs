@@ -5,6 +5,7 @@ using RealEstateWebApi.Application.Features.Commands.Entry.CreateEntry;
 using RealEstateWebApi.Application.Features.Commands.Entry.DeleteEntry;
 using RealEstateWebApi.Application.Features.Queries.Entry.GetAllEntryByCustomerId;
 using RealEstateWebApi.Application.Features.Queries.Entry.GetAllEntryDtoByCustomerId;
+using RealEstateWebApi.Application.Features.Queries.Entry.GetCountEntryByUserId;
 
 namespace RealEstateWebApi.WebApi.Controllers
 {
@@ -39,14 +40,15 @@ namespace RealEstateWebApi.WebApi.Controllers
             return BadRequest(response);
         }
 
-        /* [HttpGet]
-        public async Task<IActionResult> GetAllEntryByCustomerId([FromQuery] GetAllEntryByCustomerIdRequest request)
+        [HttpGet("count")]
+        [Authorize]
+        public async Task<IActionResult> GetCountEntryByUserId([FromQuery] GetCountEntryByUserIdRequest request)
         {
-            GetAllEntryByCustomerIdResponse response = await _mediator.Send(request);
+            GetCountEntryByUserIdResponse response = await _mediator.Send(request);
             if (response.Success)
                 return Ok(response);
             return BadRequest(response);
-        } */
+        }
 
         [HttpGet]
         [Authorize]
@@ -57,6 +59,7 @@ namespace RealEstateWebApi.WebApi.Controllers
                 return Ok(response);
             return BadRequest(response);
         }
+
 
         
     }

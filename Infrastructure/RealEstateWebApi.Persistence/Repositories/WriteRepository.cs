@@ -2,11 +2,7 @@
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using RealEstateWebApi.Application.Repositories;
 using RealEstateWebApi.Domain.Entities.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace RealEstateWebApi.Persistence.Repositories
 {

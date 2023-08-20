@@ -21,7 +21,7 @@ namespace RealEstateWebApi.Domain.Entities
         public uint CityId { get; set; }
         public uint DistrictId { get; set; }
         public uint? NeighborhoodId { get; set; }
-        public string? StatusKey { get; set; }
+        public string? StatusKey { get; set; } = "YENI";
 
         [DataType(DataType.Date)]
         public DateTime? BirthDay { get; set; }

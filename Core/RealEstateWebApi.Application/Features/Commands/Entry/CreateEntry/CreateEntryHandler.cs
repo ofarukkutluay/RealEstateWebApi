@@ -45,12 +45,20 @@ namespace RealEstateWebApi.Application.Features.Commands.Entry.CreateEntry
                 {
                     customer.StatusKey = (await _entryTypeReadRepository.GetByIdAsync(entryType.Id - 1)).Key;
                 }
+                else if (entrySubType.Key =="GDOWN")
+                {
+                    customer.StatusKey = "GRSM";
+                }
+                else if (entrySubType.Key == "PDOWN")
+                {
+                    customer.StatusKey = "PTNSYL";
+                }
                 else if (customerEntryType != null && customerEntryType.Id < entryType.Id)
                 {
 
                     customer.StatusKey = entryType.Key;
                 }
-                else if (string.IsNullOrEmpty(customer.StatusKey))
+                else if (string.IsNullOrEmpty(customer.StatusKey) || customer.StatusKey == "YENI")
                 {
                     customer.StatusKey = entryType.Key;
                 }

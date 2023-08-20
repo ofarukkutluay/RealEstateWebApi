@@ -37,6 +37,70 @@ public class CustomerController : BaseController
         return View();
     }
 
+    [HttpGet("customer/potansiyel")]
+    public async Task<IActionResult> Potansiyel()
+    {
+        uint loginUserId = uint.Parse(HttpContext.User.Claims.First(e => e.Type == ClaimTypes.NameIdentifier).Value);
+
+        var obj = await _requestService.Get<DataResult<IEnumerable<CustomerDto>>>("customer/status","?AssignedUserId="+loginUserId,"&StatusKey=PTNSYL");
+
+        if (obj.Success == true)
+        {
+            return View(obj.Data);
+        }
+
+        DangerAlert(obj.Message);
+        return View();
+    }
+
+    [HttpGet("customer/gorusme")]
+    public async Task<IActionResult> Gorusme()
+    {
+        uint loginUserId = uint.Parse(HttpContext.User.Claims.First(e => e.Type == ClaimTypes.NameIdentifier).Value);
+
+        var obj = await _requestService.Get<DataResult<IEnumerable<CustomerDto>>>("customer/status", "?AssignedUserId=" + loginUserId, "&StatusKey=GRSM");
+
+        if (obj.Success == true)
+        {
+            return View(obj.Data);
+        }
+
+        DangerAlert(obj.Message);
+        return View();
+    }
+
+    [HttpGet("customer/teklif")]
+    public async Task<IActionResult> Teklif()
+    {
+        uint loginUserId = uint.Parse(HttpContext.User.Claims.First(e => e.Type == ClaimTypes.NameIdentifier).Value);
+
+        var obj = await _requestService.Get<DataResult<IEnumerable<CustomerDto>>>("customer/status", "?AssignedUserId=" + loginUserId, "&StatusKey=TKLF");
+
+        if (obj.Success == true)
+        {
+            return View(obj.Data);
+        }
+
+        DangerAlert(obj.Message);
+        return View();
+    }
+
+    [HttpGet("customer/sozlesme")]
+    public async Task<IActionResult> Sozlesme()
+    {
+        uint loginUserId = uint.Parse(HttpContext.User.Claims.First(e => e.Type == ClaimTypes.NameIdentifier).Value);
+
+        var obj = await _requestService.Get<DataResult<IEnumerable<CustomerDto>>>("customer/status", "?AssignedUserId=" + loginUserId, "&StatusKey=SZLSM");
+
+        if (obj.Success == true)
+        {
+            return View(obj.Data);
+        }
+
+        DangerAlert(obj.Message);
+        return View();
+    }
+
     [HttpGet("/customer/add")]
     public async Task<IActionResult> Add()
     {
@@ -161,6 +225,8 @@ public class CustomerController : BaseController
         DangerAlert(rtnObj.Message);
         return Redirect(Request.Headers["Referer"].ToString());
     }
+
+
 
 
     async Task SelectItemInitilazeAddPage()

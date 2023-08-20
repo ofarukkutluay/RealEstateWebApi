@@ -1,16 +1,16 @@
-@using RealEstateWebApi.WebApp.Tools;
+﻿@using RealEstateWebApi.WebApp.Tools;
 @{
-    ViewData["Title"] = "Tüm Müşteriler";
+    ViewData["Title"] = "Potansiyel Müşteriler";
 }
 
 @model IEnumerable<CustomerDto>
 
 <div class="pagetitle">
-    <h1>Tüm Müşteriler</h1>
+    <h1>Potansiyel Müşterilerim</h1>
     <nav>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="/"><i class="bi bi-house-door"></i></a></li>
-            <li class="breadcrumb-item active"><a href="/customer">Müşteriler</a></li>
+            <li class="breadcrumb-item active"><a href="/customer">Potansiyel Müşterilerim</a></li>
         </ol>
     </nav>
 </div><!-- End Page Title -->
@@ -53,19 +53,7 @@
                                         {
                                             <span class="badge bg-danger">Deaktif</span>
                                         }
-
-                                        @if (item.StatusKey == "YENI")
-                                        {
-
-
-                                            <span class="badge bg-danger">Yeni</span>
-
-                                        }
-                                        else
-                                        {
-                                            <span class="badge bg-secondary">@item.Status</span>
-                                        }
-
+                                        <span class="badge bg-secondary">@item.Status</span>
 
                                     </td>
                                     <td>@item.City</td>

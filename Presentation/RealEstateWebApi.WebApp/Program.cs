@@ -46,7 +46,7 @@ Logger log = new LoggerConfiguration()
     .WriteTo.File("logs/log.txt")
     .WriteTo.InMemory()
     .Enrich.FromLogContext()
-    .MinimumLevel.Information()
+    .MinimumLevel.Error()
     .CreateLogger();
 
 builder.Host.UseSerilog(log);

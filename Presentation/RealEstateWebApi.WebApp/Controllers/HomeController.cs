@@ -27,10 +27,14 @@ namespace RealEstateWebApi.WebApp.Controllers
         {
             uint userId = uint.Parse(HttpContext.User.Claims.First(e => e.Type == ClaimTypes.NameIdentifier).Value);
 
-            DataResult<IEnumerable<CustomerDto>> recentCustomers = await _requestService.Get<DataResult<IEnumerable<CustomerDto>>>("customer", "/recent", "?take=5");
+            DataResult<IEnumerable<CustomerDto>> recentCustomers = await _requestService.Get<DataResult<IEnumerable<CustomerDto>>>("customer", "/recent", "?firstDate=" + DateTime.UtcNow.Date);
+            DataResult<IEnumerable<CustomerDto>> recentCustomersByUserId = await _requestService.Get<DataResult<IEnumerable<CustomerDto>>>("customer", "/recent", "?firstDate=" + DateTime.UtcNow.Date, "&userId=" + userId);
             DataResult<int> countCustomer = await _requestService.Get<DataResult<int>>("customer","/count");
             DataResult<IEnumerable<Reminder>> remiders = await _requestService.Get<DataResult<IEnumerable<Reminder>>>("reminder", "?userId="+userId);
+            DataResult<int> countEntry = await _requestService.Get<DataResult<int>>("entry", "/count", "?userId=" + userId,"&firstDate="+DateTime.UtcNow.Date);
             ViewData.Add("CustomerCount",countCustomer.Data);
+            ViewData.Add("EntryCount", countEntry.Data);
+            ViewData.Add("RecentCustomerCount", recentCustomersByUserId.Data.Count());
             ViewBag.reminders = remiders.Data;
 
             _logger.LogInformation("Ana sayfaya girildi");
