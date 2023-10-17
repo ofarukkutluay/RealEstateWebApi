@@ -78,9 +78,10 @@
                         </div>
                         <div class="col-md-3">
                             <label for="inputCity" class="form-label">Şehir</label>
-                            <select asp-for="CityId" asp-items="@ViewData["Cities"] as IEnumerable<SelectListItem>" class="form-select" id="inputCity" required>
+                            @Html.DropDownList("CityId",(IEnumerable<SelectListItem>)ViewData["Cities"]!,"Seçiniz...",new {@class="form-select",@id="inputCity",@required=""})
+                            @*<select asp-for="CityId" asp-items="@ViewData["Cities"] as IEnumerable<SelectListItem>" class="form-select" id="inputCity" required>
                                 <option selected>Seçiniz...</option>
-                            </select>
+                            </select>*@
                             <div class="invalid-feedback">Şehir zorunludur</div>
                         </div>
                         <div class="col-md-3">

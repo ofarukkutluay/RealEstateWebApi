@@ -6,8 +6,8 @@ namespace RealEstateWebApi.Application.Features.Queries.Entry.GetCountEntryByUse
 	public class GetCountEntryByUserIdRequest : IRequest<GetCountEntryByUserIdResponse>
 	{
 		public uint UserId { get; set; }
-		public DateTime FirstDate { get; set; }
-		public DateTime? LastDate { get; set; }
+		public long FirstDate { get; set; }
+		public long? LastDate { get; set; }
 	}
 }
 

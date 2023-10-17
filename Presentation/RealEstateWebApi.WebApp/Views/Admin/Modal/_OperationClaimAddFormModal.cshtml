@@ -17,9 +17,10 @@
 
                     <input asp-for="UserId" type="number" id="selectUserIdInput" value="" hidden/>
                     <label for="inputRoles" class="form-label">Rolü Seçiniz: </label>
-                    <select asp-for="OperationClaimId" asp-items="@ViewData["Roles"] as IEnumerable<SelectListItem>" class="form-select" id="inputRoles" required>
+                    @Html.DropDownList("OperationClaimId",(IEnumerable<SelectListItem>)ViewData["Roles"]!,"Seçiniz...",new {@class="form-select",@id="inputRoles"})
+                    @*<select asp-for="OperationClaimId" asp-items="@ViewData["Roles"] as IEnumerable<SelectListItem>" class="form-select" id="inputRoles" required>
                         <option selected disabled>Seçiniz...</option>
-                    </select>
+                    </select>*@
 
                 </div>
                 <div class="modal-footer">

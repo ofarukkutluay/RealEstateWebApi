@@ -40,7 +40,7 @@ namespace RealEstateWebApi.WebApp.Middlewares
             catch (Exception ex)
             {
                 watch.Stop();
-                //await HandleException(context, ex, watch);
+                await HandleException(context, ex, watch);
                 context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
 
                 string message = $"[Error]    HTTP {context.Request.Method} - {context.Response.StatusCode} Error Message: {ex.Message} in {watch.Elapsed.TotalMilliseconds} ms";
@@ -49,7 +49,7 @@ namespace RealEstateWebApi.WebApp.Middlewares
                 string? userId = context.User.Claims.FirstOrDefault(e => e.Type == ClaimTypes.NameIdentifier).Value ?? null;
                 string subject = $"{userId} UserId'nin clientta oluşturduğu hata";
                 string body = $"Hata alındı : {message}";
-                await _apiRequestService.Post<Result>("contact/postmail", new { To = "ofarukkutluay@outlook.com", Subject = subject, Body = body });
+                //await _apiRequestService.Post<Result>("contact/postmail", new { To = "ofarukkutluay@outlook.com", Subject = subject, Body = body });
             }
         }
         private Task HandleException(HttpContext context, Exception ex, Stopwatch watch)

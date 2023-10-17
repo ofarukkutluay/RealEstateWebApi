@@ -27,11 +27,11 @@ namespace RealEstateWebApi.WebApp.Controllers
         {
             uint userId = uint.Parse(HttpContext.User.Claims.First(e => e.Type == ClaimTypes.NameIdentifier).Value);
 
-            DataResult<IEnumerable<CustomerDto>> recentCustomers = await _requestService.Get<DataResult<IEnumerable<CustomerDto>>>("customer", "/recent", "?firstDate=" + DateTime.UtcNow.Date);
-            DataResult<IEnumerable<CustomerDto>> recentCustomersByUserId = await _requestService.Get<DataResult<IEnumerable<CustomerDto>>>("customer", "/recent", "?firstDate=" + DateTime.UtcNow.Date, "&userId=" + userId);
+            DataResult<IEnumerable<CustomerDto>> recentCustomers = await _requestService.Get<DataResult<IEnumerable<CustomerDto>>>("customer", "/recent", "?firstDate=" + DateTime.UtcNow.Date.ToBinary());
+            DataResult<IEnumerable<CustomerDto>> recentCustomersByUserId = await _requestService.Get<DataResult<IEnumerable<CustomerDto>>>("customer", "/recent", "?firstDate=" + DateTime.UtcNow.Date.ToBinary(), "&userId=" + userId);
             DataResult<int> countCustomer = await _requestService.Get<DataResult<int>>("customer","/count");
             DataResult<IEnumerable<Reminder>> remiders = await _requestService.Get<DataResult<IEnumerable<Reminder>>>("reminder", "?userId="+userId);
-            DataResult<int> countEntry = await _requestService.Get<DataResult<int>>("entry", "/count", "?userId=" + userId,"&firstDate="+DateTime.UtcNow.Date);
+            DataResult<int> countEntry = await _requestService.Get<DataResult<int>>("entry", "/count", "?userId=" + userId,"&firstDate="+DateTime.UtcNow.Date.ToBinary());
             ViewData.Add("CustomerCount",countCustomer.Data);
             ViewData.Add("EntryCount", countEntry.Data);
             ViewData.Add("RecentCustomerCount", recentCustomersByUserId.Data.Count());

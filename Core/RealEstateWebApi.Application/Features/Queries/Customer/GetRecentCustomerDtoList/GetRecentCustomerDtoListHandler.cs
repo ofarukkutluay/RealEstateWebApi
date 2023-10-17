@@ -20,14 +20,15 @@ namespace RealEstateWebApi.Application.Features.Queries.Customer.GetRecentCustom
 
         public Task<GetRecentCustomerDtoListResponse> Handle(GetRecentCustomerDtoListRequest request, CancellationToken cancellationToken)
         {
+            DateTime firstdate = DateTime.FromBinary(request.FirstDate).Date;
             IEnumerable<CustomerDto> customers = _customerReadRepository.GetAllDto()
-                .Where(x => x.CreatedDate.Date >= request.FirstDate.Date)
+                .Where(x => x.CreatedDate.Date >= firstdate)
                 .OrderByDescending(x => x.CreatedDate);
 
             if (request.UserId != null && request.UserId > 0)
             {
                 customers = _customerReadRepository.GetAllDtoByAssignedUserId((uint)request.UserId)
-                    .Where(x => x.CreatedDate.Date >= request.FirstDate.Date)
+                    .Where(x => x.CreatedDate.Date >= firstdate)
                     .OrderByDescending(x => x.CreatedDate);
             }
             return Task.FromResult(new GetRecentCustomerDtoListResponse()

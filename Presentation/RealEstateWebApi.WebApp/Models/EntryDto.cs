@@ -1,6 +1,6 @@
 namespace RealEstateWebApi.WebApp.Models;
 
-class EntryDto
+public class EntryDto
 {
    public uint Id { get; set; }
     public string Customer { get; set; }

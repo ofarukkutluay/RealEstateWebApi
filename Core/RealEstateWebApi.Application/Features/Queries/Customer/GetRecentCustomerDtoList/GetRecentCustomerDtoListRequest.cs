@@ -9,7 +9,7 @@ namespace RealEstateWebApi.Application.Features.Queries.Customer.GetRecentCustom
 {
     public class GetRecentCustomerDtoListRequest : IRequest<GetRecentCustomerDtoListResponse>
     {
-        public DateTime FirstDate { get; set; }
+        public long FirstDate { get; set; }
         public uint? UserId { get; set; }
     }
 }

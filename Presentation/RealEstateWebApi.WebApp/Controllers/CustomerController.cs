@@ -126,6 +126,13 @@ public class CustomerController : BaseController
         return RedirectToAction("Add");
     }
 
+    [HttpGet("customer/ownedproperties")]
+    public async Task<IActionResult> OwnedProperties()
+    {
+        DataResult<IEnumerable<CustomerOwnedPropertyDto>> customerOwnedProperties = await _requestService.Get<DataResult<IEnumerable<CustomerOwnedPropertyDto>>>("CustomerOwnedProperty");
+        ViewData.Add("host", _configuration.GetSection("PhotoHost").Value);
+        return View(customerOwnedProperties.Data.OrderByDescending(x=>x.CreatedDate));
+    }
 
     [HttpGet("/customer/{customerId}")]
     public async Task<IActionResult> Detail([FromRoute] uint customerId)
@@ -152,6 +159,8 @@ public class CustomerController : BaseController
 
 
     }
+
+    
 
     [HttpPost]
     public async Task<IActionResult> EntryAdd(Entry entry)

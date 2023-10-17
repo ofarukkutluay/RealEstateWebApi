@@ -27,7 +27,42 @@
 
                                     var host = ViewData["host"];
 
+                                    //var listingPhotos = (IEnumerable<PropertyListingPhoto>)ViewBag.ListingPhoto;
+
                                     if (Model.Item2.Count() == 0)
+            {
+                host += "default-img/image-not-found.png";
+                <div class="carousel-item active">
+                    <div class="d-flex justify-content-center align-items-center" style="height: 537px;">
+
+                        <img src="@host" class="d-block w-auto h-100" alt="...">
+                    </div>
+                </div>
+            }
+            else
+            {
+                var photo = Model.Item2.OrderBy(x => x.SortIndex).FirstOrDefault();
+                string src = host+photo.FullPath;
+
+                <div class="carousel-item active">
+                    <div class="d-flex justify-content-center align-items-center" style="height: 537px;">
+
+                        <img src="@src" class="w-auto h-100" alt="@src">
+                    </div>
+                </div>
+
+                foreach (var item in Model.Item2.OrderBy(x => x.SortIndex).Skip(1))
+                {
+                    src = host + item.FullPath;
+
+                    <div class="carousel-item">
+                        <div class="d-flex justify-content-center align-items-center " style="height: 537px;">
+                            <img src="@src" class="w-auto h-100" alt="@src">
+                        </div>
+                    </div>
+                }
+            }
+                                    @*if (listingPhotos.Count() == 0 || listingPhotos == null)
                                     {
                                         host += "default-img/image-not-found.png";
                                         <div class="carousel-item active">
@@ -39,8 +74,8 @@
                                     }
                                     else
                                     {
-                                        var photo = Model.Item2.OrderBy(x => x.SortIndex).FirstOrDefault();
-                                        string src = host+photo.FullPath;
+                                        var photo = listingPhotos.OrderBy(x => x.SortIndex).FirstOrDefault();
+                                        string src = host + photo.FullPath;
 
                                         <div class="carousel-item active">
                                             <div class="d-flex justify-content-center align-items-center" style="height: 537px;">
@@ -49,7 +84,7 @@
                                             </div>
                                         </div>
 
-                                        foreach (var item in Model.Item2.OrderBy(x => x.SortIndex).Skip(1))
+                                        foreach (var item in listingPhotos.OrderBy(x => x.SortIndex).Skip(1))
                                         {
                                             src = host + item.FullPath;
 
@@ -59,8 +94,7 @@
                                                 </div>
                                             </div>
                                         }
-                                    }
-
+                                    }*@
 
                                 }
 

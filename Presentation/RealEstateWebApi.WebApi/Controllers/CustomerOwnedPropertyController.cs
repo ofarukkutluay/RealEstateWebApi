@@ -5,6 +5,7 @@ using RealEstateWebApi.Application.Features.Commands.CustomerOwnedProperty.Creat
 using RealEstateWebApi.Application.Features.Commands.CustomerOwnedProperty.DeleteCustomerOwnedProperty;
 using RealEstateWebApi.Application.Features.Commands.CustomerOwnedProperty.UpdateCustomerOwnedProperty;
 using RealEstateWebApi.Application.Features.Queries.CustomerOwnedProperty.GetAllCustomerOwnedPropertyByCustomerId;
+using RealEstateWebApi.Application.Features.Queries.CustomerOwnedProperty.GetAllCustomerOwnedPropertyDto;
 using RealEstateWebApi.Application.Features.Queries.CustomerOwnedProperty.GetAllCustomerOwnedPropertyDtoByCustomerId;
 using System.Data;
 
@@ -50,13 +51,22 @@ namespace RealEstateWebApi.WebApi.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllCustomerOwnedPropertyByCustomerId([FromQuery] GetAllCustomerOwnedPropertyByCustomerIdRequest request)
+        public async Task<IActionResult> GetAllCustomerOwnedPropertyDto()
         {
-            GetAllCustomerOwnedPropertyByCustomerIdResponse response = await _mediator.Send(request);
+            GetAllCustomerOwnedPropertyDtoResponse response = await _mediator.Send(new GetAllCustomerOwnedPropertyDtoRequest());
             if (response.Success)
                 return Ok(response);
             return BadRequest(response);
         }
+
+        //[HttpGet]
+        //public async Task<IActionResult> GetAllCustomerOwnedPropertyByCustomerId([FromQuery] GetAllCustomerOwnedPropertyByCustomerIdRequest request)
+        //{
+        //    GetAllCustomerOwnedPropertyByCustomerIdResponse response = await _mediator.Send(request);
+        //    if (response.Success)
+        //        return Ok(response);
+        //    return BadRequest(response);
+        //}
 
         [HttpGet("{CustomerId}")]
         public async Task<IActionResult> GetAllCustomerOwnedPropertyDtoByCustomerId([FromRoute] GetAllCustomerOwnedPropertyDtoByCustomerIdRequest request)

@@ -16,12 +16,15 @@ namespace RealEstateWebApi.Application.Features.Queries.Entry.GetCountEntryByUse
         public async Task<GetCountEntryByUserIdResponse> Handle(GetCountEntryByUserIdRequest request, CancellationToken cancellationToken)
         {
             int result;
-            if(request.LastDate == null)
+            DateTime firstdate = DateTime.FromBinary(request.FirstDate).Date;
+            
+            if (request.LastDate == null)
             {
-                result = _entryReadRepository.GetWhere(x => x.UserId == request.UserId && x.CreatedDate.Date == request.FirstDate.Date).Count();
+                result = _entryReadRepository.GetWhere(x => x.UserId == request.UserId && x.CreatedDate.Date == firstdate).Count();
             } else
             {
-                result = _entryReadRepository.GetWhere(x => x.UserId == request.UserId && x.CreatedDate.Date >= request.FirstDate.Date && x.CreatedDate.Date <= request.LastDate.GetValueOrDefault().Date).Count();
+                DateTime lastdate = DateTime.FromBinary((long)request.LastDate).Date;
+                result = _entryReadRepository.GetWhere(x => x.UserId == request.UserId && x.CreatedDate.Date >= firstdate && x.CreatedDate.Date <= lastdate).Count();
             }
 
             return new GetCountEntryByUserIdResponse()
