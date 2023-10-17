@@ -399,6 +399,6 @@ FodyWeavers.xsd
 /Presentation/RealEstateWebApi.WebApi/wwwroot/ShScraping/
 /Presentation/RealEstateWebApi.WebApi/logs/
 /Presentation/RealEstateWebApi.WebApp/logs/
-/Presentation/RealEstateWebApi.WebApi/*.json
-/Presentation/RealEstateWebApi.WebApp/*.json
+/Presentation/RealEstateWebApi.WebApi/appsettings.json
+/Presentation/RealEstateWebApi.WebApp/appsettings.json
 
