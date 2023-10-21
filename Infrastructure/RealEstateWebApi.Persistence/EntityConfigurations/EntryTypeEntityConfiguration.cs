@@ -11,6 +11,7 @@ namespace RealEstateWebApi.Persistence.EntityConfigurations
                 new EntryType { Id = 2, Title = "Görüşme",Key = "GRSM", CreatedDate = DateTime.UtcNow },
                 new EntryType { Id = 3, Title = "Teklif",Key="TKLF", CreatedDate = DateTime.UtcNow },
                 new EntryType { Id = 4, Title = "Sözleşme",Key="SZLSM", CreatedDate = DateTime.UtcNow });
+            builder.HasQueryFilter(p => p.IsDeleted == false);
             base.Configure(builder);
         }
     }

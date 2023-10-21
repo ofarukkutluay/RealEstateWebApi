@@ -14,6 +14,8 @@ namespace RealEstateWebApi.Persistence.EntityConfigurations
         {
             builder.HasData(new InternetType { Id = 1, Title = "Adsl/Vdsl", CreatedDate = DateTime.UtcNow }, new InternetType { Id = 2, Title = "Fiber", CreatedDate = DateTime.UtcNow }, 
                 new InternetType { Id = 3, Title = "Uydu", CreatedDate = DateTime.UtcNow }, new InternetType { Id = 4, Title = "Altyapı Yok", CreatedDate = DateTime.UtcNow });
+
+            builder.HasQueryFilter(p => p.IsDeleted == false);
             base.Configure(builder);
         }
     }

@@ -29,7 +29,7 @@ namespace RealEstateWebApi.Persistence.EntityConfigurations
             builder.HasOne<Company>().WithMany().HasForeignKey(e=>e.CompanyId);
 
 
-
+            builder.HasQueryFilter(p => p.IsDeleted == false);
             base.Configure(builder);
         }
     }

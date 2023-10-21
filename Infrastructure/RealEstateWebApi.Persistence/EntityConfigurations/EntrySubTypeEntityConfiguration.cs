@@ -26,7 +26,7 @@ namespace RealEstateWebApi.Persistence.EntityConfigurations
                 new EntrySubType { Id = 12, EntryTypeId = 4, Title = "Kabul Etmedi", Key="GDOWN", CreatedDate = DateTime.UtcNow },
                 new EntrySubType { Id = 13, EntryTypeId = 4, Title = "Sözleşme Bitti", Key = "PDOWN", CreatedDate = DateTime.UtcNow });
 
-
+            builder.HasQueryFilter(p => p.IsDeleted == false);
             base.Configure(builder);
         }
     }

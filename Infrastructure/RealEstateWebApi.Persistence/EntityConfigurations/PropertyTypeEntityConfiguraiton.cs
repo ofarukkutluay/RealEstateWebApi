@@ -19,6 +19,8 @@ namespace RealEstateWebApi.Persistence.EntityConfigurations
                 new PropertyType { Id = 9, Title = "Depo/Antrepo", CreatedDate = DateTime.UtcNow }, new PropertyType { Id = 10, Title = "Dükkan/Mağaza", CreatedDate = DateTime.UtcNow },
                 new PropertyType { Id = 11, Title = "Plaza", CreatedDate = DateTime.UtcNow }, new PropertyType { Id = 12, Title = "Palaza Katı", CreatedDate = DateTime.UtcNow },
                 new PropertyType { Id = 13, Title = "Sağlık Merkezi", CreatedDate = DateTime.UtcNow }, new PropertyType { Id = 14, Title = "Spor Tesisi", CreatedDate = DateTime.UtcNow });
+
+            builder.HasQueryFilter(p => p.IsDeleted == false);
             base.Configure(builder);
         }
     }

@@ -13,6 +13,7 @@ namespace RealEstateWebApi.Persistence.EntityConfigurations
         public override void Configure(EntityTypeBuilder<BlogType> builder)
         {
             builder.HasOne<Client>().WithMany().HasForeignKey(e=>e.ClientId);
+            builder.HasQueryFilter(p => p.IsDeleted == false);
             base.Configure(builder);
         }
     }

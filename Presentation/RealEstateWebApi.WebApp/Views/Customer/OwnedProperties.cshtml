@@ -120,13 +120,14 @@
                                         </a>
                                     </li>
                                 }
-                                
+
                                 for (var i = 0; i < totalPage; i++)
                                 {
-                                                          
+
                                     int a = i + 1;
-                                                          
-                                    <li class="page-item">
+                                    string classText = "page-item " + (page == i ? "active" : "");
+
+                                    <li class="@classText">
                                         <a class="page-link" asp-action="OwnedProperties" asp-route-pageIndex="@i">@a</a>
                                     </li>
                                 }

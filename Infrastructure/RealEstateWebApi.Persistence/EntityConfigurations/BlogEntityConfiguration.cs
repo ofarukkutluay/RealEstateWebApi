@@ -17,7 +17,7 @@ namespace RealEstateWebApi.Persistence.EntityConfigurations
             builder.HasOne<Domain.Entities.File>().WithMany().HasForeignKey(e=>e.BlogPageImgFileId);
             builder.HasOne<BlogType>().WithMany().HasForeignKey(e=>e.BlogTypeId);
             builder.HasOne<Client>().WithMany().HasForeignKey(e => e.ClientId);
-
+            builder.HasQueryFilter(p => p.IsDeleted == false);
 
 
             base.Configure(builder);

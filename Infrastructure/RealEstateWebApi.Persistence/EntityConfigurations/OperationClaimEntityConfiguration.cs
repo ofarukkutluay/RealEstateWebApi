@@ -15,6 +15,8 @@ namespace RealEstateWebApi.Persistence.EntityConfigurations
             builder.HasData(new OperationClaim { Id=1,Name="Admin",Alias="ADMIN",Description="Admin account", CreatedDate = DateTime.UtcNow },
                 new OperationClaim { Id = 2, Name = "User", Alias = "USER", Description = "User account", CreatedDate = DateTime.UtcNow },
                 new OperationClaim { Id = 3, Name = "Agent", Alias = "AGENT", Description = "Agent account", CreatedDate = DateTime.UtcNow });
+
+            builder.HasQueryFilter(p => p.IsDeleted == false);
             base.Configure(builder);
         }
     }

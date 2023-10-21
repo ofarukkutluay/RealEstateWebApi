@@ -92,19 +92,20 @@
                                 if (page != 0)
                                 {
                                     <li class="page-item prev">
-                                        <a class="page-link" asp-action="OwnedProperties" asp-route-pageIndex="@(page-1)" tabindex="-1">
+                                        <a class="page-link" asp-action="Index" asp-route-pageIndex="@(page-1)" tabindex="-1">
                                             <span class="bi bi-chevron-left"></span>
                                         </a>
                                     </li>
                                 }
-                                                  
+
                                 for (var i = 0; i < totalPage; i++)
                                 {
-                                                                          
+
                                     int a = i + 1;
-                                                                          
-                                    <li class="page-item">
-                                        <a class="page-link" asp-action="OwnedProperties" asp-route-pageIndex="@i">@a</a>
+                                    string classText = "page-item " + (page == i ? "active" : "");
+
+                                    <li class="@classText">
+                                        <a class="page-link" asp-action="Index" asp-route-pageIndex="@i">@a</a>
                                     </li>
                                 }
                 
@@ -112,7 +113,7 @@
                                 if (totalPage-1 > page)
                                 {
                                     <li class="page-item next">
-                                        <a class="page-link" asp-action="OwnedProperties" asp-route-pageIndex="@(page+1)" >
+                                        <a class="page-link" asp-action="Index" asp-route-pageIndex="@(page+1)" >
                                             <span class="bi bi-chevron-right"></span>
                                         </a>
                                     </li>

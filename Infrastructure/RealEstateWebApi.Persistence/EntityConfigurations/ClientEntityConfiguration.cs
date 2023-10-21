@@ -14,7 +14,7 @@ namespace RealEstateWebApi.Persistence.EntityConfigurations
         {
             builder.HasOne<Company>().WithMany().HasForeignKey(x => x.CompanyId);
             builder.HasOne<Domain.Entities.File>().WithMany().HasForeignKey(x=>x.LogoImgFileId);
-
+            builder.HasQueryFilter(p => p.IsDeleted == false);
             base.Configure(builder);
         }
     }

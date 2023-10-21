@@ -14,6 +14,7 @@ namespace RealEstateWebApi.Persistence.EntityConfigurations
         {
             builder.HasData(new UsingStatus { Id = 1, Title = "Boş", CreatedDate = DateTime.UtcNow }, new UsingStatus { Id = 2, Title = "Mülk Sahibi", CreatedDate = DateTime.UtcNow },
                 new UsingStatus { Id = 3, Title = "Kiracılı", CreatedDate = DateTime.UtcNow });
+            builder.HasQueryFilter(p => p.IsDeleted == false);
             base.Configure(builder);
         }
     }

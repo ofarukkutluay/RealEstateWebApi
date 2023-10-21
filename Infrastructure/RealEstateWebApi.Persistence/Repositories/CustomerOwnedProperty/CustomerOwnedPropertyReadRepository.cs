@@ -1,6 +1,8 @@
-﻿using RealEstateWebApi.Application.DTOs;
+﻿using MediatR;
+using RealEstateWebApi.Application.DTOs;
 using RealEstateWebApi.Application.Repositories;
 using RealEstateWebApi.Domain.Entities;
+using RealEstateWebApi.Domain.Entities.HelperEntities;
 using RealEstateWebApi.Persistence.Contexts;
 
 
@@ -44,10 +46,9 @@ namespace RealEstateWebApi.Persistence.Repositories
             return result.AsEnumerable();
         }
 
-        public IEnumerable<CustomerOwnedPropertyDto> GetAllCustomerOwnedPropertyDto()
+        public IEnumerable<CustomerOwnedPropertyDto> GetAllCustomerOwnedPropertyDto(Pagination pagination)
         {
-            var result = from cosp in Table
-                         where cosp.IsDeleted == false
+            var result = (from cosp in Table.OrderByDescending(arg => arg.CreatedDate).Skip(pagination.PageIndex * pagination.PageSize).Take(pagination.PageSize)
                          select new CustomerOwnedPropertyDto
                          {
                              Id = cosp.Id,
@@ -72,7 +73,7 @@ namespace RealEstateWebApi.Persistence.Repositories
                              CreatedDate = cosp.CreatedDate,
                              UpdatedDate = cosp.UpdatedDate,
                              IsActive = cosp.IsActive
-                         };
+                         }).ToList();
             return result.AsEnumerable();
         }
     }

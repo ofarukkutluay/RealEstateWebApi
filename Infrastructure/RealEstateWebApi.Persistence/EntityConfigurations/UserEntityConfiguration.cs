@@ -13,7 +13,7 @@ namespace RealEstateWebApi.Persistence.EntityConfigurations
         public override void Configure(EntityTypeBuilder<User> builder)
         {
             builder.HasOne<Domain.Entities.File>().WithMany().HasForeignKey(e => e.ProfileImgFileId);
-
+            builder.HasQueryFilter(p => p.IsDeleted == false);
             base.Configure(builder);
         }
     }

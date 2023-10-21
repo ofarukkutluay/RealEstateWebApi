@@ -16,6 +16,8 @@ namespace RealEstateWebApi.Persistence.EntityConfigurations
                 new Front { Id = 3, Title = "Doğu", CreatedDate = DateTime.UtcNow }, new Front { Id = 4, Title = "Güney Doğu", CreatedDate = DateTime.UtcNow }, 
                 new Front { Id = 5, Title = "Güney", CreatedDate = DateTime.UtcNow }, new Front { Id = 6, Title = "Güney Batı", CreatedDate = DateTime.UtcNow }, 
                 new Front { Id = 7, Title = "Batı", CreatedDate = DateTime.UtcNow }, new Front { Id = 8, Title = "Kuzey Batı", CreatedDate = DateTime.UtcNow });
+
+            builder.HasQueryFilter(p => p.IsDeleted == false);
             base.Configure(builder);
         }
     }
