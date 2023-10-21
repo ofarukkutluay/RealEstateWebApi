@@ -9,7 +9,8 @@ namespace RealEstateWebApi.WebApp.Data.Local
 
     public DbSet<City> Cities { get; set; }
     public DbSet<District> Districts { get; set; }
-    public DbSet<Neighborhood> Neighborhoods { get; set; }    
+    public DbSet<Neighborhood> Neighborhoods { get; set; }
+    public DbSet<PropertyListingPhoto> PropertyListingPhotos { get; set; }  
 }
 }
 

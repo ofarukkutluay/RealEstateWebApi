@@ -24,64 +24,102 @@
                     <h5 class="card-title">Müşteriler</h5>
 
                     <!-- Table with stripped rows -->
-                    <table class="table datatable">
+                    <table class="table">
                         <thead>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Name</th>
-                                <th scope="col">Durumu</th>
-                                <th scope="col">İl</th>
-                                <th scope="col">İlçe</th>
-                                <th scope="col">Cep Telefonu</th>
-                                <th scope="col">Kayıt Yapan</th>
-                                <th scope="col">Yetkilisi</th>
-                                <th scope="col">Oluşturma Tarihi</th>
-                            </tr>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">İsim</th>
+                            <th scope="col">Durumu</th>
+                            <th scope="col">İl</th>
+                            <th scope="col">İlçe</th>
+                            <th scope="col">Cep Telefonu</th>
+                            <th scope="col">Kayıt Yapan</th>
+                            <th scope="col">Yetkilisi</th>
+                            <th scope="col">Oluşturma Tarihi</th>
+                        </tr>
                         </thead>
                         <tbody>
-                            @foreach (var item in Model)
-                            {
-                                <tr>
-                                    <th scope="row">@item.Id</th>
-                                    <td><a href="/customer/@item.Id">@item.FullName</a> </td>
-                                    <td>
-                                        @if (item.IsActive)
-                                        {
-                                            <span class="badge bg-success">Aktif</span>
-                                        }
-                                        else
-                                        {
-                                            <span class="badge bg-danger">Deaktif</span>
-                                        }
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <th scope="row">@item.Id</th>
+                                <td><a href="/customer/@item.Id">@item.FullName</a> </td>
+                                <td>
+                                    @if (item.IsActive)
+                                    {
+                                        <span class="badge bg-success">Aktif</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-danger">Deaktif</span>
+                                    }
 
-                                        @if (item.StatusKey == "YENI")
-                                        {
-
-
-                                            <span class="badge bg-danger">Yeni</span>
-
-                                        }
-                                        else
-                                        {
-                                            <span class="badge bg-secondary">@item.Status</span>
-                                        }
+                                    @if (item.StatusKey == "YENI")
+                                    {
 
 
-                                    </td>
-                                    <td>@item.City</td>
-                                    <td>@item.District</td>
-                                    <td>@item.MobileNumber</td>
-                                    <td>@item.RegisterUser</td>
-                                    <td>@item.AssignedUser</td>
-                                    <td>@item.CreatedDate.UtcToLocalTR().ToString("dd-MM-yyyy HH:mm")</td>
-                                </tr>
-                            }
+                                        <span class="badge bg-danger">Yeni</span>
+
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-secondary">@item.Status</span>
+                                    }
+
+
+                                </td>
+                                <td>@item.City</td>
+                                <td>@item.District</td>
+                                <td>@item.MobileNumber</td>
+                                <td>@item.RegisterUser</td>
+                                <td>@item.AssignedUser</td>
+                                <td>@item.CreatedDate.UtcToLocalTR().ToString("dd-MM-yyyy HH:mm")</td>
+                            </tr>
+                        }
 
 
                         </tbody>
                     </table>
                     <!-- End Table with stripped rows -->
 
+                </div>
+                <div class="card-footer">
+                    <nav class="pagination-a">
+                        <ul class="pagination justify-content-end">
+                            @{ 
+                                int totalPage = Convert.ToInt32(ViewData["totalPage"]);
+                                int page = Convert.ToInt32(ViewData["page"]);
+                                if (page != 0)
+                                {
+                                    <li class="page-item prev">
+                                        <a class="page-link" asp-action="OwnedProperties" asp-route-pageIndex="@(page-1)" tabindex="-1">
+                                            <span class="bi bi-chevron-left"></span>
+                                        </a>
+                                    </li>
+                                }
+                                                  
+                                for (var i = 0; i < totalPage; i++)
+                                {
+                                                                          
+                                    int a = i + 1;
+                                                                          
+                                    <li class="page-item">
+                                        <a class="page-link" asp-action="OwnedProperties" asp-route-pageIndex="@i">@a</a>
+                                    </li>
+                                }
+                
+                
+                                if (totalPage-1 > page)
+                                {
+                                    <li class="page-item next">
+                                        <a class="page-link" asp-action="OwnedProperties" asp-route-pageIndex="@(page+1)" >
+                                            <span class="bi bi-chevron-right"></span>
+                                        </a>
+                                    </li>
+                                }
+                            }
+                        </ul>
+                    </nav>
                 </div>
             </div>
 

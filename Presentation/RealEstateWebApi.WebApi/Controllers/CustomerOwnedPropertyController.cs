@@ -51,9 +51,9 @@ namespace RealEstateWebApi.WebApi.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllCustomerOwnedPropertyDto()
+        public async Task<IActionResult> GetAllCustomerOwnedPropertyDto([FromQuery] GetAllCustomerOwnedPropertyDtoRequest request)
         {
-            GetAllCustomerOwnedPropertyDtoResponse response = await _mediator.Send(new GetAllCustomerOwnedPropertyDtoRequest());
+            GetAllCustomerOwnedPropertyDtoResponse response = await _mediator.Send(request);
             if (response.Success)
                 return Ok(response);
             return BadRequest(response);

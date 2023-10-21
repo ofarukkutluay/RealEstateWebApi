@@ -9,6 +9,6 @@ namespace RealEstateWebApi.Application.Results
     public class DataResult<T> : Result , IDataResult<T>
     {
         public T Data { get; set; }
-
+        public int TotalDataCount { get; set; }
     }
 }

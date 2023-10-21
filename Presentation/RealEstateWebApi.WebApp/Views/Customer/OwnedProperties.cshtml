@@ -1,0 +1,151 @@
+﻿@{
+    ViewData["Title"] = "Sahip oldukları mülkler";
+}
+
+@using RealEstateWebApi.WebApp.Models.Common
+@model IEnumerable<CustomerOwnedPropertyDto>
+
+
+
+<div class="pagetitle">
+    <h1>Müşterilerin Sahip Olduğu Mülkler</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/"><i class="bi bi-house-door"></i></a></li>
+            <li class="breadcrumb-item active"><a href="/customer">Müşteriler</a></li>
+        </ol>
+    </nav>
+</div><!-- End Page Title -->
+
+<section class="section">
+    <div class="row">
+        <div class="col-lg-12">
+
+            <div class="card overflow-auto">
+                <div class="card-body">
+                    <h5 class="card-title">Mülkler</h5>
+
+                    <!-- Table with stripped rows -->
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">İlan Tarihi</th>
+                            <th scope="col">Tipi</th>
+                            <th scope="col">Statüsü</th>
+                            <th scope="col">Oda</th>
+                            <th scope="col">Adres</th>
+                            <th scope="col">Fiyat</th>
+                            <th scope="col">Açıklama</th>
+                            <th scope="col">-</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <th scope="row">
+                                    @item.Id
+
+                                </th>
+                                @if (item.PropertyListingDetail != null)
+                                {
+                                    <td class="@((DateTime.Today - TimeSpan.FromDays(30)).Date >= item.PropertyListingDetail.ListingDate.GetValueOrDefault().Date ? "text-danger" : "" ) ">@item.PropertyListingDetail.ListingDate.GetValueOrDefault().Date.ToString("dd-MM-yyyy")</td>
+                                    <td>
+                                        @item.PropertyListingDetail?.Type
+
+                                    </td>
+                                    <td>@item.PropertyListingDetail?.Status</td>
+                                    <td>@item.PropertyListingDetail?.RoomCount + @item.PropertyListingDetail?.LivingRoomCount</td>
+                                    <td>@item.PropertyListingDetail?.City / @item.PropertyListingDetail?.District / @item.PropertyListingDetail?.Neighborhood</td>
+                                    <td><div class="d-inline"> @item.PropertyListingDetail?.Price.ToString("##,#") <span>@item.PropertyListingDetail?.Currency</span></div></td>
+                                    <td><div class="overflow-hidden" style="max-height:150px;max-width:250px">@item.PropertyListingDetail?.Description</div></td>
+
+
+                                    await Html.RenderPartialAsync("~/Views/Customer/Modal/_OwnedPropertyDetailModal.cshtml", Tuple.Create(item.PropertyListingDetail, item.PropertyListingPhotos));
+                                    
+
+                                }
+                                else
+                                {
+                                    <td>@item.CreatedDate.Date.ToString("dd-MM-yyyy")</td>
+                                    <td>@item.PropertyType</td>
+                                    <td>@item.PropertyStatus</td>
+                                    <td>@item.RoomCount + @item.LivingRoomCount</td>
+                                    <td>@item.City / @item.District / @item.Neighborhood</td>
+                                    <td>@item.Price?.ToString("##,#") <span>₺</span></td>
+                                    <td>
+                                        <div class="overflow-hidden" style="max-height:150px;max-width:250px">@item.Description</div>
+                                    </td>
+                                }
+                                <td>
+                                    <div class="btn-group" role="group">
+
+
+                                        <a class="btn btn-sm btn-success" href="/customer/@item.CustomerId">
+                                            Git
+                                        </a>
+                                        @if (item.PropertyListingDetail != null)
+                                        {
+
+                                            string IdString = $"#modal{item.PropertyListingDetail.Id.ToString()}";
+
+                                            <button id="@IdString" class="btn btn-sm btn-info" type="button" data-bs-toggle="modal"
+                                                    data-bs-target="@IdString" >
+                                                Detay
+                                            </button>
+                                        }
+
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+
+                        </tbody>
+                    </table>
+                    <!-- End Table with stripped rows -->
+                    
+                </div>
+                <div class="card-footer">
+                    <nav class="pagination-a">
+                        <ul class="pagination justify-content-end">
+                            @{ 
+                                int totalPage = Convert.ToInt32(ViewData["totalPage"]);
+                                int page = Convert.ToInt32(ViewData["page"]);
+                                if (page != 0)
+                                {
+                                    <li class="page-item prev">
+                                        <a class="page-link" asp-action="OwnedProperties" asp-route-pageIndex="@(page-1)" tabindex="-1">
+                                            <span class="bi bi-chevron-left"></span>
+                                        </a>
+                                    </li>
+                                }
+                                
+                                for (var i = 0; i < totalPage; i++)
+                                {
+                                                          
+                                    int a = i + 1;
+                                                          
+                                    <li class="page-item">
+                                        <a class="page-link" asp-action="OwnedProperties" asp-route-pageIndex="@i">@a</a>
+                                    </li>
+                                }
+
+
+                                if (totalPage-1 > page)
+                                {
+                                    <li class="page-item next">
+                                        <a class="page-link" asp-action="OwnedProperties" asp-route-pageIndex="@(page+1)" >
+                                            <span class="bi bi-chevron-right"></span>
+                                        </a>
+                                    </li>
+                                }
+                            }
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>

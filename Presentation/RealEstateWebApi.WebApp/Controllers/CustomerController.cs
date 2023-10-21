@@ -24,10 +24,13 @@ public class CustomerController : BaseController
         _configuration = configuration;
     }
 
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> Index(Pagination pagination)
     {
-        var obj = await _requestService.Get<DataResult<IEnumerable<CustomerDto>>>("customer");
-
+        pagination.PageSize = 20;
+        var obj = await _requestService.Get<DataResult<IEnumerable<CustomerDto>>>("customer","?pageIndex="+pagination.PageIndex,"&pageSize="+pagination.PageSize);
+        decimal page = Convert.ToDecimal(obj.TotalDataCount) / Convert.ToDecimal(pagination.PageSize);
+        ViewData.Add("totalPage",Math.Ceiling(page));
+        ViewData.Add("page",pagination.PageIndex);
         if (obj.Success == true)
         {
             return View(obj.Data);
@@ -127,10 +130,13 @@ public class CustomerController : BaseController
     }
 
     [HttpGet("customer/ownedproperties")]
-    public async Task<IActionResult> OwnedProperties()
+    public async Task<IActionResult> OwnedProperties(Pagination pagination)
     {
-        DataResult<IEnumerable<CustomerOwnedPropertyDto>> customerOwnedProperties = await _requestService.Get<DataResult<IEnumerable<CustomerOwnedPropertyDto>>>("CustomerOwnedProperty");
+        DataResult<IEnumerable<CustomerOwnedPropertyDto>> customerOwnedProperties = await _requestService.Get<DataResult<IEnumerable<CustomerOwnedPropertyDto>>>("CustomerOwnedProperty","?pageIndex="+pagination.PageIndex,"&pageSize="+pagination.PageSize);
         ViewData.Add("host", _configuration.GetSection("PhotoHost").Value);
+        decimal page = Convert.ToDecimal(customerOwnedProperties.TotalDataCount) / Convert.ToDecimal(pagination.PageSize);
+        ViewData.Add("totalPage",Math.Ceiling(page));
+        ViewData.Add("page",pagination.PageIndex);
         return View(customerOwnedProperties.Data.OrderByDescending(x=>x.CreatedDate));
     }
 

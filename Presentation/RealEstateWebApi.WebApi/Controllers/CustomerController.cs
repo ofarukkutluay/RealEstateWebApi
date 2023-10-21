@@ -97,9 +97,9 @@ namespace RealEstateWebApi.WebApi.Controllers
 
         [HttpGet]
         [Authorize]
-        public async Task<IActionResult> GetAllCustomerDto()
+        public async Task<IActionResult> GetAllCustomerDto([FromQuery] GetAllCustomerDtoRequest request)
         {
-            GetAllCustomerDtoResponse response = await _mediator.Send(new GetAllCustomerDtoRequest());
+            GetAllCustomerDtoResponse response = await _mediator.Send(request);
             if (response.Success)
                 return Ok(response);
             return BadRequest(response);

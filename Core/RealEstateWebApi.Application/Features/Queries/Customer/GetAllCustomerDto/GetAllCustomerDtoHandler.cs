@@ -16,10 +16,13 @@ public class GetAllCustomerDtoHandler : IRequestHandler<GetAllCustomerDtoRequest
     public Task<GetAllCustomerDtoResponse> Handle(GetAllCustomerDtoRequest request, CancellationToken cancellationToken)
     {
         IEnumerable<CustomerDto> customerDtos = _customerReadRepository.GetAllDto();
+        IEnumerable<CustomerDto> sizedCustomerDtos =
+            customerDtos.Skip(request.PageIndex * request.PageSize).Take(request.PageSize);
         return Task.FromResult(new GetAllCustomerDtoResponse(){
-            Data = customerDtos,
+            Data = sizedCustomerDtos,
+            TotalDataCount = customerDtos.Count(),
             Success = true,
-            Message = $"{customerDtos.Count()} data getirildi"
+            Message = $"{sizedCustomerDtos.Count()} data getirildi"
         });
     }
 }

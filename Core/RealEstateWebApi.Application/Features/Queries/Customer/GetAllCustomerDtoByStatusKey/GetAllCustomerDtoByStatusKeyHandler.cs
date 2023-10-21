@@ -16,7 +16,8 @@ namespace RealEstateWebApi.Application.Features.Queries.Customer.GetAllCustomerD
 
         public async Task<GetAllCustomerDtoByStatusKeyResponse> Handle(GetAllCustomerDtoByStatusKeyRequest request, CancellationToken cancellationToken)
         {
-            IEnumerable<CustomerDto> customerDtos = _customerReadRepository.GetAllDtoByStatusKey(request.StatusKey, request.AssignedUserId);
+            IEnumerable<CustomerDto> customerDtos = _customerReadRepository.GetAllDtoByStatusKey(request.StatusKey, request.AssignedUserId)
+                .Skip(request.PageIndex * request.PageSize).Take(request.PageSize);
             return new GetAllCustomerDtoByStatusKeyResponse
             {
                 Data = customerDtos,

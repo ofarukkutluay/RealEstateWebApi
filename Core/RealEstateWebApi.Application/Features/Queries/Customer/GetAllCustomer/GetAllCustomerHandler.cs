@@ -20,11 +20,14 @@ namespace RealEstateWebApi.Application.Features.Queries.Customer.GetAllCustomer
         public async Task<GetAllCustomerResponse> Handle(GetAllCustomerRequest request, CancellationToken cancellationToken)
         {
             IEnumerable<Domain.Entities.Customer> customers = _customerReadRepository.GetWhere(x => x.IsDeleted == false);
+            IEnumerable<Domain.Entities.Customer> sizedCustomers =
+                customers.Skip(request.PageIndex * request.PageSize).Take(request.PageSize);
             return await Task.FromResult(new GetAllCustomerResponse()
             {
-                Message = $"{customers.Count()} adet data getirildi",
+                Message = $"{sizedCustomers.Count()} adet data getirildi",
                 Success = true,
-                Data = customers
+                Data = sizedCustomers,
+                TotalDataCount = customers.Count()
             });
             
         }
