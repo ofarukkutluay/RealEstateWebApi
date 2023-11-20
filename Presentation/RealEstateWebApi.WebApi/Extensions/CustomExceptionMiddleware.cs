@@ -35,12 +35,12 @@ namespace RealEstateWebApi.WebApi.Extensions
             catch (Exception ex)
             {
                 watch.Stop();
-                //await HandleException(context, ex, watch);
+                await HandleException(context, ex, watch);
                 context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
 
                 string message = $"[Error]    HTTP {context.Request.Method} - {context.Response.StatusCode} Error Message: {ex.Message} in {watch.Elapsed.TotalMilliseconds} ms {DateTime.Now}";
-                Console.WriteLine(message);
-                await _mailService.SendMailAsync("ofarukkutluay@outlook.com", $"Api hata mesajı", message);
+                // Console.WriteLine(message);
+                //await _mailService.SendMailAsync("ofarukkutluay@outlook.com", $"Api hata mesajı", message);
 
             }
 
@@ -52,10 +52,10 @@ namespace RealEstateWebApi.WebApi.Extensions
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
 
-            string message = $"[Error]    HTTP {context.Request.Method} - {context.Response.StatusCode} Error Message: {ex.Message} in {watch.Elapsed.TotalMilliseconds} ms";
+            string message = $"[Error]    HTTP {context.Request.Method} - {context.Response.StatusCode} Error Message: {ex.Message} {ex.StackTrace} {ex.InnerException} {ex.HResult} in {watch.Elapsed.TotalMilliseconds} ms";
             Console.WriteLine(message);
 
-            var result = JsonConvert.SerializeObject(new { Error = ex.Message }, Formatting.None);
+            var result = JsonConvert.SerializeObject(ex, Formatting.None);
 
             return context.Response.WriteAsync(result);
         }

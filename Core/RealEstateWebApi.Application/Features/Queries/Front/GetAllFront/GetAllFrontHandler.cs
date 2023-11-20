@@ -15,7 +15,7 @@ namespace RealEstateWebApi.Application.Features.Queries.Front.GetAllFront
 
         public async Task<GetAllFrontResponse> Handle(GetAllFrontRequest request, CancellationToken cancellationToken)
         {
-            IEnumerable<Domain.Entities.Front> frontes = _frontReadRepository.GetWhere(x => x.IsDeleted == false).OrderBy(e=>e.Title);
+            IEnumerable<Domain.Entities.Front> frontes = _frontReadRepository.GetAll().OrderBy(e=>e.Title);
             return await Task.FromResult(new GetAllFrontResponse()
             {
                 Message = $"{frontes.Count()} adet data getirildi",

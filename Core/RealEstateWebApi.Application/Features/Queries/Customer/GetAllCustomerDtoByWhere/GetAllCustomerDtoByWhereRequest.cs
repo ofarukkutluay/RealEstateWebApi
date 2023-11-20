@@ -6,8 +6,8 @@ namespace RealEstateWebApi.Application.Features.Queries.Customer.GetAllCustomerD
 public class GetAllCustomerDtoByWhereRequest : Pagination, IRequest<GetAllCustomerDtoByWhereResponse>{
     public uint? Id { get; set; }   
     public string? FullName { get; set; } = "";
-    public string? City { get; set; }
-    public string? District { get; set; }
-    public string? Neighborhood { get; set; }
-    public string? MobileNumber { get; set; } 
+    public uint? CityId { get; set; }
+    public uint? DistrictId { get; set; }
+    public uint? NeighborhoodId { get; set; }
+    public string? MobileNumber { get; set; } = "";
 }

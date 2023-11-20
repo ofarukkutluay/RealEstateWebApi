@@ -19,7 +19,7 @@ namespace RealEstateWebApi.Application.Features.Queries.Client.GetAllClient
 
         public Task<GetAllClientResponse> Handle(GetAllClientRequest request, CancellationToken cancellationToken)
         {
-            var result = _clientReadRepository.GetWhere(x=>x.IsDeleted == false).AsEnumerable();
+            var result = _clientReadRepository.GetAll().AsEnumerable();
             return Task.FromResult(new GetAllClientResponse()
             {
                 Data = result,

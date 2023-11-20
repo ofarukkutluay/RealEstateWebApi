@@ -11,7 +11,7 @@ namespace RealEstateWebApi.Persistence.Repositories
         {
         }
 
-        public IEnumerable<EntryDto> GetEntryDtoByCustomerId(uint customerId){
+        public IQueryable<EntryDto> GetEntryDtoByCustomerId(uint customerId){
             var result = from e in Table
                         join et in _context.EntryTypes on e.EntryTypeId equals et.Id
                         join est in _context.EntrySubTypes on e.EntrySubTypeId equals est.Id

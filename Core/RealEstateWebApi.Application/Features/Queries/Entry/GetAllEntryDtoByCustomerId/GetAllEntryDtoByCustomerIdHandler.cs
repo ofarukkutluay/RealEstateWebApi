@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using System.Collections.Generic;
+using MediatR;
 using RealEstateWebApi.Application.DTOs;
 using RealEstateWebApi.Application.Repositories;
 
@@ -16,12 +17,13 @@ namespace RealEstateWebApi.Application.Features.Queries.Entry.GetAllEntryDtoByCu
 
         public async Task<GetAllEntryDtoByCustomerIdResponse> Handle(GetAllEntryDtoByCustomerIdRequest request, CancellationToken cancellationToken)
         {
-            IEnumerable<EntryDto> entries = _entryReadRepository.GetEntryDtoByCustomerId(request.CustomerId).OrderByDescending(e => e.CreatedDate)
-                .Skip((request.Page - 1) * request.PageSize).Take(request.PageSize);
+            IQueryable<EntryDto> entries = _entryReadRepository.GetEntryDtoByCustomerId(request.CustomerId).OrderByDescending(e => e.CreatedDate);
+            IEnumerable<EntryDto> sizedEntries = entries.Skip(request.PageIndex * request.PageSize).Take(request.PageSize).AsEnumerable();
             return await Task.FromResult(new GetAllEntryDtoByCustomerIdResponse()
             {
-                Data = entries,
-                Message = $"{entries.Count()} adet data getirildi",
+                Data = sizedEntries,
+                TotalDataCount = entries.Count(),
+                Message = $"{sizedEntries.Count()} adet data getirildi",
                 Success = true
             });
         }

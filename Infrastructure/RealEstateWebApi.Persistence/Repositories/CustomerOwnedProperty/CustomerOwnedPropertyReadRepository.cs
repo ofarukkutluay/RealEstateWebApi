@@ -14,10 +14,10 @@ namespace RealEstateWebApi.Persistence.Repositories
         {
         }
 
-        public IEnumerable<CustomerOwnedPropertyDto> GetAllCustomerOwnedPropertyDtoByCustomerId(uint customerId)
+        public IQueryable<CustomerOwnedPropertyDto> GetAllCustomerOwnedPropertyDtoByCustomerId(uint customerId)
         {
             var result = from cosp in Table
-                         where cosp.CustomerId == customerId && cosp.IsDeleted == false
+                         where cosp.CustomerId == customerId
                          select new CustomerOwnedPropertyDto
                          {
                              Id = cosp.Id,
@@ -43,12 +43,13 @@ namespace RealEstateWebApi.Persistence.Repositories
                              UpdatedDate = cosp.UpdatedDate,
                              IsActive = cosp.IsActive
                          };
-            return result.AsEnumerable();
+            return result;
         }
 
-        public IEnumerable<CustomerOwnedPropertyDto> GetAllCustomerOwnedPropertyDto(Pagination pagination)
+        public IQueryable<CustomerOwnedPropertyDto> GetAllCustomerOwnedPropertyDto()
         {
-            var result = (from cosp in Table.OrderByDescending(arg => arg.CreatedDate).Skip(pagination.PageIndex * pagination.PageSize).Take(pagination.PageSize)
+            var result = (from cosp in Table
+                          orderby cosp.CreatedDate descending
                          select new CustomerOwnedPropertyDto
                          {
                              Id = cosp.Id,
@@ -73,8 +74,8 @@ namespace RealEstateWebApi.Persistence.Repositories
                              CreatedDate = cosp.CreatedDate,
                              UpdatedDate = cosp.UpdatedDate,
                              IsActive = cosp.IsActive
-                         }).ToList();
-            return result.AsEnumerable();
+                         });
+            return result;
         }
     }
 }

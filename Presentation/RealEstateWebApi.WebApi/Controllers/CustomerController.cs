@@ -9,6 +9,7 @@ using RealEstateWebApi.Application.Features.Queries.Customer.GetAllCustomer;
 using RealEstateWebApi.Application.Features.Queries.Customer.GetAllCustomerCount;
 using RealEstateWebApi.Application.Features.Queries.Customer.GetAllCustomerDto;
 using RealEstateWebApi.Application.Features.Queries.Customer.GetAllCustomerDtoByStatusKey;
+using RealEstateWebApi.Application.Features.Queries.Customer.GetAllCustomerDtoByWhere;
 using RealEstateWebApi.Application.Features.Queries.Customer.GetCustomerById;
 using RealEstateWebApi.Application.Features.Queries.Customer.GetCustomerDtoById;
 using RealEstateWebApi.Application.Features.Queries.Customer.GetRecentCustomerDtoList;
@@ -104,6 +105,16 @@ namespace RealEstateWebApi.WebApi.Controllers
                 return Ok(response);
             return BadRequest(response);
         }
+
+        //[HttpGet("search")]
+        //[Authorize]
+        //public async Task<IActionResult> GetAllCustomerDtoByWhere([FromQuery] GetAllCustomerDtoByWhereRequest request)
+        //{
+        //    GetAllCustomerDtoByWhereResponse response = await _mediator.Send(request);
+        //    if (response.Success)
+        //        return Ok(response);
+        //    return BadRequest(response);
+        //}
 
         [HttpGet("recent")]
         [Authorize]

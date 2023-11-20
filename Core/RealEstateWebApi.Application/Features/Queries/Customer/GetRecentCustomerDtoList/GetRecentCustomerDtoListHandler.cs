@@ -21,7 +21,7 @@ namespace RealEstateWebApi.Application.Features.Queries.Customer.GetRecentCustom
         public Task<GetRecentCustomerDtoListResponse> Handle(GetRecentCustomerDtoListRequest request, CancellationToken cancellationToken)
         {
             DateTime firstdate = DateTime.FromBinary(request.FirstDate).Date;
-            IEnumerable<CustomerDto> customers = _customerReadRepository.GetAllDto()
+            IQueryable<CustomerDto> customers = _customerReadRepository.GetAllDto()
                 .Where(x => x.CreatedDate.Date >= firstdate)
                 .OrderByDescending(x => x.CreatedDate);
 
@@ -33,7 +33,7 @@ namespace RealEstateWebApi.Application.Features.Queries.Customer.GetRecentCustom
             }
             return Task.FromResult(new GetRecentCustomerDtoListResponse()
             {
-                Data = customers,
+                Data = customers.AsEnumerable(),
                 Success = true,
                 Message = $"{customers.Count()} adet data getirildi"
             });

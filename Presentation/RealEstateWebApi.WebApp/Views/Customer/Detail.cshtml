@@ -3,7 +3,7 @@
     ViewData["Title"] = "Müşteri Detayı";
 }
 
-@model Tuple<CustomerDto,IEnumerable<EntryDto>,IEnumerable<CustomerSearchPropertyDto>,IEnumerable<CustomerOwnedPropertyDto>,Customer>
+@model Tuple<CustomerDto, IEnumerable<EntryDto>, IEnumerable<CustomerSearchPropertyDto>, IEnumerable<CustomerOwnedPropertyDto>, Customer>
 
 
 
@@ -46,12 +46,12 @@
                                 }
 
                                 <button class="btn btn-primary" type="button" data-bs-toggle="modal"
-                                    data-bs-target="#customerUpdateModal">
+                                        data-bs-target="#customerUpdateModal">
                                     <i class="bi bi-pencil-square"></i>
                                 </button>
 
                                 <button class="btn btn-danger" type="button" data-bs-toggle="modal"
-                                    data-bs-target="#customerDeleteModal">
+                                        data-bs-target="#customerDeleteModal">
                                     <i class="bi bi-trash"></i>
                                 </button>
 
@@ -123,9 +123,9 @@
                         </button>
                         @{
                             var entry = new Entry()
-            {
-                CustomerId = @Model.Item1.Id,
-            };
+                            {
+                                CustomerId = @Model.Item1.Id,
+                            };
                             await Html.RenderPartialAsync("~/Views/Customer/Modal/_EntryAddModal.cshtml", entry);
                         }
 
@@ -177,9 +177,9 @@
                         </button>
                         @{
                             CustomerOwnedProperty ownedShortProperty = new CustomerOwnedProperty()
-            {
-                CustomerId = Model.Item1.Id
-            };
+                            {
+                                CustomerId = Model.Item1.Id
+                            };
 
                             await Html.RenderPartialAsync("~/Views/Customer/Modal/_OwnedPropertyAddModal.cshtml", ownedShortProperty);
                         }
@@ -198,10 +198,7 @@
                                 <th scope="col">Fiyat</th>
                                 <th scope="col">Açıklama</th>
                                 <th scope="col">Mülk Id</th>
-                                <th scope="col">Sahibinden</th>
-                                <th scope="col">Emlakjet</th>
-                                <th scope="col">Hürriyet</th>
-                                <th scope="col">Diğer Link</th>
+                                <th scope="col">Linkler</th>
                                 <th scope="col">-</th>
 
 
@@ -217,42 +214,65 @@
                                     </th>
                                     @if (item.PropertyListingDetail != null)
                                     {
-                                        <td>
-                                            @item.PropertyListingDetail?.Type
+                                        @*<td>
+                                                @item.PropertyListingDetail?.Type
 
-                                        </td>
-                                        <td>@item.PropertyListingDetail?.Status</td>
-                                        <td>@item.PropertyListingDetail?.RoomCount + @item.PropertyListingDetail?.LivingRoomCount</td>
-                                        <td>@item.PropertyListingDetail?.City / @item.PropertyListingDetail?.District / @item.PropertyListingDetail?.Neighborhood</td>
-                                        <td><div class="d-inline" > @item.PropertyListingDetail?.Price.ToString("##,#") <span>@item.PropertyListingDetail?.Currency</span></div></td>
-                                        <td><div class="overflow-hidden" style="max-height:150px;max-width:250px">@item.PropertyListingDetail?.Description</div></td>
+                                            </td>
+                                            <td>@item.PropertyListingDetail?.Status</td>
+                                            <td>@item.PropertyListingDetail?.RoomCount + @item.PropertyListingDetail?.LivingRoomCount</td>
+                                            <td>@item.PropertyListingDetail?.City / @item.PropertyListingDetail?.District / @item.PropertyListingDetail?.Neighborhood</td>
+                                            <td><div class="d-inline"> @item.PropertyListingDetail?.Price.ToString("##,#") <span>@item.PropertyListingDetail?.Currency</span></div></td>
+                                            <td><div class="overflow-hidden" style="max-height:150px;max-width:250px">@item.PropertyListingDetail?.Description</div></td>*@
 
 
 
-                                        await Html.RenderPartialAsync("~/Views/Customer/Modal/_OwnedPropertyDetailModal.cshtml", Tuple.Create(item.PropertyListingDetail,item.PropertyListingPhotos));
+                                        await Html.RenderPartialAsync("~/Views/Customer/Modal/_OwnedPropertyDetailModal.cshtml", Tuple.Create(item.PropertyListingDetail, item.PropertyListingPhotos));
 
                                     }
-                                    else
-                                    {
-                                        <td>@item.PropertyType</td>
-                                        <td>@item.PropertyStatus</td>
-                                        <td>@item.RoomCount + @item.LivingRoomCount</td>
-                                        <td>@item.City / @item.District / @item.Neighborhood</td>
-                                        <td>@item.Price?.ToString("##,#") <span>₺</span></td>
-                                        <td>
+
+                                    <td>@item.PropertyType</td>
+                                    <td>@item.PropertyStatus</td>
+                                    <td>@item.RoomCount + @item.LivingRoomCount</td>
+                                    <td>@item.City / @item.District / @item.Neighborhood</td>
+                                    <td>
+                                        <div class="d-inline">
+                                            @item.Price?.ToString("##,#") <span>₺</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="overflow-hidden" style="max-height:150px;max-width:250px">
                                             @item.Description
-                                        </td>
-                                    }
+                                        </div>
+                                    </td>
+
                                     <td>@item.PropertyId</td>
                                     <td>
-                                        <div class="text-truncate" style="max-width:150px">
-                                            <a href="@item.ShLink" target="_blank" rel="noopener noreferrer">@item.ShLink</a>
-                                        </div>
+                                        @if (!String.IsNullOrWhiteSpace(item.ShLink))
+                                        {
+                                            <a href="@item.ShLink" target="_blank" rel="noopener noreferrer">
+                                                <span class="badge rounded-pill text-bg-warning">Sahibinden</span>
+                                            </a>
+                                        }
+                                        @if (!String.IsNullOrWhiteSpace(item.EjLink))
+                                        {
+                                            <a href="@item.EjLink" target="_blank" rel="noopener noreferrer">
+                                                <span class="badge rounded-pill text-bg-success">Emlakjet</span>
+                                            </a>
+                                        }
+                                        @if (!String.IsNullOrWhiteSpace(item.HeLink))
+                                        {
 
+                                            <a href="@item.HeLink" target="_blank" rel="noopener noreferrer">
+                                                <span class="badge rounded-pill text-bg-danger">Hepsiemlak</span>
+                                            </a>
+                                        }
+                                        @if (!String.IsNullOrWhiteSpace(item.OtherLink))
+                                        {
+                                            <a href="@item.OtherLink" target="_blank" rel="noopener noreferrer">
+                                                <span class="badge rounded-pill text-bg-info">Diğer</span>
+                                            </a>
+                                        }
                                     </td>
-                                    <td><div class="text-truncate" style="max-width:150px"><a href="@item.EjLink" target="_blank" rel="noopener noreferrer">@item.EjLink</a></div></td>
-                                    <td><div class="text-truncate" style="max-width:150px"><a href="@item.HeLink" target="_blank" rel="noopener noreferrer">@item.HeLink</a></div></td>
-                                    <td><div class="text-truncate" style="max-width:150px"><a href="@item.OtherLink" target="_blank" rel="noopener noreferrer">@item.OtherLink</a></div></td>
                                     <td>
                                         <div class="btn-group" role="group">
                                             @if (Context.User.Claims.FirstOrDefault(e => e.Type == System.Security.Claims.ClaimTypes.Role)?.Value == "Admin")
@@ -264,7 +284,7 @@
                                                 string IdString = $"#modal{item.PropertyListingDetail.Id.ToString()}";
 
                                                 <button class="btn btn-sm btn-info" type="button" data-bs-toggle="modal"
-                                                data-bs-target="@IdString">
+                                                        data-bs-target="@IdString">
                                                     Detail
                                                 </button>
                                             }
@@ -290,9 +310,9 @@
                         </button>
                         @{
                             CustomerSearchProperty searchShortProperty = new CustomerSearchProperty()
-            {
-                CustomerId = Model.Item1.Id
-            };
+                            {
+                                CustomerId = Model.Item1.Id
+                            };
 
                             await Html.RenderPartialAsync("~/Views/Customer/Modal/_SearchPropertyAddModal.cshtml", searchShortProperty);
                         }

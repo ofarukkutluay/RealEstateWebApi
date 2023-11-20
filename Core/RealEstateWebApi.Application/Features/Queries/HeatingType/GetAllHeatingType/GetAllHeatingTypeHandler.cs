@@ -15,7 +15,7 @@ namespace RealEstateWebApi.Application.Features.Queries.HeatingType.GetAllHeatin
 
         public async Task<GetAllHeatingTypeResponse> Handle(GetAllHeatingTypeRequest request, CancellationToken cancellationToken)
         {
-            IEnumerable<Domain.Entities.HeatingType> heatingTypees = _heatingTypeReadRepository.GetWhere(x => x.IsDeleted == false).OrderBy(e=>e.Title);
+            IEnumerable<Domain.Entities.HeatingType> heatingTypees = _heatingTypeReadRepository.GetAll().OrderBy(e=>e.Title);
             return await Task.FromResult(new GetAllHeatingTypeResponse()
             {
                 Message = $"{heatingTypees.Count()} adet data getirildi",

@@ -15,7 +15,7 @@ namespace RealEstateWebApi.Application.Features.Queries.UsingStatus.GetAllUsingS
 
         public async Task<GetAllUsingStatusResponse> Handle(GetAllUsingStatusRequest request, CancellationToken cancellationToken)
         {
-            IEnumerable<Domain.Entities.UsingStatus> usingStatuses = _usingStatusReadRepository.GetWhere(x => x.IsDeleted == false).OrderBy(e=>e.Title);
+            IEnumerable<Domain.Entities.UsingStatus> usingStatuses = _usingStatusReadRepository.GetAll().OrderBy(e=>e.Title);
             return await Task.FromResult(new GetAllUsingStatusResponse()
             {
                 Message = $"{usingStatuses.Count()} adet data getirildi",

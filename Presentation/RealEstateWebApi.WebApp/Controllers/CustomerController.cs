@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using RealEstateWebApi.WebApp.Data.Local;
@@ -24,21 +25,75 @@ public class CustomerController : BaseController
         _configuration = configuration;
     }
 
-    public async Task<IActionResult> Index(Pagination pagination)
+    public async Task<IActionResult> Index(Pagination pagination,CustomerFilter filter)
     {
         pagination.PageSize = 20;
-        var obj = await _requestService.Get<DataResult<IEnumerable<CustomerDto>>>("customer","?pageIndex="+pagination.PageIndex,"&pageSize="+pagination.PageSize);
+        QueryBuilder queries = new QueryBuilder
+        {
+            { "PageIndex", pagination.PageIndex.ToString() },
+            { "PageSize", pagination.PageSize.ToString() }
+        };
+
+        foreach (var item in filter.GetType().GetProperties())
+        {
+            if (item.GetValue(filter) != null)
+            {
+                queries.Add(item.Name, item.GetValue(filter).ToString());
+            }
+        }
+
+
+        var obj = await _requestService.Get<DataResult<IEnumerable<CustomerDto>>>("customer",queries.ToString());
         decimal page = Convert.ToDecimal(obj.TotalDataCount) / Convert.ToDecimal(pagination.PageSize);
+
+        QueryBuilder paginationQuery = new QueryBuilder(queries.SkipWhile((KeyValuePair<string, string> arg) => arg.Key == "PageIndex"));
+
         ViewData.Add("totalPage",Math.Ceiling(page));
         ViewData.Add("page",pagination.PageIndex);
+        ViewData.Add("filterquery", paginationQuery.ToString());
         if (obj.Success == true)
         {
+            await SelectItemInitilazeAddPage();
             return View(obj.Data);
         }
 
         DangerAlert(obj.Message);
         return View();
     }
+
+    //[HttpGet("customer/search")]
+    //public async Task<IActionResult> SearchCustomer(Pagination pagination,CustomerFilter filter)
+    //{
+    //    pagination.PageSize = 20;
+    //    //"&Id="+filter.Id,"&cityId="+filter.CityId,"&districtId="+filter.DistrictId,"&neighborhoodId="+filter.NeighborhoodId
+    //    //"?pageIndex="+pagination.PageIndex,"&pageSize="+pagination.PageSize,"&fullName="+filter.FullName,"&mobileNumber="+filter.MobileNumber, "&cityId=" + filter.CityId
+    //    QueryBuilder queries = new QueryBuilder
+    //    {
+    //        { "PageIndex", pagination.PageIndex.ToString() },
+    //        { "PageSize", pagination.PageSize.ToString() }
+    //    };
+
+    //    foreach (var item in filter.GetType().GetProperties())
+    //    {
+    //        if (item.GetValue(filter) != null)
+    //        {
+    //            queries.Add(item.Name, item.GetValue(filter).ToString());
+    //        }
+    //    }
+
+    //    var obj = await _requestService.Get<DataResult<IEnumerable<CustomerDto>>>("customer/search",queries.ToString());
+    //    decimal page = Convert.ToDecimal(obj.TotalDataCount) / Convert.ToDecimal(pagination.PageSize);
+    //    ViewData.Add("totalPage",Math.Ceiling(page));
+    //    ViewData.Add("page",pagination.PageIndex);
+    //    if (obj.Success == true)
+    //    {
+    //        await SelectItemInitilazeAddPage();
+    //        return View("Index",obj.Data);
+    //    }
+
+    //    DangerAlert("Data bulunamadı");
+    //    return RedirectToAction("Index");
+    //}
 
     [HttpGet("customer/potansiyel")]
     public async Task<IActionResult> Potansiyel()
@@ -130,15 +185,38 @@ public class CustomerController : BaseController
     }
 
     [HttpGet("customer/ownedproperties")]
-    public async Task<IActionResult> OwnedProperties(Pagination pagination)
+    public async Task<IActionResult> OwnedProperties(Pagination pagination, OwnedPropertiesFilter filter)
     {
-        DataResult<IEnumerable<CustomerOwnedPropertyDto>> customerOwnedProperties = await _requestService.Get<DataResult<IEnumerable<CustomerOwnedPropertyDto>>>("CustomerOwnedProperty","?pageIndex="+pagination.PageIndex,"&pageSize="+pagination.PageSize);
+        pagination.PageSize = 20;
+        QueryBuilder queries = new QueryBuilder
+        {
+            { "PageIndex", pagination.PageIndex.ToString() },
+            { "PageSize", pagination.PageSize.ToString() }
+        };
+
+        foreach (var item in filter.GetType().GetProperties())
+        {
+            if (item.GetValue(filter) != null)
+            {
+                queries.Add(item.Name, item.GetValue(filter).ToString());
+            }
+        }
+
+        DataResult<IEnumerable<CustomerOwnedPropertyDto>> customerOwnedProperties = await _requestService.Get<DataResult<IEnumerable<CustomerOwnedPropertyDto>>>("CustomerOwnedProperty", queries.ToString());
         ViewData.Add("host", _configuration.GetSection("PhotoHost").Value);
         decimal page = Convert.ToDecimal(customerOwnedProperties.TotalDataCount) / Convert.ToDecimal(pagination.PageSize);
+
+        QueryBuilder paginationQuery = new QueryBuilder(queries.SkipWhile((KeyValuePair<string, string> arg) => arg.Key == "PageIndex"));
+
+
         ViewData.Add("totalPage",Math.Ceiling(page));
         ViewData.Add("page",pagination.PageIndex);
-        return View(customerOwnedProperties.Data.OrderByDescending(x=>x.CreatedDate));
+        ViewData.Add("filterquery", paginationQuery.ToString());
+
+        await SelectItemInitilazeDetailPage();
+        return View(customerOwnedProperties.Data);
     }
+
 
     [HttpGet("/customer/{customerId}")]
     public async Task<IActionResult> Detail([FromRoute] uint customerId)

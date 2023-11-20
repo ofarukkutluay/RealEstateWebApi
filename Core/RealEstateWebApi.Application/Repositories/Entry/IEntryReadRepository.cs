@@ -6,7 +6,7 @@ namespace RealEstateWebApi.Application.Repositories
 {
     public interface IEntryReadRepository : IReadRepository<Entry>
     {
-        IEnumerable<EntryDto> GetEntryDtoByCustomerId(uint customerId);
+        IQueryable<EntryDto> GetEntryDtoByCustomerId(uint customerId);
     }
 
 

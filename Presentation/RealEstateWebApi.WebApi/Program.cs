@@ -16,6 +16,7 @@ using Serilog;
 using Serilog.Context;
 using Serilog.Core;
 using Serilog.Sinks.PostgreSQL;
+using System.Net;
 using System.Security.Claims;
 using System.Text;
 
@@ -149,8 +150,30 @@ app.Use(async (context, next) =>
 {
     var userid = context.User?.Identity?.IsAuthenticated == true ? context.User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier)?.Value : null;
     LogContext.PushProperty("user_id", userid);
-    var remoteIp = context.Connection.RemoteIpAddress?.ToString();
-    LogContext.PushProperty("remote_ip", remoteIp);
+    //var remoteIp = context.Connection.RemoteIpAddress?.MapToIPv4().ToString();
+    IPAddress ip;
+    var headers = context.Request.Headers.ToList();
+    if (headers.Exists((kvp) => kvp.Key == "X-Forwarded-For"))
+    {
+        try
+        {
+            // when running behind a load balancer you can expect this header
+            var header = headers.First((kvp) => kvp.Key == "X-Forwarded-For").Value.ToString();
+            // in case the IP contains a port, remove ':' and everything after
+            ip = IPAddress.Parse(header.Remove(header.IndexOf(':')));
+        }
+        catch (Exception ex)
+        {
+            ip = context.Request.HttpContext.Connection.LocalIpAddress;
+        }
+
+    }
+    else
+    {
+        // this will always have a value (running locally in development won't have the header)
+        ip = context.Request.HttpContext.Connection.RemoteIpAddress;
+    }
+    LogContext.PushProperty("remote_ip", ip.ToString());
     await next();
 });
 

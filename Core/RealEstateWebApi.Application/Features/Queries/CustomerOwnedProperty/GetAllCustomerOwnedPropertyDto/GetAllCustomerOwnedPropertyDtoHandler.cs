@@ -16,14 +16,14 @@ namespace RealEstateWebApi.Application.Features.Queries.CustomerOwnedProperty.Ge
 
         public Task<GetAllCustomerOwnedPropertyDtoResponse> Handle(GetAllCustomerOwnedPropertyDtoRequest request, CancellationToken cancellationToken)
         {
-            IEnumerable<CustomerOwnedPropertyDto> sizedPropertyDtos = _customerOwnedPropertyReadRepository.GetAllCustomerOwnedPropertyDto(new Domain.Entities.HelperEntities.Pagination() { PageIndex = request.PageIndex,PageSize = request.PageSize});
-            int totalCount = _customerOwnedPropertyReadRepository.Table.Count();
+            IQueryable<CustomerOwnedPropertyDto> ownedPropertyDtos = _customerOwnedPropertyReadRepository.GetAllCustomerOwnedPropertyDto();
+            IEnumerable<CustomerOwnedPropertyDto> sizedOwnedPropertyDtos = ownedPropertyDtos.Skip(request.PageIndex * request.PageSize).Take(request.PageSize);
             return Task.FromResult(new GetAllCustomerOwnedPropertyDtoResponse()
             {
-                Data = sizedPropertyDtos,
-                TotalDataCount = totalCount,
+                Data = sizedOwnedPropertyDtos,
+                TotalDataCount = ownedPropertyDtos.Count(),
                 Success = true,
-                Message = $"{sizedPropertyDtos.Count()} adet data getirildi"
+                Message = $"{sizedOwnedPropertyDtos.Count()} adet data getirildi"
             });
         }
     }

@@ -14,7 +14,7 @@ namespace RealEstateWebApi.Persistence.Repositories
         {
         }
 
-        public IEnumerable<OperationClaim> GetClaims(User user)
+        public IQueryable<OperationClaim> GetClaims(User user)
         {
             var result = from operationClaim in _context.OperationClaims
                          join userOperationClaim in _context.UserOperationClaims
@@ -55,7 +55,7 @@ namespace RealEstateWebApi.Persistence.Repositories
             return result.FirstOrDefault();
         }
 
-        public IEnumerable<UserDto> GetAllUserDto()
+        public IQueryable<UserDto> GetAllUserDto()
         {
             var result = from user in _context.Users
                          select new UserDto()
@@ -88,7 +88,7 @@ namespace RealEstateWebApi.Persistence.Repositories
             return result.OrderBy(x => x.IsActive);
         }
 
-        public IEnumerable<UserDto> GetAllUserFullNameDto()
+        public IQueryable<UserDto> GetAllUserFullNameDto()
         {
             var result = (from user in _context.Users
                           where user.IsActive == true
@@ -97,7 +97,7 @@ namespace RealEstateWebApi.Persistence.Repositories
                              Id = user.Id,
                              FirstName = user.FirstName,
                              LastName = user.LastName,      
-                         }).AsEnumerable();
+                         });
             return result;
         }
 

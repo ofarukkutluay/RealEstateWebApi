@@ -12,7 +12,7 @@ namespace RealEstateWebApi.Application.DTOs
 
         public string? PropertyType { get; set; }
         public string? PropertyStatus { get; set; }
-        public ushort? RoomCount { get; set; }
+        public double? RoomCount { get; set; }
         public ushort? LivingRoomCount { get; set; }
         public string? City { get; set; }
         public string? District { get; set; }

@@ -12,13 +12,13 @@ namespace RealEstateWebApi.Persistence.Repositories
         {
         }
 
-        public IEnumerable<ReminderDto> GetReminderDtosByUserId(uint userId)
+        public IQueryable<ReminderDto> GetReminderDtosByUserId(uint userId)
         {
             var result = from rm in Table
                          join c in _context.Customers on rm.CustomerId equals c.Id
                          into temp
                          from c in temp.DefaultIfEmpty()
-                         where rm.UserId == userId && rm.IsDeleted == false
+                         where rm.UserId == userId
                          orderby rm.ReminderDate ascending
                          select new ReminderDto()
                          {
@@ -33,7 +33,7 @@ namespace RealEstateWebApi.Persistence.Repositories
                              IsActive = rm.IsActive,
                              CustomerName = c.FullName
                          };
-            return result.AsEnumerable();
+            return result;
         }
     }
 }

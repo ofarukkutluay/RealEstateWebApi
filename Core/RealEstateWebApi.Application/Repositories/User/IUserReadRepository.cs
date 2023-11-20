@@ -10,9 +10,9 @@ namespace RealEstateWebApi.Application.Repositories
 {
     public interface IUserReadRepository : IReadRepository<User>
     {
-        IEnumerable<OperationClaim> GetClaims(User user);
+        IQueryable<OperationClaim> GetClaims(User user);
         UserDto GetUserDtoById(uint id);
-        IEnumerable<UserDto> GetAllUserDto();
-        IEnumerable<UserDto> GetAllUserFullNameDto();
+        IQueryable<UserDto> GetAllUserDto();
+        IQueryable<UserDto> GetAllUserFullNameDto();
     }
 }

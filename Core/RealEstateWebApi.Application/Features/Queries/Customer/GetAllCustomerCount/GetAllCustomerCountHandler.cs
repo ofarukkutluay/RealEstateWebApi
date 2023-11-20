@@ -18,7 +18,7 @@ namespace RealEstateWebApi.Application.Features.Queries.Customer.GetAllCustomerC
 
         public Task<GetAllCustomerCountResponse> Handle(GetAllcustomerCountRequest request, CancellationToken cancellationToken)
         {
-            int count = _customerReadRepository.GetWhere(x => x.IsDeleted == false && x.IsActive == true).Count();
+            int count = _customerReadRepository.GetWhere(x => x.IsActive == true).Count();
             return Task.FromResult(new GetAllCustomerCountResponse()
             {
                 Data = count,

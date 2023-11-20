@@ -401,4 +401,4 @@ FodyWeavers.xsd
 /Presentation/RealEstateWebApi.WebApp/logs/
 /Presentation/RealEstateWebApi.WebApi/appsettings.json
 /Presentation/RealEstateWebApi.WebApp/appsettings.json
-
+/Fixing/*

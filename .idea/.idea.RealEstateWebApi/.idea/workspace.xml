@@ -10,7 +10,30 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="83e05bbb-0d41-43e1-9346-2ec3ea8630ac" name="Changes" comment="" />
+    <list default="true" id="83e05bbb-0d41-43e1-9346-2ec3ea8630ac" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Core/RealEstateWebApi.Application/Features/Queries/Customer/GetAllCustomerDtoByWhere/GetAllCustomerDtoByWhereHandler.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/RealEstateWebApi.Application/Features/Queries/Customer/GetAllCustomerDtoByWhere/GetAllCustomerDtoByWhereRequest.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/RealEstateWebApi.Application/Features/Queries/Customer/GetAllCustomerDtoByWhere/GetAllCustomerDtoByWhereResponse.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Presentation/RealEstateWebApi.WebApp/Models/CustomerFilter.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Presentation/RealEstateWebApi.WebApp/Models/OwnedPropertiesFilter.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Presentation/RealEstateWebApi.WebApp/Views/Customer/_CustomerFilterForm.cshtml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Presentation/RealEstateWebApi.WebApp/Views/Customer/_OwnedPropertiesFilterForm.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.RealEstateWebApi/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.RealEstateWebApi/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vscode/launch.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vscode/tasks.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Core/RealEstateWebApi.Application/DTOs/CustomerDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Core/RealEstateWebApi.Application/DTOs/CustomerDto.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Core/RealEstateWebApi.Application/Features/Queries/Customer/GetAllCustomerDto/GetAllCustomerDtoHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Core/RealEstateWebApi.Application/Features/Queries/Customer/GetAllCustomerDto/GetAllCustomerDtoHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Core/RealEstateWebApi.Application/Features/Queries/Customer/GetAllCustomerDto/GetAllCustomerDtoRequest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Core/RealEstateWebApi.Application/Features/Queries/Customer/GetAllCustomerDto/GetAllCustomerDtoRequest.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Core/RealEstateWebApi.Application/Repositories/Customer/ICustomerReadRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Core/RealEstateWebApi.Application/Repositories/Customer/ICustomerReadRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Infrastructure/RealEstateWebApi.Persistence/Repositories/Customer/CustomerReadRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Infrastructure/RealEstateWebApi.Persistence/Repositories/Customer/CustomerReadRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Presentation/RealEstateWebApi.WebApi/Controllers/CustomerController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Presentation/RealEstateWebApi.WebApi/Controllers/CustomerController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Presentation/RealEstateWebApi.WebApi/Extensions/CustomExceptionMiddleware.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Presentation/RealEstateWebApi.WebApi/Extensions/CustomExceptionMiddleware.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Presentation/RealEstateWebApi.WebApi/Properties/launchSettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/Presentation/RealEstateWebApi.WebApi/Properties/launchSettings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Presentation/RealEstateWebApi.WebApp/Controllers/CustomerController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Presentation/RealEstateWebApi.WebApp/Controllers/CustomerController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Presentation/RealEstateWebApi.WebApp/Models/CustomerDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Presentation/RealEstateWebApi.WebApp/Models/CustomerDto.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Presentation/RealEstateWebApi.WebApp/Views/Customer/Index.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/Presentation/RealEstateWebApi.WebApp/Views/Customer/Index.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Presentation/RealEstateWebApi.WebApp/Views/Customer/OwnedProperties.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/Presentation/RealEstateWebApi.WebApp/Views/Customer/OwnedProperties.cshtml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -86,7 +109,7 @@
     ]
   }
 }</component>
-  <component name="RunManager" selected="Publish to IIS.RealEstateWebApi.WebApi: FolderProfile">
+  <component name="RunManager" selected=".NET Launch Settings Profile.RealEstateWebApi.WebApp">
     <configuration name="RealEstateWebApi.WebApi: FolderProfile" type="DotNetMsBuildPublish" factoryName="Publish to IIS">
       <riderPublish configuration="Release" platform="AnyCPU" publish_profile="FolderProfile.pubxml" pubxml_path="$PROJECT_DIR$/Presentation/RealEstateWebApi.WebApi/Properties/PublishProfiles/FolderProfile.pubxml" uuid_high="-3300135940451184896" uuid_low="-6183863350186050895" />
       <method v="2" />
@@ -138,6 +161,7 @@
       <workItem from="1697567894588" duration="5608000" />
       <workItem from="1697720639505" duration="3470000" />
       <workItem from="1697914264869" duration="7598000" />
+      <workItem from="1698263955883" duration="3259000" />
     </task>
     <task id="LOCAL-00001" summary="bug fixed">
       <option name="closed" value="true" />
@@ -162,6 +186,12 @@
     <option name="version" value="3" />
   </component>
   <component name="UnityCheckinConfiguration" checkUnsavedScenes="true" />
+  <component name="UnknownFeatures">
+    <option featureType="dependencySupport" implementationName="dotnet:AWSSDK.S3" />
+    <option featureType="dependencySupport" implementationName="dotnet:Microsoft.EntityFrameworkCore.Abstractions" />
+    <option featureType="dependencySupport" implementationName="dotnet:Microsoft.EntityFrameworkCore.Relational" />
+    <option featureType="dependencySupport" implementationName="dotnet:Microsoft.EntityFrameworkCore" />
+  </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
       <map>
@@ -178,6 +208,38 @@
     <MESSAGE value="bug fixed" />
     <MESSAGE value="Bug fixed and pagination added" />
     <option name="LAST_COMMIT_MESSAGE" value="Bug fixed and pagination added" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Core/RealEstateWebApi.Application/Features/Queries/Customer/GetAllCustomerDtoByWhere/GetAllCustomerDtoByWhereHandler.cs</url>
+          <line>17</line>
+          <properties documentPath="$PROJECT_DIR$/Core/RealEstateWebApi.Application/Features/Queries/Customer/GetAllCustomerDtoByWhere/GetAllCustomerDtoByWhereHandler.cs" initialLine="17" containingFunctionPresentation="Method 'Handle'">
+            <startOffsets>
+              <option value="730" />
+            </startOffsets>
+            <endOffsets>
+              <option value="731" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Presentation/RealEstateWebApi.WebApp/Controllers/CustomerController.cs</url>
+          <line>46</line>
+          <properties documentPath="$PROJECT_DIR$/Presentation/RealEstateWebApi.WebApp/Controllers/CustomerController.cs" initialLine="46" containingFunctionPresentation="Method 'SearchCustomer'">
+            <startOffsets>
+              <option value="1725" />
+            </startOffsets>
+            <endOffsets>
+              <option value="1726" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

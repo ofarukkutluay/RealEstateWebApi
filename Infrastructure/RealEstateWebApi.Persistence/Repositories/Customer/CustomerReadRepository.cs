@@ -12,13 +12,12 @@ namespace RealEstateWebApi.Persistence.Repositories
         {
         }
 
-        public IEnumerable<CustomerDto> GetAllDto(){
+        public IQueryable<CustomerDto> GetAllDto(){
             var result = from c in Table
                         join city in _context.Cities on c.CityId equals city.Id
                         join dist in _context.Districts on c.DistrictId equals dist.Id
                         join reguser in _context.Users on c.RegisterUserId equals reguser.Id
                         join assinguser in _context.Users on c.AssignedUserId equals assinguser.Id
-                        where c.IsDeleted == false
                         orderby c.Id descending
                         select new CustomerDto{
                             Id = c.Id,
@@ -30,8 +29,11 @@ namespace RealEstateWebApi.Persistence.Repositories
                             PhoneNumber = c.PhoneNumber,
                             PhoneNumber2 = c.PhoneNumber2,
                             Email = c.Email,
+                            CityId = c.CityId,
                             City = city.Name,
+                            DistrictId = c.DistrictId,
                             District = dist.Name,
+                            NeighborhoodId = c.NeighborhoodId,
                             Neighborhood = (from neigh in _context.Neighborhoods where c.NeighborhoodId == neigh.Id select neigh).First().Name,
                             BirthDay = c.BirthDay,
                             CitizenNumber = c.CitizenNumber,
@@ -47,14 +49,14 @@ namespace RealEstateWebApi.Persistence.Repositories
 
         }
 
-        public IEnumerable<CustomerDto> GetAllDtoByAssignedUserId(uint assignedUserId)
+        public IQueryable<CustomerDto> GetAllDtoByAssignedUserId(uint assignedUserId)
         {
             var result = from c in Table
                          join city in _context.Cities on c.CityId equals city.Id
                          join dist in _context.Districts on c.DistrictId equals dist.Id
                          join reguser in _context.Users on c.RegisterUserId equals reguser.Id
                          join assinguser in _context.Users on c.AssignedUserId equals assinguser.Id
-                         where c.IsDeleted == false && c.AssignedUserId == assignedUserId
+                         where c.AssignedUserId == assignedUserId
                          orderby c.Id descending
                          select new CustomerDto
                          {
@@ -83,14 +85,14 @@ namespace RealEstateWebApi.Persistence.Repositories
             return result;
         }
 
-        public IEnumerable<CustomerDto> GetAllDtoByStatusKey(string statusKey, uint assignedUserId)
+        public IQueryable<CustomerDto> GetAllDtoByStatusKey(string statusKey, uint assignedUserId)
         {
             var result = from c in Table
                          join city in _context.Cities on c.CityId equals city.Id
                          join dist in _context.Districts on c.DistrictId equals dist.Id
                          join reguser in _context.Users on c.RegisterUserId equals reguser.Id
                          join assinguser in _context.Users on c.AssignedUserId equals assinguser.Id
-                         where c.IsDeleted == false && c.AssignedUserId == assignedUserId && c.StatusKey == statusKey
+                         where c.AssignedUserId == assignedUserId && c.StatusKey == statusKey
                          orderby c.Id descending
                          select new CustomerDto
                          {
@@ -125,7 +127,7 @@ namespace RealEstateWebApi.Persistence.Repositories
                         join dist in _context.Districts on c.DistrictId equals dist.Id
                         join reguser in _context.Users on c.RegisterUserId equals reguser.Id
                         join assinguser in _context.Users on c.AssignedUserId equals assinguser.Id
-                        where c.Id == id && c.IsDeleted == false
+                        where c.Id == id 
                         select new CustomerDto{
                             Id = c.Id,
                             FirstName = c.FirstName,

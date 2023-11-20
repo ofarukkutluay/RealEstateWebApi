@@ -6,8 +6,8 @@ namespace RealEstateWebApi.Application.Repositories
 {
     public interface ICustomerOwnedPropertyReadRepository : IReadRepository<CustomerOwnedProperty>
     {
-        IEnumerable<CustomerOwnedPropertyDto> GetAllCustomerOwnedPropertyDtoByCustomerId(uint customerId);
-        IEnumerable<CustomerOwnedPropertyDto> GetAllCustomerOwnedPropertyDto(Pagination pagination);
+        IQueryable<CustomerOwnedPropertyDto> GetAllCustomerOwnedPropertyDtoByCustomerId(uint customerId);
+        IQueryable<CustomerOwnedPropertyDto> GetAllCustomerOwnedPropertyDto();
 
     }
 }

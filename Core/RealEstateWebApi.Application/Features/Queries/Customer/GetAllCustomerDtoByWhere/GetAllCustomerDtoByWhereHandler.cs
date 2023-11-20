@@ -1,6 +1,6 @@
-using System.Globalization;
 using MediatR;
 using RealEstateWebApi.Application.DTOs;
+using RealEstateWebApi.Application.Extensions;
 using RealEstateWebApi.Application.Repositories;
 
 namespace RealEstateWebApi.Application.Features.Queries.Customer.GetAllCustomerDtoByWhere;
@@ -16,16 +16,20 @@ public class GetAllCustomerDtoByWhereHandler : IRequestHandler<GetAllCustomerDto
 
     public Task<GetAllCustomerDtoByWhereResponse> Handle(GetAllCustomerDtoByWhereRequest request, CancellationToken cancellationToken)
     {
-        IQueryable<CustomerDto> customerDtos = _customerReadRepository.GetAllDto();
-        
-        if(request.FullName is null)
-            request.FullName = "";
+        // kullanımdan kaldırıldı. GetAllCustomerDto ya filtreleme eklendi.
 
-        IEnumerable<CustomerDto> sizedCustomerDtos = customerDtos
-            .Where(c => c.Id == request.Id || c.FullName.Contains(request.FullName) || c.MobileNumber  == request.MobileNumber)
-            .Skip(request.PageIndex * request.PageSize).Take(request.PageSize);
+        IQueryable<CustomerDto> customerDtos = _customerReadRepository.GetAllDto()
+            .Where(request.CityId != default,(arg) => arg.CityId == request.CityId)
+            .Where(request.DistrictId != default, d => d.DistrictId == request.DistrictId)
+            .Where(request.NeighborhoodId != default, n => n.NeighborhoodId == request.NeighborhoodId)
+            .Where(request.Id != default, c => c.Id == request.Id)
+            .Where(c => c.FullName.Contains(request.FullName ?? ""))
+            .Where(c=> c.MobileNumber.Contains(request.MobileNumber ?? ""));
+
+        List<CustomerDto> sizedCustomerDtos = customerDtos
+            .Skip(request.PageIndex * request.PageSize).Take(request.PageSize).ToList();
         return Task.FromResult(new GetAllCustomerDtoByWhereResponse(){
-            Data = sizedCustomerDtos.ToList(),
+            Data = sizedCustomerDtos,
             TotalDataCount = customerDtos.Count(),
             Success = true,
             Message = $"{sizedCustomerDtos.Count()} data getirildi"

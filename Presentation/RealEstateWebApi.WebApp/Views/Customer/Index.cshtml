@@ -5,6 +5,7 @@
 
 @model IEnumerable<CustomerDto>
 
+
 <div class="pagetitle">
     <h1>Tüm Müşteriler</h1>
     <nav>
@@ -16,6 +17,9 @@
 </div><!-- End Page Title -->
 
 <section class="section">
+    
+    @{await Html.RenderPartialAsync("~/Views/Customer/_CustomerFilterForm.cshtml",new CustomerFilter());}
+    <!--Table Area-->
     <div class="row">
         <div class="col-lg-12">
 
@@ -26,56 +30,56 @@
                     <!-- Table with stripped rows -->
                     <table class="table">
                         <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">İsim</th>
-                            <th scope="col">Durumu</th>
-                            <th scope="col">İl</th>
-                            <th scope="col">İlçe</th>
-                            <th scope="col">Cep Telefonu</th>
-                            <th scope="col">Kayıt Yapan</th>
-                            <th scope="col">Yetkilisi</th>
-                            <th scope="col">Oluşturma Tarihi</th>
-                        </tr>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">İsim</th>
+                                <th scope="col">Durumu</th>
+                                <th scope="col">İl</th>
+                                <th scope="col">İlçe</th>
+                                <th scope="col">Cep Telefonu</th>
+                                <th scope="col">Kayıt Yapan</th>
+                                <th scope="col">Yetkilisi</th>
+                                <th scope="col">Oluşturma Tarihi</th>
+                            </tr>
                         </thead>
                         <tbody>
-                        @foreach (var item in Model)
-                        {
-                            <tr>
-                                <th scope="row">@item.Id</th>
-                                <td><a href="/customer/@item.Id">@item.FullName</a> </td>
-                                <td>
-                                    @if (item.IsActive)
-                                    {
-                                        <span class="badge bg-success">Aktif</span>
-                                    }
-                                    else
-                                    {
-                                        <span class="badge bg-danger">Deaktif</span>
-                                    }
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <th scope="row">@item.Id</th>
+                                    <td><a href="/customer/@item.Id">@item.FullName</a> </td>
+                                    <td>
+                                        @if (item.IsActive)
+                                        {
+                                            <span class="badge bg-success">Aktif</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-danger">Deaktif</span>
+                                        }
 
-                                    @if (item.StatusKey == "YENI")
-                                    {
-
-
-                                        <span class="badge bg-danger">Yeni</span>
-
-                                    }
-                                    else
-                                    {
-                                        <span class="badge bg-secondary">@item.Status</span>
-                                    }
+                                        @if (item.StatusKey == "YENI")
+                                        {
 
 
-                                </td>
-                                <td>@item.City</td>
-                                <td>@item.District</td>
-                                <td>@item.MobileNumber</td>
-                                <td>@item.RegisterUser</td>
-                                <td>@item.AssignedUser</td>
-                                <td>@item.CreatedDate.UtcToLocalTR().ToString("dd-MM-yyyy HH:mm")</td>
-                            </tr>
-                        }
+                                            <span class="badge bg-danger">Yeni</span>
+
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-secondary">@item.Status</span>
+                                        }
+
+
+                                    </td>
+                                    <td>@item.City</td>
+                                    <td>@item.District</td>
+                                    <td>@item.MobileNumber</td>
+                                    <td>@item.RegisterUser</td>
+                                    <td>@item.AssignedUser</td>
+                                    <td>@item.CreatedDate.UtcToLocalTR().ToString("dd-MM-yyyy HH:mm")</td>
+                                </tr>
+                            }
 
 
                         </tbody>
@@ -84,15 +88,18 @@
 
                 </div>
                 <div class="card-footer">
-                    <nav class="pagination-a">
-                        <ul class="pagination justify-content-end">
-                            @{ 
+                    <nav class="pagination-a d-flex justify-content-end">
+                        <ul class="pagination  flex-wrap">
+                            
+                            @{
                                 int totalPage = Convert.ToInt32(ViewData["totalPage"]);
                                 int page = Convert.ToInt32(ViewData["page"]);
+                                string filterqueryhref (int index) => "/customer" + ViewData["filterquery"] + "&pageIndex=" + index;
+
                                 if (page != 0)
                                 {
                                     <li class="page-item prev">
-                                        <a class="page-link" asp-action="Index" asp-route-pageIndex="@(page-1)" tabindex="-1">
+                                        <a class="page-link" href="@filterqueryhref(page-1)" tabindex="-1">
                                             <span class="bi bi-chevron-left"></span>
                                         </a>
                                     </li>
@@ -105,15 +112,16 @@
                                     string classText = "page-item " + (page == i ? "active" : "");
 
                                     <li class="@classText">
-                                        <a class="page-link" asp-action="Index" asp-route-pageIndex="@i">@a</a>
+                                        <a class="page-link" href="@filterqueryhref(i)">@a</a>
+
                                     </li>
                                 }
-                
-                
-                                if (totalPage-1 > page)
+
+
+                                if (totalPage - 1 > page)
                                 {
                                     <li class="page-item next">
-                                        <a class="page-link" asp-action="Index" asp-route-pageIndex="@(page+1)" >
+                                        <a class="page-link" href="@filterqueryhref(page+1)">
                                             <span class="bi bi-chevron-right"></span>
                                         </a>
                                     </li>

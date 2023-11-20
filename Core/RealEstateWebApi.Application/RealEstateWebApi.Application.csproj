@@ -30,15 +30,17 @@
     <Folder Include="Features\Queries\Customer\GetAllCustomerDtoByStatusKey\" />
     <Folder Include="Features\Queries\Entry\GetCountEntryByUserId\" />
     <Folder Include="Features\Queries\CustomerOwnedProperty\GetAllCustomerOwnedPropertyDto\" />
+    <Folder Include="Extensions\" />
+    <Folder Include="Features\Queries\CustomerOwnedProperty\GetAllCustomerOwnedPropertyDtoByWhere\" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="12.0.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
-    <PackageReference Include="FluentValidation" Version="11.7.1" />
+    <PackageReference Include="FluentValidation" Version="11.8.0" />
     <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
-    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.7.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.12" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.8.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.13" />
     <PackageReference Include="MediatR" Version="12.1.1" />
   </ItemGroup>
 
@@ -64,5 +66,7 @@
     <None Remove="Features\Queries\Customer\GetAllCustomerDtoByStatusKey\" />
     <None Remove="Features\Queries\Entry\GetCountEntryByUserId\" />
     <None Remove="Features\Queries\CustomerOwnedProperty\GetAllCustomerOwnedPropertyDto\" />
+    <None Remove="Extensions\" />
+    <None Remove="Features\Queries\CustomerOwnedProperty\GetAllCustomerOwnedPropertyDtoByWhere\" />
   </ItemGroup>
 </Project>

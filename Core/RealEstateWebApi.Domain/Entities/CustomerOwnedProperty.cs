@@ -14,7 +14,7 @@ namespace RealEstateWebApi.Domain.Entities
         public uint? PropertyListingDetailId { get; set; }
         public uint? PropertyTypeId { get; set; }
         public uint? PropertyStatusId { get; set; }
-        public ushort? RoomCount { get; set; }
+        public double? RoomCount { get; set; }
         public ushort? LivingRoomCount { get; set; }
         public uint? CityId { get; set; }
         public uint? DistrictId { get; set; }

@@ -11,8 +11,11 @@ public class CustomerDto
     public string? PhoneNumber { get; set; }
     public string? PhoneNumber2 { get; set; }
     public string? Email { get; set; }
+    public uint? CityId { get; set; }
     public string City { get; set; }
+    public uint? DistrictId { get; set; }
     public string District { get; set; }
+    public uint? NeighborhoodId { get; set; }
     public string Neighborhood { get; set; }
     public DateTime? BirthDay { get; set; }
     public long? CitizenNumber { get; set; }
