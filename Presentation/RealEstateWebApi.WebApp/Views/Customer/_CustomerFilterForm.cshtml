@@ -1,0 +1,83 @@
+@model CustomerFilter
+
+<script type="text/javascript">
+    $(function () {
+        $("#inputCity").change(function () {
+            var val = $(this).val();
+            //console.log("City : " + val)
+            var subItems = "<option selected>İlçe...</option>";
+            $.get("@Url.Action("SelectItemDistrict", "Customer")", { cityId: val }, function (data, status) {
+                $.each(data, function (index, item) {
+                    subItems += "<option value='" + item.value + "'>" + item.text + "</option>"
+                });
+                $("#inputDistrict").html(subItems)
+            });
+        });
+        $("#inputDistrict").change(function () {
+            var val = $(this).val();
+            //console.log("District : " + val)
+            var subItems = "<option selected>Mahalle...</option>";
+            $.get("@Url.Action("SelectItemNeighborhood", "Customer")", { districtId: val }, function (data, status) {
+                $.each(data, function (index, item) {
+                    subItems += "<option value='" + item.value + "'>" + item.text + "</option>"
+                });
+                $("#inputNeighborhood").html(subItems)
+            });
+        });
+
+    });
+</script>
+
+
+<!-- Filter form -->
+<div class="row">
+
+    <div class="col-md-12">
+
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Ara</h5>
+
+
+                <!-- Custom Styled Validation -->
+                <form class="row g-3" asp-controller="Customer" asp-action="SearchCustomer" method="get">
+                    <div class="col-md-1">
+                        <input asp-for="Id" class="form-control" id="inputId" placeholder="Id" />
+                    </div>
+                    <div class="col-md-3">
+                        <input asp-for="FullName" class="form-control" id="inputFullName" placeholder="Ad Soyad" />
+                    </div>
+
+                    <div class="col-md-2">
+                        @Html.DropDownList("CityId", (IEnumerable<SelectListItem>)ViewData["Cities"]!, "Şehir", new
+                            {
+                                @class = "form-select",
+                                @id = "inputCity"
+                            })
+
+                    </div>
+                    <div class="col-md-2">
+                        <select class="form-select" id="inputDistrict">
+                            <option selected>İlçe</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <select class="form-select" id="inputNeighborhood">
+                            <option selected>Mahalle</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <input asp-for="MobileNumber" class="form-control" id="inputMobile"
+                            placeholder="Telefon numarası" />
+                    </div>
+                    <div class="col-12 d-grid gap-2 d-md-flex justify-content-md-end">
+                        <button class="btn btn-primary me-md-2" type="submit">Ara</button>
+                        <a class="btn btn-outline-success" asp-action="Index">Temizle</a>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+</div>
