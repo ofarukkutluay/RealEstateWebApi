@@ -7,7 +7,7 @@ namespace RealEstateWebApi.Infrastructure.Mapper
     {
         public InfrastructureMapingProfile()
         {
-            CreateMap<ListingWebsiteScrapingLibrary.PropertyListingDetail, Domain.Entities.PropertyListingDetail>().ForMember(des=>des.Id,opt=>opt.MapFrom(x=>uint.Parse(x.Id)));
+            CreateMap<ListingWebsiteScrapingLibrary.Models.v3.PropertyListing, Domain.Entities.OuterPropertyListing>();           
         }
     }
 }

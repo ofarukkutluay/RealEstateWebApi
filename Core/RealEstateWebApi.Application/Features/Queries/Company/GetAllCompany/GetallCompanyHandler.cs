@@ -19,7 +19,7 @@ namespace RealEstateWebApi.Application.Features.Queries.Company.GetAllCompany
 
         public async Task<GetAllCompanyResponse> Handle(GetAllCompanyRequest request, CancellationToken cancellationToken)
         {
-            IEnumerable<Domain.Entities.Company> companies = _companyReadRepository.GetAll().AsEnumerable();
+            IEnumerable<Domain.Entities.Company> companies = _companyReadRepository.GetAll(false).AsEnumerable();
             return await Task.FromResult(new GetAllCompanyResponse()
             {
                 Data = companies,

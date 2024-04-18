@@ -19,7 +19,7 @@ namespace RealEstateWebApi.Application.Features.Queries.Agent.GetAgentByUserId
 
         public async Task<GetAgentByUserIdResponse> Handle(GetAgentByUserIdRequest request, CancellationToken cancellationToken)
         {
-            Domain.Entities.Agent agent = await _agentReadRepository.GetByIdAsync(request.UserId);
+            Domain.Entities.Agent agent = await _agentReadRepository.GetByIdAsync(request.UserId,false);
 
             return new GetAgentByUserIdResponse()
             {

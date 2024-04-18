@@ -59,46 +59,80 @@
 
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title">Ara</h5>
-
-
+                <a  class="d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#customer-filter-area" aria-controls="customer-filter-area" >
+                    
+                    <h5 class="card-title">Ara</h5><i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <div class="collapse show" id="customer-filter-area">
                 <!-- Custom Styled Validation -->
-                <form class="row g-3" asp-controller="Customer" asp-action="Index" method="get">
-                    <div class="col-md-1">
-                        <input asp-for="Id" class="form-control" id="inputId" placeholder="Id" />
-                    </div>
-                    <div class="col-md-3">
-                        <input asp-for="FullName" class="form-control" id="inputFullName" placeholder="Ad Soyad" />
-                    </div>
+                <form asp-controller="Customer" asp-action="Index" method="get">
+                    <div class="row g-3">
+                        <div class="col-md-1">
+                            <input asp-for="Id" class="form-control" id="inputId" placeholder="Id"/>
+                        </div>
+                        <div class="col-md-3">
+                            <input asp-for="FullName" class="form-control" id="inputFullName" placeholder="Ad Soyad"/>
+                        </div>
 
-                   <div class="col-md-2">
-                        @Html.DropDownList("CityId", (IEnumerable<SelectListItem>)ViewData["Cities"]!, "Şehir", new
+                        <div class="col-md-2">
+                            @Html.DropDownList("CityId", (IEnumerable<SelectListItem>)ViewData["Cities"]!, "Şehir", new
                             {
                                 @class = "form-select",
                                 @id = "inputCity"
                             })
 
-                    </div>
-                     <div class="col-md-2">
-                        <select asp-for="DistrictId" class="form-select" id="inputDistrict" >
-                            <option value="" selected>İlçe</option>
-                        </select>
-                    </div>
-                    <div class="col-md-2">
-                        <select asp-for="NeighborhoodId" class="form-select" id="inputNeighborhood">
-                            <option value="" selected>Mahalle</option>
-                        </select>
-                    </div>
-                    <div class="col-md-2">
-                        <input asp-for="MobileNumber" class="form-control" id="inputMobile"
-                            placeholder="Telefon numarası" />
-                    </div>
-                    <div class="col-12 d-grid gap-2 d-md-flex justify-content-md-end">
-                        <button class="btn btn-primary me-md-2" type="submit">Ara</button>
-                        <a class="btn btn-outline-success" asp-action="Index">Temizle</a>
+                        </div>
+                        <div class="col-md-2">
+                            <select asp-for="DistrictId" class="form-select" id="inputDistrict">
+                                <option value="" selected>İlçe</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <select asp-for="NeighborhoodId" class="form-select" id="inputNeighborhood">
+                                <option value="" selected>Mahalle</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <input asp-for="MobileNumber" class="form-control" id="inputMobile"
+                                   placeholder="Telefon numarası"/>
+                        </div>
+
+
+                        <div class="col-md-2">
+                            @Html.DropDownList("RegisterUserId", (IEnumerable<SelectListItem>)ViewData["UserNameList"]!, "Kayıt Eden..", new
+                            {
+                                @class = "form-select",
+                                @id = "inputRegisterUser"
+                            })
+
+                        </div>
+                        <div class="col-md-2">
+                            @Html.DropDownList("AssignedUserId", (IEnumerable<SelectListItem>)ViewData["UserNameList"]!, "Yetkilisi..", new
+                            {
+                                @class = "form-select",
+                                @id = "inputAssignedUser"
+                            })
+
+                        </div>
+                        <div class="col-md-2">
+                            @Html.DropDownList("Statuskey", (IEnumerable<SelectListItem>)ViewData["StatusKey"]!, "Durumu..", new
+                            {
+                                @class = "form-select",
+                                @id = "inputStatusKey"
+                            })
+
+                        </div>
+
+
+
+
+                        <div class="col-12 d-grid gap-2 d-md-flex justify-content-md-end">
+                            <button class="btn btn-primary me-md-2" type="submit">Ara</button>
+                            <a class="btn btn-outline-success" asp-action="Index">Temizle</a>
+                        </div>
                     </div>
                 </form>
-
+</div>
             </div>
         </div>
 

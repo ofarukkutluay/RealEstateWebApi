@@ -8,11 +8,17 @@ using System.Threading.Tasks;
 
 namespace RealEstateWebApi.Application.Repositories
 {
-    public interface IReadRepository<TEntity> : IRepository<TEntity> where TEntity : class,IEntity
+    public interface IReadRepository<TEntity,TId> : IRepository<TEntity,TId> where TEntity : class,IEntity<TId> 
     {
         IQueryable<TEntity> GetAll(bool tracking = true);
         IQueryable<TEntity> GetWhere(Expression<Func<TEntity, bool>> method, bool tracking = true);
-        Task<TEntity> GetSingleAsync(Expression<Func<TEntity, bool>> method, bool tracking = true);
-        Task<TEntity> GetByIdAsync(uint id, bool tracking = true);
+        Task<TEntity> GetSingleAsync(Expression<Func<TEntity, bool>> method, bool tracking = true,CancellationToken cancellationToken = default);
+        Task<TEntity> GetByIdAsync(TId id, bool tracking = true,CancellationToken cancellationToken = default);
     }
+
+    public interface IReadRepository<TEntity> :IReadRepository<TEntity,uint>, IRepository<TEntity> where TEntity : class,IEntity
+    {
+
+    }
+
 }

@@ -68,7 +68,7 @@
                     <div class="row mb-3">
                         <label for="inputCity" class="col-sm-2 form-label">Şehir</label>
                         <div class="col-sm-10">
-                            @Html.DropDownList("CityId",(IEnumerable<SelectListItem>)ViewData["Cities"]!,"Seçiniz...",new {@class="form-select",@id="inputCity2",@required=""})
+                            @Html.DropDownList("CityId",(IEnumerable<SelectListItem>)ViewData["Cities"]!,"Seçiniz...",new {@class="form-select",@id="inputCity",@required=""})
                             @*<select asp-for="CityId" asp-items="@ViewData["Cities"] as IEnumerable<SelectListItem>" class="form-select" id="inputCity" required>
                                 <option selected disabled>Seçiniz...</option>
                             </select>*@

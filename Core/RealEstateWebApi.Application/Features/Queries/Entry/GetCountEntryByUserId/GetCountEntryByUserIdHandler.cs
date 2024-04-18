@@ -20,11 +20,11 @@ namespace RealEstateWebApi.Application.Features.Queries.Entry.GetCountEntryByUse
             
             if (request.LastDate == null)
             {
-                result = _entryReadRepository.GetWhere(x => x.UserId == request.UserId && x.CreatedDate.Date == firstdate).Count();
+                result = _entryReadRepository.GetWhere(x => x.UserId == request.UserId && x.CreatedDate.Date == firstdate,false).Count();
             } else
             {
                 DateTime lastdate = DateTime.FromBinary((long)request.LastDate).Date;
-                result = _entryReadRepository.GetWhere(x => x.UserId == request.UserId && x.CreatedDate.Date >= firstdate && x.CreatedDate.Date <= lastdate).Count();
+                result = _entryReadRepository.GetWhere(x => x.UserId == request.UserId,false).Where(x=> x.CreatedDate.Date >= firstdate && x.CreatedDate.Date <= lastdate).Count();
             }
 
             return new GetCountEntryByUserIdResponse()

@@ -167,7 +167,7 @@
                     <div class="row mb-3">
                         <label for="inputAssignedUser" class="col-sm-2 form-label text-wrap">Atanan Kullanıcı</label>
                         <div class="col-sm-10">
-                            @Html.DropDownList("AssingnedUserId",(IEnumerable<SelectListItem>)ViewData["UserNameList"]!,"Seçiniz...",new {@class="form-select",@id="inputAssignedUser",@required=""})
+                            @Html.DropDownList("AssignedUserId",(IEnumerable<SelectListItem>)ViewData["UserNameList"]!,"Seçiniz...",new {@class="form-select",@id="inputAssignedUser",@required=""})
                             @*<select asp-for="AssignedUserId" asp-items="@ViewData["UserNameList"] as IEnumerable<SelectListItem>" class="form-select" id="inputAssignedUser" required>
                                 <option selected disabled>Seçiniz...</option>
                             </select>*@

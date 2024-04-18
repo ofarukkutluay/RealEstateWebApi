@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.EntityFrameworkCore;
 using RealEstateWebApi.Application.DTOs;
 using RealEstateWebApi.Application.Repositories;
 using RealEstateWebApi.Domain.Entities;
@@ -33,7 +34,7 @@ namespace RealEstateWebApi.Persistence.Repositories
                              IsActive = rm.IsActive,
                              CustomerName = c.FullName
                          };
-            return result;
+            return result.AsNoTracking();
         }
     }
 }

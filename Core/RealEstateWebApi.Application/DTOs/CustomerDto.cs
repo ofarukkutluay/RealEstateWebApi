@@ -19,11 +19,13 @@ public class CustomerDto
     public string Neighborhood { get; set; }
     public DateTime? BirthDay { get; set; }
     public long? CitizenNumber { get; set; }
-    public string? StatusKey { get; set; }
+    public string StatusKey { get; set; }
     public string? Status { get; set; }
 
     public string RegisterUser { get; set; }
     public string AssignedUser { get; set; }
+    public uint? RegisterUserId { get; set; }
+    public uint? AssignedUserId { get; set; }
     public DateTime CreatedDate { get; set; }
     public DateTime? UpdatedDate { get; set; }
     public bool IsActive { get; set; }

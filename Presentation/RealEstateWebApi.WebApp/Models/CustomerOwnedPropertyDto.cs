@@ -4,7 +4,7 @@
     {
         public uint Id { get; set; }
         public uint CustomerId { get; set; }
-        public PropertyListingDetail? PropertyListingDetail { get; set; }
+        public OuterPropertyListing? OuterPropertyListing { get; set; }
         public IEnumerable<PropertyListingPhoto>? PropertyListingPhotos { get; set; }
         public uint? PropertyId { get; set; }
         public string? PropertyType { get; set; }

@@ -51,21 +51,21 @@
                                         @item.Id
 
                                     </th>
-                                    @if (item.PropertyListingDetail != null)
+                                    @if (item.OuterPropertyListing != null)
                                     {
-                                        <td class="@((DateTime.Today - TimeSpan.FromDays(30)).Date >= item.PropertyListingDetail.ListingDate.GetValueOrDefault().Date ? "text-danger" : "" ) ">@item.PropertyListingDetail.ListingDate.GetValueOrDefault().Date.ToString("dd-MM-yyyy")</td>
+                                        <td class="@((DateTime.Today - TimeSpan.FromDays(30)).Date >= item.OuterPropertyListing.ListingDate.GetValueOrDefault().Date ? "text-danger" : "" ) ">@item.OuterPropertyListing.ListingDate.GetValueOrDefault().Date.ToString("dd-MM-yyyy")</td>
                                         <td>
-                                            @item.PropertyListingDetail?.Type
+                                            @item.OuterPropertyListing?.PropertyType
 
                                         </td>
-                                        <td>@item.PropertyListingDetail?.Status</td>
-                                        <td>@item.PropertyListingDetail?.RoomCount + @item.PropertyListingDetail?.LivingRoomCount</td>
-                                        <td>@item.PropertyListingDetail?.City / @item.PropertyListingDetail?.District / @item.PropertyListingDetail?.Neighborhood</td>
-                                        <td><div class="d-inline"> @item.PropertyListingDetail?.Price.ToString("##,#") <span>@item.PropertyListingDetail?.Currency</span></div></td>
-                                        <td><div class="overflow-hidden" style="max-height:150px;max-width:250px">@item.PropertyListingDetail?.Description</div></td>
+                                        <td>@item.OuterPropertyListing?.PropertyStatus</td>
+                                        <td>@item.OuterPropertyListing?.RoomCount + @item.OuterPropertyListing?.LivingRoomCount</td>
+                                        <td>@item.OuterPropertyListing?.City / @item.OuterPropertyListing?.District / @item.OuterPropertyListing?.Neighborhood</td>
+                                        <td><div class="d-inline"> @item.OuterPropertyListing?.Price.ToString("##,#") <span>@item.OuterPropertyListing?.PriceCurrency</span></div></td>
+                                        <td><div class="overflow-hidden" style="max-height:150px;max-width:250px">@item.OuterPropertyListing?.Description</div></td>
 
 
-                                        await Html.RenderPartialAsync("~/Views/Customer/Modal/_OwnedPropertyDetailModal.cshtml", Tuple.Create(item.PropertyListingDetail, item.PropertyListingPhotos));
+                                        await Html.RenderPartialAsync("~/Views/Customer/Modal/_OwnedPropertyDetailModal.cshtml", Tuple.Create(item.OuterPropertyListing, item.PropertyListingPhotos));
 
 
                                     }
@@ -88,10 +88,10 @@
                                             <a class="btn btn-sm btn-success" href="/customer/@item.CustomerId">
                                                 Git
                                             </a>
-                                            @if (item.PropertyListingDetail != null)
+                                            @if (item.OuterPropertyListing != null)
                                             {
 
-                                                string IdString = $"#modal{item.PropertyListingDetail.Id.ToString()}";
+                                                string IdString = $"#modal{item.OuterPropertyListing.Id.ToString()}";
 
                                                 <button id="@IdString" class="btn btn-sm btn-info" type="button" data-bs-toggle="modal"
                                                         data-bs-target="@IdString">

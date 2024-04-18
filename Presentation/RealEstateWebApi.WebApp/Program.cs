@@ -26,27 +26,39 @@ builder.Services.AddSingleton<ApiRequestService>();
 
 var tokenOptions = builder.Configuration.GetSection("ApiTokenOptions").Get<ApiTokenOption>();
 
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(opt =>
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddCookie(JwtBearerDefaults.AuthenticationScheme, opt =>
 {
-    opt.TokenValidationParameters = new TokenValidationParameters
-    {
-        ValidateAudience = true,
-        ValidateIssuer = true,
-        ValidateLifetime = true,
-        ValidateIssuerSigningKey = true,
-        ValidIssuer = tokenOptions.Issuer,
-        ValidAudience = tokenOptions.Audience,
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenOptions.SecurityKey)),
-        ClockSkew = TimeSpan.Zero
-    };
+    opt.LoginPath = "/login";
+    opt.LogoutPath = "/logout";
+    opt.AccessDeniedPath = "/forbidden";
+    opt.Cookie.HttpOnly = true;
+    opt.Cookie.SameSite = SameSiteMode.Strict;
+    opt.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
+    opt.Cookie.Name = "REWAToken";
 });
+
+builder.Services.AddHttpContextAccessor();
+//.AddJwtBearer(opt =>
+// {
+//     opt.TokenValidationParameters = new TokenValidationParameters
+//     {
+//         ValidateAudience = true,
+//         ValidateIssuer = true,
+//         ValidateLifetime = true,
+//         ValidateIssuerSigningKey = true,
+//         ValidIssuer = tokenOptions.Issuer,
+//         ValidAudience = tokenOptions.Audience,
+//         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenOptions.SecurityKey)),
+//         ClockSkew = TimeSpan.Zero
+//     };
+// });
 
 Logger log = new LoggerConfiguration()
     .WriteTo.Console()
     .WriteTo.File("logs/log.txt")
-    .WriteTo.InMemory()
+    .WriteTo.InMemory(restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Information)
     .Enrich.FromLogContext()
-    .MinimumLevel.Error()
+    .MinimumLevel.Information()
     .CreateLogger();
 
 builder.Host.UseSerilog(log);
@@ -83,47 +95,51 @@ app.UseSerilogRequestLogging();
 
 app.UseHttpLogging();
 
-app.UseCustomExceptionMiddleware();
+//app.UseCustomExceptionMiddleware();
 
 
-app.Use(async (context, next) =>
-
-{
-    var token = context.Session.GetString("Token");
-    if (!string.IsNullOrEmpty(token))
-    {
-
-        var scope = (ApiRequestService)app.Services.GetService(typeof(ApiRequestService));
-        if (scope != null)
-        {
-            scope.Token = token;
-        }
-        context.Request.Headers.Add("Authorization", "Bearer " + token);
-    }
-    await next();
-});
+// app.Use(async (context, next) =>
+// {
+//     var token = context.User.Claims.FirstOrDefault(x => x.Type == "realestatetoken")?.Value; //context.Session.GetString("Token"); // //
+//     if (!string.IsNullOrEmpty(token))
+//     {
+//         var scope = (ApiRequestService)app.Services.GetService(typeof(ApiRequestService));
+//         if (scope != null)
+//         {
+//             scope.Token = token;
+//         }
+//         context.Request.Headers.Add("Authorization", "Bearer " + token);
+//     }
+//     await next();
+// });
 
 
 
 
-app.UseStatusCodePages(async context =>
-{
-    var request = context.HttpContext.Request;
-    var response = context.HttpContext.Response;
+// app.UseStatusCodePages(async context =>
+// {
+//     var request = context.HttpContext.Request;
+//     var response = context.HttpContext.Response;
 
-    if (response.StatusCode == (int)HttpStatusCode.Unauthorized)
-    {
-        response.Redirect("/login");
-    }
-    else if (response.StatusCode == (int)HttpStatusCode.Forbidden)
-    {
-        response.Redirect("/Forbidden");
-    }
-    else if (response.StatusCode == (int)HttpStatusCode.NotFound)
-    {
-        response.Redirect("/NotFound");
-    }
-});
+//     if (response.StatusCode == (int)HttpStatusCode.Unauthorized)
+//     {
+//         response.Redirect("/login");
+//     }
+//     else if (response.StatusCode == (int)HttpStatusCode.Forbidden)
+//     {
+//         response.Redirect("/Forbidden");
+//     }
+//     if (response.StatusCode == (int)HttpStatusCode.NotFound)
+//     {
+//         response.Redirect("/NotFound");
+//     }
+// });
+
+// app.UseCookiePolicy(new CookiePolicyOptions
+// {
+//     MinimumSameSitePolicy = SameSiteMode.Strict,
+//     Secure = CookieSecurePolicy.Always
+// });
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
@@ -135,8 +151,12 @@ app.UseForwardedHeaders(new ForwardedHeadersOptions
     ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
 });
 
+
+
 app.UseAuthentication();
 app.UseAuthorization();
+
+
 
 app.Use(async (context, next) =>
 {

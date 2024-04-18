@@ -1,10 +1,13 @@
-﻿@model Tuple<PropertyListingDetail,IEnumerable<PropertyListingPhoto>>
+﻿@model Tuple<OuterPropertyListing,IEnumerable<PropertyListingPhoto>>
 
 @{
     string modalIdString = $"modal{Model.Item1.Id.ToString()}";
     string caroselIdString = $"carosel{Model.Item1.Id.ToString()}";
     string caroselFragment = $"#carosel{Model.Item1.Id.ToString()}";
+    string mapdivId = $"mapdiv{Model.Item1.Id.ToString()}";
 }
+
+               
 
 <!-- HareketEkle -->
 <div class="modal fade" id="@modalIdString" tabindex="-1">
@@ -122,7 +125,7 @@
                             <div class="col-2">
                                 <h5>Durumu</h5>
                             </div>
-                            <div class="col-10">@Model.Item1.Status @Model.Item1.Type</div>
+                            <div class="col-10">@Model.Item1.PropertyStatus @Model.Item1.PropertyType</div>
                         </li>
                         <li class="list-group-item d-flex ">
                             <div class="col-2">
@@ -146,7 +149,7 @@
                             <div class="col-2">
                                 <h5>Fiyat</h5>
                             </div>
-                            <div class="col-10">@Model.Item1.Price.ToString("##,#") @Model.Item1.Currency</div>
+                            <div class="col-10">@Model.Item1.Price.ToString("##,#") @Model.Item1.PriceCurrency</div>
                         </li>
                         <li class="list-group-item d-flex ">
                             <div class="col-2">
@@ -207,7 +210,7 @@
                             <div class="col-2">
                                 <h5>Bulunduğu kat</h5>
                             </div>
-                            <div class="col-10">@Model.Item1.Floor</div>
+                            <div class="col-10">@Model.Item1.BuildingFloor</div>
                         </li>
                         <li class="list-group-item d-flex ">
                             <div class="col-2">
@@ -238,7 +241,7 @@
                             <div class="col-2">
                                 <h5>Balkon</h5>
                             </div>
-                            <div class="col-10">@Model.Item1.IsThereBalcony</div>
+                            <div class="col-10">@Model.Item1.IsBalcony</div>
                         </li>
                         <li class="list-group-item d-flex ">
                             <div class="col-2">
@@ -254,6 +257,35 @@
                         </li>
                         <li class="list-group-item d-flex ">
                             <div class="col-2">
+                                <h5>Harita</h5>
+                            </div>
+                            <div class="col-10"><div id="@mapdivId" style="height:460px;width:920px;"></div></div>
+                            
+                            <script type="text/javascript" src="~/lib/OpenLayers/OpenLayers.js"></script>
+
+                            <script type="text/javascript" >
+                                    var map = new OpenLayers.Map("@mapdivId");
+                                    map.addLayer(new OpenLayers.Layer.OSM());
+
+                                    var lonLat = new OpenLayers.LonLat(@Model.Item1.LocationLon , @Model.Item1.LocationLat )
+                                        .transform(
+                                            new OpenLayers.Projection("EPSG:4326"), // transform from WGS 1984
+                                            map.getProjectionObject() // to Spherical Mercator Projection
+                                        );
+
+                                    var zoom = 17;
+
+                                    var markers = new OpenLayers.Layer.Markers("Markers");
+                                    map.addLayer(markers); 
+
+                                    markers.addMarker(new OpenLayers.Marker(lonLat));
+
+                                    map.setCenter(lonLat, zoom);
+
+                            </script> 
+                        </li>
+                        <li class="list-group-item d-flex ">
+                            <div class="col-2">
                                 <h5>Açıklama</h5>
                             </div>
                             <div class="col-10">@Html.Raw(Model.Item1.DescriptionHtml)</div>
@@ -265,3 +297,10 @@
         </div>
     </div>
 </div><!-- End HareketEkle-->
+
+@section Scripts {
+
+    
+}
+    
+   

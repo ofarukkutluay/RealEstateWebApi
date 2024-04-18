@@ -19,7 +19,7 @@ namespace RealEstateWebApi.Application.Features.Queries.LocationSupport.GetAllNe
 
         public async Task<GetAllNeighborhoodByDistrictKeyResponse> Handle(GetAllNeighborhoodByDistrictKeyRequest request, CancellationToken cancellationToken)
         {
-            IEnumerable<Domain.Entities.Neighborhood> neighborhoods = _neighborhoodReadRepository.GetWhere(e=> e.DistrictKey == request.DistrictKey).OrderBy(e=>e.Name);
+            IEnumerable<Domain.Entities.Neighborhood> neighborhoods = _neighborhoodReadRepository.GetWhere(e=> e.DistrictKey == request.DistrictKey,false).OrderBy(e=>e.Name);
             return await Task.FromResult(new GetAllNeighborhoodByDistrictKeyResponse()
             {
                 Message = $"{neighborhoods.Count()} adet data getirildi.",

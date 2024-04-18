@@ -1,21 +1,22 @@
 ﻿using Newtonsoft.Json;
 using RealEstateWebApi.WebApp.Models.Common;
-using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Text;
+
 
 namespace RealEstateWebApi.WebApp.Services.ApiRequest
 {
     public class ApiRequestService
     {
         private readonly IConfiguration Configuration;
-        public ApiRequestService(IConfiguration configuration)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        public ApiRequestService(IConfiguration configuration, IHttpContextAccessor httpContextAccessor)
         {
             Configuration = configuration;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         private string apiUrl { get => Configuration["ApiUrl"]; }
-        public string Token { get; set; }
+        public string? Token => _httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(x => x.Type == "realestatetoken")?.Value;
 
 
         public async Task<ApiResult<object>> GetApiStatus()
@@ -40,6 +41,7 @@ namespace RealEstateWebApi.WebApp.Services.ApiRequest
             {
                 if (!string.IsNullOrEmpty(Token))
                 {
+                    
                     client.DefaultRequestHeaders.Add("Authorization", $"Bearer {Token}");
                 }
 
@@ -59,9 +61,10 @@ namespace RealEstateWebApi.WebApp.Services.ApiRequest
                 {
                     url += key;
                 }
-
+                
                 if (!string.IsNullOrEmpty(Token))
                 {
+
                     client.DefaultRequestHeaders.Add("Authorization", $"Bearer {Token}");
                 }
 

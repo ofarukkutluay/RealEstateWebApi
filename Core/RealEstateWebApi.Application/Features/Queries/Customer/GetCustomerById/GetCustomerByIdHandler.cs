@@ -19,7 +19,7 @@ namespace RealEstateWebApi.Application.Features.Queries.Customer.GetCustomerById
 
         public async Task<GetCustomerByIdResponse> Handle(GetCustomerByIdRequest request, CancellationToken cancellationToken)
         {
-            Domain.Entities.Customer customer = await _customerReadRepository.GetByIdAsync(request.Id);
+            Domain.Entities.Customer customer = await _customerReadRepository.GetByIdAsync(request.Id,false);
 
             return new GetCustomerByIdResponse()
             {

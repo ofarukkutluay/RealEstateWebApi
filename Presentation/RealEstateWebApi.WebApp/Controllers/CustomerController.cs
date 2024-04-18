@@ -54,6 +54,8 @@ public class CustomerController : BaseController
         if (obj.Success == true)
         {
             await SelectItemInitilazeAddPage();
+            await SelectItemUserNameList();
+            await SelectItemEntryTypes();
             return View(obj.Data);
         }
 
@@ -61,46 +63,13 @@ public class CustomerController : BaseController
         return View();
     }
 
-    //[HttpGet("customer/search")]
-    //public async Task<IActionResult> SearchCustomer(Pagination pagination,CustomerFilter filter)
-    //{
-    //    pagination.PageSize = 20;
-    //    //"&Id="+filter.Id,"&cityId="+filter.CityId,"&districtId="+filter.DistrictId,"&neighborhoodId="+filter.NeighborhoodId
-    //    //"?pageIndex="+pagination.PageIndex,"&pageSize="+pagination.PageSize,"&fullName="+filter.FullName,"&mobileNumber="+filter.MobileNumber, "&cityId=" + filter.CityId
-    //    QueryBuilder queries = new QueryBuilder
-    //    {
-    //        { "PageIndex", pagination.PageIndex.ToString() },
-    //        { "PageSize", pagination.PageSize.ToString() }
-    //    };
 
-    //    foreach (var item in filter.GetType().GetProperties())
-    //    {
-    //        if (item.GetValue(filter) != null)
-    //        {
-    //            queries.Add(item.Name, item.GetValue(filter).ToString());
-    //        }
-    //    }
-
-    //    var obj = await _requestService.Get<DataResult<IEnumerable<CustomerDto>>>("customer/search",queries.ToString());
-    //    decimal page = Convert.ToDecimal(obj.TotalDataCount) / Convert.ToDecimal(pagination.PageSize);
-    //    ViewData.Add("totalPage",Math.Ceiling(page));
-    //    ViewData.Add("page",pagination.PageIndex);
-    //    if (obj.Success == true)
-    //    {
-    //        await SelectItemInitilazeAddPage();
-    //        return View("Index",obj.Data);
-    //    }
-
-    //    DangerAlert("Data bulunamadı");
-    //    return RedirectToAction("Index");
-    //}
-
-    [HttpGet("customer/potansiyel")]
-    public async Task<IActionResult> Potansiyel()
+    [HttpGet("customer/ilansiz")]
+    public async Task<IActionResult> Ilansiz()
     {
         uint loginUserId = uint.Parse(HttpContext.User.Claims.First(e => e.Type == ClaimTypes.NameIdentifier).Value);
 
-        var obj = await _requestService.Get<DataResult<IEnumerable<CustomerDto>>>("customer/status","?AssignedUserId="+loginUserId,"&StatusKey=PTNSYL");
+        var obj = await _requestService.Get<DataResult<IEnumerable<CustomerDto>>>("customer/status","?AssignedUserId="+loginUserId,"&StatusKey=GIRME");
 
         if (obj.Success == true)
         {
@@ -111,12 +80,12 @@ public class CustomerController : BaseController
         return View();
     }
 
-    [HttpGet("customer/gorusme")]
-    public async Task<IActionResult> Gorusme()
+    [HttpGet("customer/takip")]
+    public async Task<IActionResult> Takip()
     {
         uint loginUserId = uint.Parse(HttpContext.User.Claims.First(e => e.Type == ClaimTypes.NameIdentifier).Value);
 
-        var obj = await _requestService.Get<DataResult<IEnumerable<CustomerDto>>>("customer/status", "?AssignedUserId=" + loginUserId, "&StatusKey=GRSM");
+        var obj = await _requestService.Get<DataResult<IEnumerable<CustomerDto>>>("customer/status", "?AssignedUserId=" + loginUserId, "&StatusKey=TAKIP");
 
         if (obj.Success == true)
         {
@@ -127,37 +96,27 @@ public class CustomerController : BaseController
         return View();
     }
 
-    [HttpGet("customer/teklif")]
-    public async Task<IActionResult> Teklif()
+    [HttpGet("customer/ilandakiler")]
+    public async Task<IActionResult> Ilandakiler()
     {
         uint loginUserId = uint.Parse(HttpContext.User.Claims.First(e => e.Type == ClaimTypes.NameIdentifier).Value);
 
-        var obj = await _requestService.Get<DataResult<IEnumerable<CustomerDto>>>("customer/status", "?AssignedUserId=" + loginUserId, "&StatusKey=TKLF");
+        var obj = await _requestService.Get<DataResult<IEnumerable<CustomerDto>>>("customer/status", "?AssignedUserId=" + loginUserId, "&StatusKey=YETKI");
+        var objy = await _requestService.Get<DataResult<IEnumerable<CustomerDto>>>("customer/status", "?AssignedUserId=" + loginUserId, "&StatusKey=YETKISIZ");
 
+        var list = new List<CustomerDto>();
+        list.AddRange(obj.Data);
+        list.AddRange(objy.Data);
+        
         if (obj.Success == true)
         {
-            return View(obj.Data);
+            return View(list);
         }
 
         DangerAlert(obj.Message);
         return View();
     }
 
-    [HttpGet("customer/sozlesme")]
-    public async Task<IActionResult> Sozlesme()
-    {
-        uint loginUserId = uint.Parse(HttpContext.User.Claims.First(e => e.Type == ClaimTypes.NameIdentifier).Value);
-
-        var obj = await _requestService.Get<DataResult<IEnumerable<CustomerDto>>>("customer/status", "?AssignedUserId=" + loginUserId, "&StatusKey=SZLSM");
-
-        if (obj.Success == true)
-        {
-            return View(obj.Data);
-        }
-
-        DangerAlert(obj.Message);
-        return View();
-    }
 
     [HttpGet("/customer/add")]
     public async Task<IActionResult> Add()
@@ -306,6 +265,7 @@ public class CustomerController : BaseController
         return Redirect("/customer/" + shortProperty.CustomerId);
     }
 
+    [Route("/customer/remindercheck")]
     public async Task<IActionResult> ReminderCheck(uint reminderId)
     {
         var rtnObj = await _requestService.Delete<Result>("Reminder", new { Id = reminderId });
@@ -387,6 +347,46 @@ public class CustomerController : BaseController
         ViewData.Add("PropertyStatuses", selectPropertyStatuses);
         ViewData.Add("UserNameList", selectUsernamelist);
 
+    }
+    
+    
+    async Task SelectItemUserNameList()
+    {
+        var usernamelist = await _requestService.Get<DataResult<IEnumerable<User>>>("user/namelist");
+        IEnumerable<SelectListItem> selectUsernamelist = usernamelist.Data.Select(x => new SelectListItem
+        {
+            Value = x.Id.ToString(),
+            Text = $"{x.FirstName} {x.LastName}"
+        });
+        
+        ViewData.Add("UserNameList", selectUsernamelist);
+    }
+    
+    async Task SelectItemEntryTypes()
+    {
+        IEnumerable<SelectListItem> selectEntryTypes = Enumerable.Empty<SelectListItem>();
+        selectEntryTypes = selectEntryTypes.Append(new SelectListItem()
+        {
+            Value = "YENI",
+            Text = "Yeni"
+        }).Append(new SelectListItem()
+        {
+            Value = "TAKIP",
+            Text = "Potansiyel Takip"
+        }).Append(new SelectListItem()
+        {
+            Value = "GIRME",
+            Text = "İlansız Çalış"
+        }).Append(new SelectListItem()
+        {
+            Value = "YETKI",
+            Text = "Yetkili İlan"
+        }).Append(new SelectListItem()
+        {
+            Value = "YETKISIZ",
+            Text = "Yetkisiz İlan"
+        });
+        ViewData.Add("StatusKey", selectEntryTypes);
     }
 
     [HttpGet("/customer/SelectItemEntrySubType")]
@@ -486,6 +486,8 @@ public class CustomerController : BaseController
         }
         _dbContext.SaveChanges();
     }
+    
+    
 
 
 }

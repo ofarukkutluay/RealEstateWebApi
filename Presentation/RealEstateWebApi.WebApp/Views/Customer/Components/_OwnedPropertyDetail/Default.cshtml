@@ -1,0 +1,267 @@
+﻿@model Tuple<OuterPropertyListing,IEnumerable<PropertyListingPhoto>>
+
+@{
+    string modalIdString = $"modal{Model.Item1.Id.ToString()}";
+    string caroselIdString = $"carosel{Model.Item1.Id.ToString()}";
+    string caroselFragment = $"#carosel{Model.Item1.Id.ToString()}";
+}
+
+<!-- HareketEkle -->
+<div class="modal fade" id="@modalIdString" tabindex="-1">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+
+
+            <div class="modal-header">
+                <h5 class="modal-title">İlan Tüm Detaylar</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col">
+                        <div id="@caroselIdString" class="carousel carousel-dark slide">
+                            <div class="carousel-inner">
+                                @{
+
+
+                                    var host = ViewData["host"];
+
+                                    //var listingPhotos = (IEnumerable<PropertyListingPhoto>)ViewBag.ListingPhoto;
+
+                                    if (Model.Item2.Count() == 0)
+            {
+                host += "default-img/image-not-found.png";
+                <div class="carousel-item active">
+                    <div class="d-flex justify-content-center align-items-center" style="height: 537px;">
+
+                        <img src="@host" class="d-block w-auto h-100" alt="...">
+                    </div>
+                </div>
+            }
+            else
+            {
+                var photo = Model.Item2.OrderBy(x => x.SortIndex).FirstOrDefault();
+                string src = host+photo.FullPath;
+
+                <div class="carousel-item active">
+                    <div class="d-flex justify-content-center align-items-center" style="height: 537px;">
+
+                        <img src="@src" class="w-auto h-100" alt="@src">
+                    </div>
+                </div>
+
+                foreach (var item in Model.Item2.OrderBy(x => x.SortIndex).Skip(1))
+                {
+                    src = host + item.FullPath;
+
+                    <div class="carousel-item">
+                        <div class="d-flex justify-content-center align-items-center " style="height: 537px;">
+                            <img src="@src" class="w-auto h-100" alt="@src">
+                        </div>
+                    </div>
+                }
+            }
+                                    @*if (listingPhotos.Count() == 0 || listingPhotos == null)
+                                    {
+                                        host += "default-img/image-not-found.png";
+                                        <div class="carousel-item active">
+                                            <div class="d-flex justify-content-center align-items-center" style="height: 537px;">
+
+                                                <img src="@host" class="d-block w-auto h-100" alt="...">
+                                            </div>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        var photo = listingPhotos.OrderBy(x => x.SortIndex).FirstOrDefault();
+                                        string src = host + photo.FullPath;
+
+                                        <div class="carousel-item active">
+                                            <div class="d-flex justify-content-center align-items-center" style="height: 537px;">
+
+                                                <img src="@src" class="w-auto h-100" alt="@src">
+                                            </div>
+                                        </div>
+
+                                        foreach (var item in listingPhotos.OrderBy(x => x.SortIndex).Skip(1))
+                                        {
+                                            src = host + item.FullPath;
+
+                                            <div class="carousel-item">
+                                                <div class="d-flex justify-content-center align-items-center " style="height: 537px;">
+                                                    <img src="@src" class="w-auto h-100" alt="@src">
+                                                </div>
+                                            </div>
+                                        }
+                                    }*@
+
+                                }
+
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="@caroselFragment" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="@caroselFragment" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex ">
+                            <div class="col-2">
+                                <h5>İlan Id</h5>
+                            </div>
+                            <div class="col-10">@Model.Item1.Id</div>
+                        </li>
+                        <li class="list-group-item d-flex ">
+                            <div class="col-2">
+                                <h5>Durumu</h5>
+                            </div>
+                            <div class="col-10">@Model.Item1.PropertyStatus @Model.Item1.PropertyType</div>
+                        </li>
+                        <li class="list-group-item d-flex ">
+                            <div class="col-2">
+                                <h5>İlan tarihi</h5>
+                            </div>
+                            <div class="col-10">@Model.Item1.ListingDate?.ToString("dd-MM-yyyy")</div>
+                        </li>
+                        <li class="list-group-item d-flex ">
+                            <div class="col-2">
+                                <h5>Adres</h5>
+                            </div>
+                            <div class="col-10">@Model.Item1.City > @Model.Item1.District > @Model.Item1.Neighborhood</div>
+                        </li>
+                        <li class="list-group-item d-flex ">
+                            <div class="col-2">
+                                <h5>Başlık</h5>
+                            </div>
+                            <div class="col-10">@Model.Item1.Title</div>
+                        </li>
+                        <li class="list-group-item d-flex ">
+                            <div class="col-2">
+                                <h5>Fiyat</h5>
+                            </div>
+                            <div class="col-10">@Model.Item1.Price.ToString("##,#") @Model.Item1.PriceCurrency</div>
+                        </li>
+                        <li class="list-group-item d-flex ">
+                            <div class="col-2">
+                                <h5>Kişi</h5>
+                            </div>
+                            <div class="col-10">@Model.Item1.ListingUserName</div>
+                        </li>
+                        <li class="list-group-item d-flex ">
+                            <div class="col-2">
+                                <h5>Numara</h5>
+                            </div>
+                            <div class="col-10">@Model.Item1.ListingPhoneNumbers</div>
+                        </li>
+
+                        <li class="list-group-item d-flex ">
+                            <div class="col-2">
+                                <h5>Site İçinde</h5>
+                            </div>
+                            <div class="col-10">@Model.Item1.IsOnSite</div>
+                        </li>
+                        <li class="list-group-item d-flex ">
+                            <div class="col-2">
+                                <h5>Site Adı</h5>
+                            </div>
+                            <div class="col-10">@Model.Item1.SiteName</div>
+                        </li>
+                        <li class="list-group-item d-flex ">
+                            <div class="col-2">
+                                <h5>Oda Sayısı</h5>
+                            </div>
+                            <div class="col-10">@Model.Item1.RoomCount + @Model.Item1.LivingRoomCount</div>
+                        </li>
+                        <li class="list-group-item d-flex ">
+                            <div class="col-2">
+                                <h5>Banyo sayısı</h5>
+                            </div>
+                            <div class="col-10">@Model.Item1.BathroomCount</div>
+                        </li>
+                        <li class="list-group-item d-flex ">
+                            <div class="col-2">
+                                <h5>Brüt m2</h5>
+                            </div>
+                            <div class="col-10">@Model.Item1.GrossSquareMeter</div>
+                        </li>
+                        <li class="list-group-item d-flex ">
+                            <div class="col-2">
+                                <h5>Net m2</h5>
+                            </div>
+                            <div class="col-10">@Model.Item1.UsableSquareMeter</div>
+                        </li>
+                        <li class="list-group-item d-flex ">
+                            <div class="col-2">
+                                <h5>Toplam Kat</h5>
+                            </div>
+                            <div class="col-10">@Model.Item1.BuildingTotalFloor</div>
+                        </li>
+                        <li class="list-group-item d-flex ">
+                            <div class="col-2">
+                                <h5>Bulunduğu kat</h5>
+                            </div>
+                            <div class="col-10">@Model.Item1.BuildingFloor</div>
+                        </li>
+                        <li class="list-group-item d-flex ">
+                            <div class="col-2">
+                                <h5>Bina yaşı</h5>
+                            </div>
+                            <div class="col-10">@Model.Item1.BuildingAge</div>
+                        </li>
+                        <li class="list-group-item d-flex ">
+                            <div class="col-2">
+                                <h5>Tapu durumu</h5>
+                            </div>
+                            <div class="col-10">@Model.Item1.DeedStatus</div>
+                        </li>
+                        <li class="list-group-item d-flex ">
+                            <div class="col-2">
+                                <h5>Isıtma tipi</h5>
+                            </div>
+                            <div class="col-10">@Model.Item1.HeatingType</div>
+                        </li>
+
+                        <li class="list-group-item d-flex ">
+                            <div class="col-2">
+                                <h5>Kullanım durumu</h5>
+                            </div>
+                            <div class="col-10">@Model.Item1.UsingStatus</div>
+                        </li>
+                        <li class="list-group-item d-flex ">
+                            <div class="col-2">
+                                <h5>Balkon</h5>
+                            </div>
+                            <div class="col-10">@Model.Item1.IsBalcony</div>
+                        </li>
+                        <li class="list-group-item d-flex ">
+                            <div class="col-2">
+                                <h5>Krediye Uygun</h5>
+                            </div>
+                            <div class="col-10">@Model.Item1.IsAvailableLoan</div>
+                        </li>
+                        <li class="list-group-item d-flex ">
+                            <div class="col-2">
+                                <h5>Takas</h5>
+                            </div>
+                            <div class="col-10">@Model.Item1.IsFurnished</div>
+                        </li>
+                        <li class="list-group-item d-flex ">
+                            <div class="col-2">
+                                <h5>Açıklama</h5>
+                            </div>
+                            <div class="col-10">@Html.Raw(Model.Item1.DescriptionHtml)</div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div><!-- End HareketEkle-->

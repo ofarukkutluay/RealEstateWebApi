@@ -23,7 +23,7 @@ namespace RealEstateWebApi.Application.Features.Queries.Agent.GetAllAgentByCompa
 
             IEnumerable<Domain.Entities.Agent> agent = await Task.Run(() =>
             {
-                return _agentReadRepository.GetWhere(x => x.CompanyId == request.CompanyId).AsEnumerable().OrderByDescending(x=>x.Id);
+                return _agentReadRepository.GetWhere(x => x.CompanyId == request.CompanyId,false).AsEnumerable().OrderByDescending(x=>x.Id);
             },cancellationToken);
 
             return new GetAllAgentByCompanyIdResponse()

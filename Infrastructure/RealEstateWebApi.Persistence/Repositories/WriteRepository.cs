@@ -6,7 +6,7 @@ using RealEstateWebApi.Domain.Entities.Common;
 
 namespace RealEstateWebApi.Persistence.Repositories
 {
-    public class WriteRepository<TEntity, TContext> : IWriteRepository<TEntity> where TEntity : class, IEntity where TContext : DbContext
+    public class WriteRepository<TEntity, TContext,TId> : IWriteRepository<TEntity,TId> where TEntity : class, IEntity<TId> where TContext : DbContext 
     {
         private readonly TContext _context;
         public WriteRepository(TContext context)
@@ -16,26 +16,26 @@ namespace RealEstateWebApi.Persistence.Repositories
 
         public DbSet<TEntity> Table => _context.Set<TEntity>();
 
-        public async Task<bool> AddAsync(TEntity model)
+        public async Task<bool> AddAsync(TEntity model,CancellationToken cancellationToken = default)
         {
-            EntityEntry<TEntity> entityEntry = await Table.AddAsync(model);
+            EntityEntry<TEntity> entityEntry = await Table.AddAsync(model,cancellationToken);
             return entityEntry.State == EntityState.Added;
         }
 
-        public async Task<bool> AddRangeAsync(IEnumerable<TEntity> datas)
+        public async Task<bool> AddRangeAsync(IEnumerable<TEntity> datas,CancellationToken cancellationToken = default)
         {
-            await Table.AddRangeAsync(datas);
+            await Table.AddRangeAsync(datas,cancellationToken);
             return true;
         }
 
-        public async Task<TEntity> AddAndSaveAsync(TEntity model)
+        public async Task<TEntity> AddAndSaveAsync(TEntity model,CancellationToken cancellationToken = default)
         {
-            EntityEntry<TEntity> entityEntry = await Table.AddAsync(model);
+            EntityEntry<TEntity> entityEntry = await Table.AddAsync(model,cancellationToken);
             if (entityEntry.State == EntityState.Added)
             {
                 try
                 {
-                    await SaveAsync();
+                    await SaveAsync(cancellationToken);
                     return entityEntry.Entity;
                 }
                 catch (Exception)
@@ -52,9 +52,9 @@ namespace RealEstateWebApi.Persistence.Repositories
             return entityEntry.State == EntityState.Deleted;
         }
 
-        public async Task<bool> RemoveAsync(uint id)
+        public async Task<bool> RemoveAsync(TId id,CancellationToken cancellationToken = default)
         {
-            TEntity model = await Table.FirstOrDefaultAsync(x => x.Id == id);
+            TEntity model = await Table.FirstOrDefaultAsync(x => x.Id.Equals(id),cancellationToken);
             return Remove(model);
         }
 
@@ -64,9 +64,9 @@ namespace RealEstateWebApi.Persistence.Repositories
             return true;
         }
 
-        public async Task<int> SaveAsync()
+        public async Task<int> SaveAsync(CancellationToken cancellationToken = default)
         {
-            return await _context.SaveChangesAsync();
+            return await _context.SaveChangesAsync(cancellationToken);
         }
 
         public bool Update(TEntity model)
@@ -75,4 +75,12 @@ namespace RealEstateWebApi.Persistence.Repositories
             return entityEntry.State == EntityState.Modified;
         }
     }
+
+    public class WriteRepository<TEntity, TContext> : WriteRepository<TEntity, TContext, uint>, IWriteRepository<TEntity> where TEntity : class, IEntity where TContext : DbContext
+    {
+        public WriteRepository(TContext context) : base(context)
+        {
+        }
+    }
+
 }

@@ -20,8 +20,9 @@ namespace RealEstateWebApi.WebApp.Controllers
             _apiRequestService = apiRequestService;
         }
 
-        public IActionResult Logs()
+        public async Task<IActionResult> Logs()
         {
+            
             IEnumerable<Serilog.Events.LogEvent> loglist = InMemorySink.Instance.LogEvents;
             return View(loglist);
         }

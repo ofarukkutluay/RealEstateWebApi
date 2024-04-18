@@ -12,8 +12,10 @@ namespace RealEstateWebApi.Persistence.EntityConfigurations
     {
         public override void Configure(EntityTypeBuilder<InternetType> builder)
         {
-            builder.HasData(new InternetType { Id = 1, Title = "Adsl/Vdsl", CreatedDate = DateTime.UtcNow }, new InternetType { Id = 2, Title = "Fiber", CreatedDate = DateTime.UtcNow }, 
-                new InternetType { Id = 3, Title = "Uydu", CreatedDate = DateTime.UtcNow }, new InternetType { Id = 4, Title = "Altyapı Yok", CreatedDate = DateTime.UtcNow });
+            builder.HasData(new InternetType { Id = 1, Title = "Adsl/Vdsl", CreatedDate = DateTime.MinValue.AddYears(2000).ToUniversalTime() }, 
+            new InternetType { Id = 2, Title = "Fiber", CreatedDate = DateTime.MinValue.AddYears(2000).ToUniversalTime() }, 
+                new InternetType { Id = 3, Title = "Uydu", CreatedDate = DateTime.MinValue.AddYears(2000).ToUniversalTime() }, 
+                new InternetType { Id = 4, Title = "Altyapı Yok", CreatedDate = DateTime.MinValue.AddYears(2000).ToUniversalTime() });
 
             builder.HasQueryFilter(p => p.IsDeleted == false);
             base.Configure(builder);

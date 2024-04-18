@@ -15,7 +15,7 @@ namespace RealEstateWebApi.Application.Features.Queries.CustomerOwnedProperty.Ge
 
         public async Task<GetAllCustomerOwnedPropertyByCustomerIdResponse> Handle(GetAllCustomerOwnedPropertyByCustomerIdRequest request, CancellationToken cancellationToken)
         {
-            IEnumerable<Domain.Entities.CustomerOwnedProperty> customerOwnedProperties = _customerOwnedPropertyReadRepository.GetWhere(e=>e.CustomerId == request.CustomerId);
+            IEnumerable<Domain.Entities.CustomerOwnedProperty> customerOwnedProperties = _customerOwnedPropertyReadRepository.GetWhere(e=>e.CustomerId == request.CustomerId,false);
             return await Task.FromResult(new GetAllCustomerOwnedPropertyByCustomerIdResponse()
             {
                 Data = customerOwnedProperties,

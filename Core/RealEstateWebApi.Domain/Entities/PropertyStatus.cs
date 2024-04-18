@@ -10,6 +10,6 @@ namespace RealEstateWebApi.Domain.Entities
     public class PropertyStatus : BaseEntity
     {
         public string Title { get; set; }
-
+        public uint PropertyCategoryId { get; set; }
     }
 }

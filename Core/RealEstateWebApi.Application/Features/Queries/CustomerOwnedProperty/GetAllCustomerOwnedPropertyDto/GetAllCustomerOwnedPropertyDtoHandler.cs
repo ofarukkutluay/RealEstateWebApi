@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.EntityFrameworkCore;
 using RealEstateWebApi.Application.DTOs;
 using RealEstateWebApi.Application.Repositories;
 
@@ -17,7 +18,7 @@ namespace RealEstateWebApi.Application.Features.Queries.CustomerOwnedProperty.Ge
         public Task<GetAllCustomerOwnedPropertyDtoResponse> Handle(GetAllCustomerOwnedPropertyDtoRequest request, CancellationToken cancellationToken)
         {
             IQueryable<CustomerOwnedPropertyDto> ownedPropertyDtos = _customerOwnedPropertyReadRepository.GetAllCustomerOwnedPropertyDto();
-            IEnumerable<CustomerOwnedPropertyDto> sizedOwnedPropertyDtos = ownedPropertyDtos.Skip(request.PageIndex * request.PageSize).Take(request.PageSize);
+            IEnumerable<CustomerOwnedPropertyDto> sizedOwnedPropertyDtos = ownedPropertyDtos.AsNoTracking().Skip(request.PageIndex * request.PageSize).Take(request.PageSize);
             return Task.FromResult(new GetAllCustomerOwnedPropertyDtoResponse()
             {
                 Data = sizedOwnedPropertyDtos,

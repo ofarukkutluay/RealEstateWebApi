@@ -29,7 +29,7 @@ namespace RealEstateWebApi.Persistence.Repositories
                              UpdatedDate = operationClaim.UpdatedDate,
                              IsActive = operationClaim.IsActive
                          };
-            return result;
+            return result.AsNoTracking();
         }
 
         public UserDto GetUserDtoById(uint id)
@@ -52,7 +52,7 @@ namespace RealEstateWebApi.Persistence.Repositories
                              ProfileImgFilePath = _context.Files.FirstOrDefault(x => x.Id == user.ProfileImgFileId).FullPath
 
                          };
-            return result.FirstOrDefault();
+            return result.AsNoTracking().FirstOrDefault();
         }
 
         public IQueryable<UserDto> GetAllUserDto()
@@ -85,7 +85,7 @@ namespace RealEstateWebApi.Persistence.Repositories
                                                     IsActive = o.IsActive
                                                 }).AsEnumerable()
                          };
-            return result.OrderBy(x => x.IsActive);
+            return result.AsNoTracking().OrderBy(x => x.IsActive);
         }
 
         public IQueryable<UserDto> GetAllUserFullNameDto()
@@ -98,7 +98,7 @@ namespace RealEstateWebApi.Persistence.Repositories
                              FirstName = user.FirstName,
                              LastName = user.LastName,      
                          });
-            return result;
+            return result.AsNoTracking();
         }
 
     }

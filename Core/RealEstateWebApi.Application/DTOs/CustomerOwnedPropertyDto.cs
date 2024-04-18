@@ -7,7 +7,7 @@ namespace RealEstateWebApi.Application.DTOs
         public uint Id { get; set; }
         public uint CustomerId { get; set; }
         public Property? Property { get; set; }
-        public PropertyListingDetail? PropertyListingDetail { get; set; }
+        public OuterPropertyListing? OuterPropertyListing { get; set; }
         public IEnumerable<PropertyListingPhoto>? PropertyListingPhotos { get; set; }
 
         public string? PropertyType { get; set; }

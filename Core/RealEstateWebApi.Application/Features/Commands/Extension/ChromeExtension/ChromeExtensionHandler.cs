@@ -15,8 +15,6 @@ namespace RealEstateWebApi.Application.Features.Commands.Extension.ChromeExtensi
         private readonly ICustomerOwnedPropertyReadRepository _customerOwnedPropertyReadRepository;
         private readonly ICustomerReadRepository _customerReadRepository;
         private readonly ICustomerWriteRepository _customerWriteRepository;
-        private readonly IPropertyListingDetailWriteRepository _propertyListingDetailWriteRepository;
-        private readonly IPropertyListingDetailReadRepository _propertyListingDetailReadRepository;
         private readonly IPropertyListingPhotoWriteRepository _propertyListingPhotoWriteRepository;
         private readonly ICityReadRepository _cityReadRepository;
         private readonly IDistrictReadRepository _districtReadRepository;
@@ -25,15 +23,30 @@ namespace RealEstateWebApi.Application.Features.Commands.Extension.ChromeExtensi
         private readonly IPropertyTypeWriteRepository _propertyTypeWriteRepository;
         private readonly IPropertyStatusReadRepository _propertyStatusReadRepository;
         private readonly IPropertyStatusWriteRepository _propertyStatusWriteRepository;
+        private readonly IOuterPropertyListingReadRepository _outerPropertyListingReadRepository;
+        private readonly IOuterPropertyListingWriteRepository _outerPropertyListingWriteRepository;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public ChromeExtensionHandler(IShScrapingService shScrapingService, ICustomerOwnedPropertyWriteRepository customerOwnedPropertyWriteRepository, ICustomerReadRepository customerReadRepository, IPropertyListingDetailWriteRepository propertyListingDetailWriteRepository, IPropertyListingDetailReadRepository propertyListingDetailReadRepository, IPropertyListingPhotoWriteRepository propertyListingPhotoWriteRepository, ICustomerWriteRepository customerWriteRepository, ICityReadRepository cityReadRepository, IDistrictReadRepository districtReadRepository, ICustomerOwnedPropertyReadRepository customerOwnedPropertyReadRepository, IHttpContextAccessor httpContextAccessor, INeighborhoodReadRepository neighborhoodReadRepository, IPropertyTypeReadRepository propertyTypeReadRepository, IPropertyStatusReadRepository propertyStatusReadRepository, IPropertyStatusWriteRepository propertyStatusWriteRepository, IPropertyTypeWriteRepository propertyTypeWriteRepository)
+        public ChromeExtensionHandler(IShScrapingService shScrapingService,
+        ICustomerOwnedPropertyWriteRepository customerOwnedPropertyWriteRepository,
+        ICustomerReadRepository customerReadRepository,
+        IPropertyListingPhotoWriteRepository propertyListingPhotoWriteRepository,
+        ICustomerWriteRepository customerWriteRepository,
+        ICityReadRepository cityReadRepository,
+        IDistrictReadRepository districtReadRepository,
+        ICustomerOwnedPropertyReadRepository customerOwnedPropertyReadRepository,
+        IHttpContextAccessor httpContextAccessor,
+        INeighborhoodReadRepository neighborhoodReadRepository,
+        IPropertyTypeReadRepository propertyTypeReadRepository,
+        IPropertyStatusReadRepository propertyStatusReadRepository,
+        IPropertyStatusWriteRepository propertyStatusWriteRepository,
+        IPropertyTypeWriteRepository propertyTypeWriteRepository,
+        IOuterPropertyListingReadRepository outerPropertyListingReadRepository,
+        IOuterPropertyListingWriteRepository outerPropertyListingWriteRepository)
         {
             _shScrapingService = shScrapingService;
             _customerOwnedPropertyWriteRepository = customerOwnedPropertyWriteRepository;
             _customerReadRepository = customerReadRepository;
-            _propertyListingDetailWriteRepository = propertyListingDetailWriteRepository;
-            _propertyListingDetailReadRepository = propertyListingDetailReadRepository;
             _propertyListingPhotoWriteRepository = propertyListingPhotoWriteRepository;
             _customerWriteRepository = customerWriteRepository;
             _cityReadRepository = cityReadRepository;
@@ -45,23 +58,24 @@ namespace RealEstateWebApi.Application.Features.Commands.Extension.ChromeExtensi
             _propertyStatusReadRepository = propertyStatusReadRepository;
             _propertyStatusWriteRepository = propertyStatusWriteRepository;
             _propertyTypeWriteRepository = propertyTypeWriteRepository;
+            _outerPropertyListingReadRepository = outerPropertyListingReadRepository;
+            _outerPropertyListingWriteRepository = outerPropertyListingWriteRepository;
         }
         public async Task<ChromeExtensionResponse> Handle(ChromeExtensionRequest request, CancellationToken cancellationToken)
         {
-            PropertyListingDetail propertyListingDetail = await _shScrapingService.GetListingDetail(request.Url, request.OuterHTML, Path.Combine("ShScraping"));
+            OuterPropertyListing propertyListingDetail = await _shScrapingService.GetListingDetail(request.Url, request.OuterHTML, Path.Combine("ShScraping"));
 
             // shscrapingden dönen datayı kontrol ve kayıt
-            PropertyListingDetail pldResult = await _propertyListingDetailReadRepository.GetSingleAsync(x => x.Id == propertyListingDetail.Id);
+            OuterPropertyListing pldResult = await _outerPropertyListingReadRepository.GetSingleAsync(x => x.Id == propertyListingDetail.Id);
             if (pldResult is null)
             {
-                pldResult = await _propertyListingDetailWriteRepository.AddAndSaveAsync(propertyListingDetail);
+                pldResult = await _outerPropertyListingWriteRepository.AddAndSaveAsync(propertyListingDetail);
                 await _propertyListingPhotoWriteRepository.AddRangeAsync(propertyListingDetail.PropertyListingPhotos.AsEnumerable());
                 await _propertyListingPhotoWriteRepository.SaveAsync();
             }
 
             // il,ilçe ve mahalleyi mevcut databaseden alma
-            var tmpNeigh = propertyListingDetail.Neighborhood.Trim();
-            propertyListingDetail.Neighborhood = propertyListingDetail.Neighborhood.Replace(tmpNeigh.Split(" ").Last(), "").Trim().ToUpper(CultureInfo.CreateSpecificCulture("tr-TR"));
+            propertyListingDetail.Neighborhood = propertyListingDetail.Neighborhood.Trim().ToUpper(CultureInfo.CreateSpecificCulture("tr-TR"));
             var city = await _cityReadRepository.GetSingleAsync(x => x.Name.Trim() == propertyListingDetail.City.Trim().ToUpper(CultureInfo.CreateSpecificCulture("tr-TR")));
             var district = await _districtReadRepository.GetSingleAsync(x => x.CityKey == city.Key && x.Name.Trim() == propertyListingDetail.District.Trim().ToUpper(CultureInfo.CreateSpecificCulture("tr-TR")));
             var neighborhood = await _neighborhoodReadRepository.GetSingleAsync(x => x.DistrictKey == district.Key && x.Name.Trim() == propertyListingDetail.Neighborhood);
@@ -114,7 +128,7 @@ namespace RealEstateWebApi.Application.Features.Commands.Extension.ChromeExtensi
 
             // herhangi bir sahip olunan mülk de kayıtlımı kontrolü
             string descriptionStart = String.Empty;
-            var cospResult = await _customerOwnedPropertyReadRepository.GetSingleAsync(x => x.PropertyListingDetailId == pldResult.Id);
+            var cospResult = await _customerOwnedPropertyReadRepository.GetSingleAsync(x => x.OuterPropertyListingId == pldResult.Id);
             if (cospResult is not null)
             {
                 if (customer.Id == cospResult.CustomerId && pldResult.Price != propertyListingDetail.Price)
@@ -142,19 +156,19 @@ namespace RealEstateWebApi.Application.Features.Commands.Extension.ChromeExtensi
 
 
             // property type ve status database den alma yoksa ekleme
-            var propertyType = await _propertyTypeReadRepository.GetSingleAsync(x => x.Title.Trim() == propertyListingDetail.Type.Trim());
+            var propertyType = await _propertyTypeReadRepository.GetSingleAsync(x => x.Title.Trim() == propertyListingDetail.PropertyType.Trim());
             if (propertyType == null)
-                propertyType = await _propertyTypeWriteRepository.AddAndSaveAsync(new Domain.Entities.PropertyType() { Title = propertyListingDetail.Type.Trim() });
+                propertyType = await _propertyTypeWriteRepository.AddAndSaveAsync(new Domain.Entities.PropertyType() { Title = propertyListingDetail.PropertyType.Trim() });
 
-            var propertyStatus = await _propertyStatusReadRepository.GetSingleAsync(x => x.Title.Trim() == propertyListingDetail.Status.Trim());
+            var propertyStatus = await _propertyStatusReadRepository.GetSingleAsync(x => x.Title.Trim() == propertyListingDetail.PropertyStatus.Trim());
             if (propertyStatus == null)
-                propertyStatus = await _propertyStatusWriteRepository.AddAndSaveAsync(new Domain.Entities.PropertyStatus() { Title = propertyListingDetail.Status.Trim() });
+                propertyStatus = await _propertyStatusWriteRepository.AddAndSaveAsync(new Domain.Entities.PropertyStatus() { Title = propertyListingDetail.PropertyStatus.Trim() });
 
 
             cospResult = await _customerOwnedPropertyWriteRepository.AddAndSaveAsync(new Domain.Entities.CustomerOwnedProperty()
             {
                 CustomerId = customer.Id,
-                PropertyListingDetailId = pldResult.Id,
+                OuterPropertyListingId = pldResult.Id,
                 LivingRoomCount = (ushort)pldResult.LivingRoomCount,
                 RoomCount = pldResult.RoomCount,
                 CityId = city.Id,

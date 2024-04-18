@@ -1,16 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RealEstateWebApi.Application.Repositories;
 using RealEstateWebApi.Domain.Entities.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RealEstateWebApi.Persistence.Repositories
 {
-    public class ReadRepository<TEntity,TContext> : IReadRepository<TEntity> where TEntity : class,IEntity where TContext : DbContext
+    public class ReadRepository<TEntity,TContext,TId> : IReadRepository<TEntity,TId> where TEntity : class,IEntity<TId> where TContext : DbContext 
     {
         protected readonly TContext _context;
         public ReadRepository(TContext context)
@@ -34,19 +29,27 @@ namespace RealEstateWebApi.Persistence.Repositories
                 query = query.AsNoTracking();
             return query;
         }
-        public async Task<TEntity> GetSingleAsync(Expression<Func<TEntity, bool>> method, bool tracking = true)
+        public async Task<TEntity> GetSingleAsync(Expression<Func<TEntity, bool>> method, bool tracking = true,CancellationToken cancellationToken = default)
         {
             var query = Table.AsQueryable();
             if (!tracking)
                 query = Table.AsNoTracking();
-            return await query.FirstOrDefaultAsync(method);
+            return await query.FirstOrDefaultAsync(method,cancellationToken);
         }
-        public async Task<TEntity> GetByIdAsync(uint id, bool tracking = true)
+        public async Task<TEntity> GetByIdAsync(TId id, bool tracking = true,CancellationToken cancellationToken = default)
         {
             var query = Table.AsQueryable();
             if (!tracking)
                 query = Table.AsNoTracking();
-            return await query.FirstOrDefaultAsync(data => data.Id == id);
+            return await query.FirstOrDefaultAsync(data => data.Id.Equals(id), cancellationToken);
         }
     }
+
+    public class ReadRepository<TEntity, TContext> : ReadRepository<TEntity, TContext, uint>, IReadRepository<TEntity> where TEntity : class, IEntity where TContext : DbContext
+    {
+        public ReadRepository(TContext context) : base(context)
+        {
+        }
+    }
+
 }

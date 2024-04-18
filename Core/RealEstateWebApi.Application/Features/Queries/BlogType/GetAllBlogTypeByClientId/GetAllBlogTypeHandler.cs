@@ -18,7 +18,7 @@ namespace RealEstateWebApi.Application.Features.Queries.BlogType.GetAllBlogType
         }
         public async Task<GetAllBlogTypeResponse> Handle(GetAllBlogTypeRequest request, CancellationToken cancellationToken)
         {
-            IEnumerable<Domain.Entities.BlogType> blogTypes = _blogTypeReadRepository.GetAll().AsEnumerable();
+            IEnumerable<Domain.Entities.BlogType> blogTypes = _blogTypeReadRepository.GetAll(false).AsEnumerable();
             return await Task.FromResult( new GetAllBlogTypeResponse()
             {
                 Data = blogTypes,

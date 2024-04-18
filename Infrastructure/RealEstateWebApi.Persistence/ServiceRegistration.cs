@@ -4,11 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using RealEstateWebApi.Application.Repositories;
 using RealEstateWebApi.Persistence.Contexts;
 using RealEstateWebApi.Persistence.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace RealEstateWebApi.Persistence
 {
@@ -86,10 +82,12 @@ namespace RealEstateWebApi.Persistence
             services.AddScoped<IEntrySubTypeWriteRepository,EntrySubTypeWriteRepository>();
             services.AddScoped<IPropertyListingPhotoReadRepository, PropertyListingPhotoReadRepository>();
             services.AddScoped<IPropertyListingPhotoWriteRepository, PropertyListingPhotoWriteRepository>();
-            services.AddScoped<IPropertyListingDetailReadRepository,PropertyListingDetailReadRepository>();
-            services.AddScoped<IPropertyListingDetailWriteRepository,PropertyListingDetailWriteRepository>();
+            // services.AddScoped<IPropertyListingDetailReadRepository,PropertyListingDetailReadRepository>();
+            // services.AddScoped<IPropertyListingDetailWriteRepository,PropertyListingDetailWriteRepository>();
             services.AddScoped<IReminderReadRepository, ReminderReadRepository>();
             services.AddScoped<IReminderWriteRepository, ReminderWriteRepository>();
+            services.AddScoped<IOuterPropertyListingReadRepository,OuterPropertyListingReadRepository>();
+            services.AddScoped<IOuterPropertyListingWriteRepository,OuterPropertyListingWriteRepository>();
         }
     }
 }

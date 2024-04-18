@@ -19,7 +19,7 @@ namespace RealEstateWebApi.Application.Features.Queries.LocationSupport.GetAllDi
 
         public async Task<GetAllDistrictByCityKeyResponse> Handle(GetAllDistrictByCityKeyRequest request, CancellationToken cancellationToken)
         {
-            IEnumerable<Domain.Entities.District> districts = _districtReadRepository.GetWhere(e => e.CityKey == request.CityKey).OrderBy(e => e.Name);
+            IEnumerable<Domain.Entities.District> districts = _districtReadRepository.GetWhere(e => e.CityKey == request.CityKey,false).OrderBy(e => e.Name);
             return await Task.FromResult(new GetAllDistrictByCityKeyResponse()
             {
                 Message = $"{districts.Count()} adet district getirildi.",

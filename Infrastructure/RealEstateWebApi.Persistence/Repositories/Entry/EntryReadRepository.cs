@@ -2,6 +2,7 @@
 using RealEstateWebApi.Domain.Entities;
 using RealEstateWebApi.Persistence.Contexts;
 using RealEstateWebApi.Application.DTOs;
+using Microsoft.EntityFrameworkCore;
 
 namespace RealEstateWebApi.Persistence.Repositories
 {
@@ -30,7 +31,7 @@ namespace RealEstateWebApi.Persistence.Repositories
                             UpdatedDate = e.UpdatedDate != null ? e.UpdatedDate.Value.ToLocalTime() : null,
                             User = $"{u.FirstName} {u.LastName}"
                         };
-            return result;
+            return result.AsNoTracking();
         }
     }
 }

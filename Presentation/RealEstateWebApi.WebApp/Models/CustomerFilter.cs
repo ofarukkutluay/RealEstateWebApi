@@ -8,5 +8,8 @@ namespace RealEstateWebApi.WebApp.Models
         public uint? CityId { get; set; }
         public uint? DistrictId { get; set; }
         public uint? NeighborhoodId { get; set; }
+        public uint? RegisterUserId { get; set; }
+        public uint? AssignedUserId { get; set; }
+        public string? StatusKey { get; set; }
     }
 }

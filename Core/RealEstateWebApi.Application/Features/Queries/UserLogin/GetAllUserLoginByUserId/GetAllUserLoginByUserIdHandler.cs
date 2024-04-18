@@ -19,7 +19,7 @@ namespace RealEstateWebApi.Application.Features.Queries.UserLogin.GetAllUserLogi
 
         public async Task<GetAllUserLoginByUserIdResponse> Handle(GetAllUserLoginByUserIdRequest request, CancellationToken cancellationToken)
         {
-            IEnumerable<Domain.Entities.Identity.UserLogin> userLogins = _userLoginReadRepository.GetWhere(e=>e.UserId == request.UserId);
+            IEnumerable<Domain.Entities.Identity.UserLogin> userLogins = _userLoginReadRepository.GetWhere(e=>e.UserId == request.UserId,false);
             return await Task.FromResult(new GetAllUserLoginByUserIdResponse()
             {
                 Data = userLogins,

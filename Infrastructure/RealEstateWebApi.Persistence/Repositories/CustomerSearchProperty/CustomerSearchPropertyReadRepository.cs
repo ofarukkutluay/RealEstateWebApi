@@ -1,4 +1,5 @@
-﻿using RealEstateWebApi.Application.DTOs;
+﻿using Microsoft.EntityFrameworkCore;
+using RealEstateWebApi.Application.DTOs;
 using RealEstateWebApi.Application.Repositories;
 using RealEstateWebApi.Domain.Entities;
 using RealEstateWebApi.Persistence.Contexts;
@@ -39,7 +40,7 @@ namespace RealEstateWebApi.Persistence.Repositories
                              UpdatedDate = cssp.UpdatedDate,
                              IsActive = cssp.IsActive
                          };
-            return result.AsEnumerable();
+            return result.AsNoTracking().AsEnumerable();
         }
     }
 }

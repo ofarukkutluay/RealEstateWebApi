@@ -22,10 +22,11 @@ namespace RealEstateWebApi.Infrastructure.Services.Scraping
             _mapper = mapper;
         }
 
-        public async Task<Domain.Entities.PropertyListingDetail> GetListingDetail(string url, string document, string directoryPath)
+        public async Task<Domain.Entities.OuterPropertyListing> GetListingDetail(string url, string document, string directoryPath)
         {
             var result = await _shScraping.GetListingDetail(document);
-            Domain.Entities.PropertyListingDetail listingDetail = _mapper.Map<Domain.Entities.PropertyListingDetail>(result);
+            
+            Domain.Entities.OuterPropertyListing listingDetail = _mapper.Map<Domain.Entities.OuterPropertyListing>(result);
             
             List<PropertyListingPhoto> photoPaths = new List<PropertyListingPhoto>();
 
@@ -46,7 +47,7 @@ namespace RealEstateWebApi.Infrastructure.Services.Scraping
                         Path = fullDirectory,
                         FileName = fileNameAndExtension,
                         SortIndex = thmbImgIndex,
-                        PropertyListingDetailId = listingDetail.Id,
+                        OuterPropertyListingId = listingDetail.Id,
                         Storage = _storageService.StorageName,
                     });
 
@@ -67,7 +68,7 @@ namespace RealEstateWebApi.Infrastructure.Services.Scraping
                                 Path = fileResult.DirectoryOrContainer,
                                 FileName = fileResult.FileName,
                                 SortIndex = thmbImgIndex,
-                                PropertyListingDetailId = listingDetail.Id,
+                                OuterPropertyListingId = listingDetail.Id,
                                 Storage = _storageService.StorageName
                             });
                         }

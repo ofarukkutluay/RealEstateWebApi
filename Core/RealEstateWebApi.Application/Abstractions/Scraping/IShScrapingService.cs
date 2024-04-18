@@ -9,6 +9,6 @@ namespace RealEstateWebApi.Application.Abstractions.Scraping
 {
     public interface IShScrapingService
     {
-        public Task<PropertyListingDetail> GetListingDetail(string url, string document, string directoryPath);
+        public Task<OuterPropertyListing> GetListingDetail(string url, string document, string directoryPath);
     }
 }

@@ -15,7 +15,7 @@ namespace RealEstateWebApi.Application.Features.Queries.EntrySubType.GetAllEntry
 
         public async Task<GetAllEntrySubTypeByEntryTypeIdResponse> Handle(GetAllEntrySubTypeByEntryTypeIdRequest request, CancellationToken cancellationToken)
         {
-            IEnumerable<Domain.Entities.EntrySubType> entrySubTypes = _entryTypeReadRepository.GetWhere(e=>e.EntryTypeId == request.EntryTypeId).OrderBy(e=>e.Id);
+            IEnumerable<Domain.Entities.EntrySubType> entrySubTypes = _entryTypeReadRepository.GetWhere(e=>e.EntryTypeId == request.EntryTypeId,false).OrderBy(e=>e.Id);
             return await Task.FromResult(new GetAllEntrySubTypeByEntryTypeIdResponse()
             {
                 Message = $"{entrySubTypes.Count()} adet data getirildi",

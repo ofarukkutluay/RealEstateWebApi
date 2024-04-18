@@ -8,16 +8,22 @@ using System.Threading.Tasks;
 
 namespace RealEstateWebApi.Application.Repositories
 {
-    public interface IWriteRepository<TEntity> : IRepository<TEntity> where TEntity : class, IEntity
+    public interface IWriteRepository<TEntity,TId> : IRepository<TEntity,TId> where TEntity : class, IEntity<TId> 
     {
-        Task<TEntity> AddAndSaveAsync(TEntity model);
-        Task<bool> AddAsync(TEntity model);
-        Task<bool> AddRangeAsync(IEnumerable<TEntity> datas);
+        Task<TEntity> AddAndSaveAsync(TEntity model,CancellationToken cancellationToken = default);
+        Task<bool> AddAsync(TEntity model,CancellationToken cancellationToken = default);
+        Task<bool> AddRangeAsync(IEnumerable<TEntity> datas,CancellationToken cancellationToken = default);
         bool Remove(TEntity model);
         bool RemoveRange(IEnumerable<TEntity> datas);
-        Task<bool> RemoveAsync(uint id);
+        Task<bool> RemoveAsync(TId id,CancellationToken cancellationToken = default);
         bool Update(TEntity model);
-        Task<int> SaveAsync();
+        Task<int> SaveAsync(CancellationToken cancellationToken = default);
+
+    }
+
+    public interface IWriteRepository<TEntity> : IWriteRepository<TEntity,uint>, IRepository<TEntity> where TEntity : class, IEntity
+    {
+
 
     }
 }

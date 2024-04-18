@@ -15,7 +15,7 @@ namespace RealEstateWebApi.Application.Features.Queries.EntryType.GetAllEntryTyp
 
         public async Task<GetAllEntryTypeResponse> Handle(GetAllEntryTypeRequest request, CancellationToken cancellationToken)
         {
-            IEnumerable<Domain.Entities.EntryType> entryTypes = _entryTypeReadRepository.GetAll().OrderBy(e=>e.Id);
+            IEnumerable<Domain.Entities.EntryType> entryTypes = _entryTypeReadRepository.GetAll(false).OrderBy(e=>e.Id);
             return await Task.FromResult(new GetAllEntryTypeResponse()
             {
                 Message = $"{entryTypes.Count()} adet data getirildi",

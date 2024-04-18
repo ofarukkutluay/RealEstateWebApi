@@ -12,8 +12,8 @@ namespace RealEstateWebApi.Persistence.EntityConfigurations
     {
         public override void Configure(EntityTypeBuilder<UsingStatus> builder)
         {
-            builder.HasData(new UsingStatus { Id = 1, Title = "Boş", CreatedDate = DateTime.UtcNow }, new UsingStatus { Id = 2, Title = "Mülk Sahibi", CreatedDate = DateTime.UtcNow },
-                new UsingStatus { Id = 3, Title = "Kiracılı", CreatedDate = DateTime.UtcNow });
+            builder.HasData(new UsingStatus { Id = 1, Title = "Boş", CreatedDate = DateTime.MinValue.AddYears(2000).ToUniversalTime() }, new UsingStatus { Id = 2, Title = "Mülk Sahibi", CreatedDate = DateTime.MinValue.AddYears(2000).ToUniversalTime() },
+                new UsingStatus { Id = 3, Title = "Kiracılı", CreatedDate = DateTime.MinValue.AddYears(2000).ToUniversalTime() });
             builder.HasQueryFilter(p => p.IsDeleted == false);
             base.Configure(builder);
         }

@@ -15,7 +15,7 @@ namespace RealEstateWebApi.Application.Features.Queries.Reminder.GetAllReminderB
 
         public async Task<GetAllReminderByUserIdResponse> Handle(GetAllReminderByUserIdRequest request, CancellationToken cancellationToken)
         {
-            IEnumerable<Domain.Entities.Reminder> reminders = _reminderReadRepository.GetWhere(e=>e.UserId == request.UserId);
+            IEnumerable<Domain.Entities.Reminder> reminders = _reminderReadRepository.GetWhere(e=>e.UserId == request.UserId,false);
             return await Task.FromResult(new GetAllReminderByUserIdResponse()
             {
                 Data = reminders,

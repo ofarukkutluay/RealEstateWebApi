@@ -19,7 +19,7 @@ namespace RealEstateWebApi.Application.Features.Queries.Company.GetCompanyById
 
         public async Task<GetCompanyByIdResponse> Handle(GetCompanyByIdRequest request, CancellationToken cancellationToken)
         {
-            Domain.Entities.Company company = await _companyReadRepository.GetByIdAsync(request.CompanyId);
+            Domain.Entities.Company company = await _companyReadRepository.GetByIdAsync(request.CompanyId,false);
 
             return new GetCompanyByIdResponse()
             {

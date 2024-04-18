@@ -10,7 +10,7 @@ namespace RealEstateWebApi.Domain.Entities
     public class Entry : BaseEntity
     {
         public uint CustomerId { get; set; }
-        public string Content { get; set; }
+        public string? Content { get; set; }
         public uint EntryTypeId { get; set; }
         public uint EntrySubTypeId { get; set; }
         public string? EntrySubTitle { get; set; }

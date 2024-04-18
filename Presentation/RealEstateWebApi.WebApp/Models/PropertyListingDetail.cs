@@ -1,4 +1,4 @@
-﻿namespace RealEstateWebApi.WebApp.Models
+﻿namespace RealEstateWebApi.WebApp
 {
     public class PropertyListingDetail
     {

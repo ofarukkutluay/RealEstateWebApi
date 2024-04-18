@@ -1,5 +1,6 @@
 ﻿using System;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using RealEstateWebApi.Application.DTOs;
 using RealEstateWebApi.Application.Repositories;
 

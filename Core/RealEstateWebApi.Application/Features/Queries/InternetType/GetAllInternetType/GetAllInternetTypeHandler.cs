@@ -15,7 +15,7 @@ namespace RealEstateWebApi.Application.Features.Queries.InternetType.GetAllInter
 
         public async Task<GetAllInternetTypeResponse> Handle(GetAllInternetTypeRequest request, CancellationToken cancellationToken)
         {
-            IEnumerable<Domain.Entities.InternetType> internetTypees = _internetTypeReadRepository.GetAll().OrderBy(e=>e.Title);
+            IEnumerable<Domain.Entities.InternetType> internetTypees = _internetTypeReadRepository.GetAll(false).OrderBy(e=>e.Title);
             return await Task.FromResult(new GetAllInternetTypeResponse()
             {
                 Message = $"{internetTypees.Count()} adet data getirildi",

@@ -8,8 +8,12 @@ using System.Threading.Tasks;
 
 namespace RealEstateWebApi.Application.Repositories
 {
-    public interface IRepository<TEntity> where TEntity : class ,IEntity
+    public interface IRepository<TEntity,TId> where TEntity : class ,IEntity<TId> 
     {
         DbSet<TEntity> Table { get; }
+    }
+
+    public interface IRepository<TEntity> : IRepository<TEntity,uint> where TEntity : class ,IEntity
+    {
     }
 }

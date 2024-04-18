@@ -19,7 +19,7 @@ namespace RealEstateWebApi.Application.Features.Queries.Blog.GetBlogById
 
         public async Task<GetBlogByIdResponse> Handle(GetBlogByIdRequest request, CancellationToken cancellationToken)
         {
-            Domain.Entities.Blog blog = await _blogReadRepository.GetByIdAsync(request.BlogId);
+            Domain.Entities.Blog blog = await _blogReadRepository.GetByIdAsync(request.BlogId,false);
 
             return new GetBlogByIdResponse()
             {

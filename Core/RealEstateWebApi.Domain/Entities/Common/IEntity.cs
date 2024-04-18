@@ -6,8 +6,13 @@ using System.Threading.Tasks;
 
 namespace RealEstateWebApi.Domain.Entities.Common
 {
-    public interface IEntity
+    public interface IEntity<TId> 
     {
-        public uint Id { get; set; }
+        public TId Id { get; set; }
+    }
+
+    public interface IEntity : IEntity<uint>
+    {
+        
     }
 }

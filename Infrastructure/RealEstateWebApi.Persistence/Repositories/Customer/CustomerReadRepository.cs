@@ -1,4 +1,5 @@
-﻿using RealEstateWebApi.Application.DTOs;
+﻿using Microsoft.EntityFrameworkCore;
+using RealEstateWebApi.Application.DTOs;
 using RealEstateWebApi.Application.Repositories;
 using RealEstateWebApi.Domain.Entities;
 using RealEstateWebApi.Persistence.Contexts;
@@ -38,14 +39,16 @@ namespace RealEstateWebApi.Persistence.Repositories
                             BirthDay = c.BirthDay,
                             CitizenNumber = c.CitizenNumber,
                             StatusKey =c.StatusKey,
-                            Status = _context.EntryTypes.FirstOrDefault(x=>x.Key == c.StatusKey).Title,
+                            Status = _context.EntrySubTypes.FirstOrDefault(x=>x.Key == c.StatusKey).Title,
                             RegisterUser = $"{reguser.FirstName} {reguser.LastName}",
                             AssignedUser = $"{assinguser.FirstName} {assinguser.LastName}",
+                            RegisterUserId = c.RegisterUserId,
+                            AssignedUserId = c.AssignedUserId,
                             CreatedDate = c.CreatedDate.ToLocalTime(),
                             UpdatedDate = c.UpdatedDate != null ? c.UpdatedDate.Value.ToLocalTime() : null ,
                             IsActive = c.IsActive
                         };
-            return result;
+            return result.AsNoTracking();
 
         }
 
@@ -75,14 +78,16 @@ namespace RealEstateWebApi.Persistence.Repositories
                              BirthDay = c.BirthDay,
                              CitizenNumber = c.CitizenNumber,
                              StatusKey = c.StatusKey,
-                             Status = _context.EntryTypes.FirstOrDefault(x => x.Key == c.StatusKey).Title,
+                             Status = _context.EntrySubTypes.FirstOrDefault(x => x.Key == c.StatusKey).Title,
                              RegisterUser = $"{reguser.FirstName} {reguser.LastName}",
                              AssignedUser = $"{assinguser.FirstName} {assinguser.LastName}",
+                             RegisterUserId = c.RegisterUserId,
+                             AssignedUserId = c.AssignedUserId,
                              CreatedDate = c.CreatedDate.ToLocalTime(),
                              UpdatedDate = c.UpdatedDate != null ? c.UpdatedDate.Value.ToLocalTime() : null,
                              IsActive = c.IsActive
                          };
-            return result;
+            return result.AsNoTracking();
         }
 
         public IQueryable<CustomerDto> GetAllDtoByStatusKey(string statusKey, uint assignedUserId)
@@ -111,14 +116,16 @@ namespace RealEstateWebApi.Persistence.Repositories
                              BirthDay = c.BirthDay,
                              CitizenNumber = c.CitizenNumber,
                              StatusKey = c.StatusKey,
-                             Status = _context.EntryTypes.FirstOrDefault(x => x.Key == c.StatusKey).Title,
+                             Status = _context.EntrySubTypes.FirstOrDefault(x => x.Key == c.StatusKey).Title,
                              RegisterUser = $"{reguser.FirstName} {reguser.LastName}",
                              AssignedUser = $"{assinguser.FirstName} {assinguser.LastName}",
+                             RegisterUserId = c.RegisterUserId,
+                             AssignedUserId = c.AssignedUserId,
                              CreatedDate = c.CreatedDate.ToLocalTime(),
                              UpdatedDate = c.UpdatedDate != null ? c.UpdatedDate.Value.ToLocalTime() : null,
                              IsActive = c.IsActive
                          };
-            return result;
+            return result.AsNoTracking();
         }
 
         public CustomerDto GetDtoById (uint id){
@@ -144,14 +151,16 @@ namespace RealEstateWebApi.Persistence.Repositories
                             BirthDay = c.BirthDay,
                             CitizenNumber = c.CitizenNumber,
                             StatusKey = c.StatusKey,
-                            Status = _context.EntryTypes.FirstOrDefault(x => x.Key == c.StatusKey).Title,
+                            Status = _context.EntrySubTypes.FirstOrDefault(x => x.Key == c.StatusKey).Title,
                             RegisterUser = $"{reguser.FirstName} {reguser.LastName}",
                             AssignedUser = $"{assinguser.FirstName} {assinguser.LastName}",
+                            RegisterUserId = c.RegisterUserId,
+                            AssignedUserId = c.AssignedUserId,
                             CreatedDate = c.CreatedDate.ToLocalTime(),
                             UpdatedDate = c.UpdatedDate != null ? c.UpdatedDate.Value.ToLocalTime() : null,
                             IsActive = c.IsActive
                         };
-            return result.First();
+            return result.AsNoTracking().First();
 
         }
     }

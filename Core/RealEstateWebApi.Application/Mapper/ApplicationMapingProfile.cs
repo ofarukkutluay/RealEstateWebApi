@@ -48,8 +48,6 @@ namespace RealEstateWebApi.Application.Utilities.Mapper
             CreateMap<CreateCustomerRequest,Customer>().ForMember(dest=>dest.FullName,opt=>opt.MapFrom(x=>$"{x.FirstName} {x.LastName}"));
             CreateMap<CreateCustomerSearchPropertyRequest, CustomerSearchProperty>();
             CreateMap<CreateCustomerOwnedPropertyRequest, CustomerOwnedProperty>();
-            CreateMap<CreateCustomerSearchPropertyRequest, ShortProperty>();
-            CreateMap<CreateCustomerOwnedPropertyRequest, ShortProperty>();
             CreateMap<CreateEntryRequest,Entry>();
             CreateMap<CreateEntryTypeRequest, EntryType>();
             CreateMap<CreateEntrySubTypeRequest, EntrySubType>();

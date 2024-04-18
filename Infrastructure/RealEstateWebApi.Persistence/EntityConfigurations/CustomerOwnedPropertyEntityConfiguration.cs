@@ -14,7 +14,7 @@ namespace RealEstateWebApi.Persistence.EntityConfigurations
         {
             builder.HasOne<Customer>().WithMany().HasForeignKey(e=>e.CustomerId);
             builder.HasOne<Property>().WithMany().HasForeignKey(e=>e.PropertyId);
-            builder.HasOne<PropertyListingDetail>().WithMany().HasForeignKey(e => e.PropertyListingDetailId);
+            //builder.HasOne<PropertyListingDetail>().WithMany().HasForeignKey(e => e.PropertyListingDetailId);
             builder.HasQueryFilter(p => p.IsDeleted == false);
             base.Configure(builder);
         }

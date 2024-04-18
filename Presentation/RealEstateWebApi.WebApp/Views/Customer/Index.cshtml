@@ -36,7 +36,6 @@
                                 <th scope="col">Durumu</th>
                                 <th scope="col">İl</th>
                                 <th scope="col">İlçe</th>
-                                <th scope="col">Cep Telefonu</th>
                                 <th scope="col">Kayıt Yapan</th>
                                 <th scope="col">Yetkilisi</th>
                                 <th scope="col">Oluşturma Tarihi</th>
@@ -64,6 +63,8 @@
 
                                             <span class="badge bg-danger">Yeni</span>
 
+                                        }else if (item.StatusKey == "ULSLMD"){
+                                            <span class="badge bg-danger">Ulaşılamadı</span>
                                         }
                                         else
                                         {
@@ -74,7 +75,6 @@
                                     </td>
                                     <td>@item.City</td>
                                     <td>@item.District</td>
-                                    <td>@item.MobileNumber</td>
                                     <td>@item.RegisterUser</td>
                                     <td>@item.AssignedUser</td>
                                     <td>@item.CreatedDate.UtcToLocalTR().ToString("dd-MM-yyyy HH:mm")</td>

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
 using RealEstateWebApi.Application.Repositories;
+using RealEstateWebApi.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,6 +31,7 @@ namespace RealEstateWebApi.Application.Features.Commands.Property.CreateProperty
                     Message = "İlettiğiniz title da property bulunmaktadır. Tekrar kayıt edilemez",
                     Success = false
                 };
+
             property = _mapper.Map<Domain.Entities.Property>(request);
             var result = await _propertyWriteRepository.AddAndSaveAsync(property);
             if(result == null)

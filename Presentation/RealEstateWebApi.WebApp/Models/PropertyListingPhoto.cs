@@ -2,7 +2,7 @@
 {
     public class PropertyListingPhoto : File
     {
-        public uint PropertyListingDetailId { get; set; }
+        public string OuterPropertyListingId { get; set; }
         public int SortIndex { get; set; }
     }
 }

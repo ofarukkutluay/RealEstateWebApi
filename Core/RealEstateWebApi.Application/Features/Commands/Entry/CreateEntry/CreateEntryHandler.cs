@@ -35,34 +35,42 @@ namespace RealEstateWebApi.Application.Features.Commands.Entry.CreateEntry
                 };
             }
 
-            Domain.Entities.EntryType customerEntryType = await _entryTypeReadRepository.GetSingleAsync(x => x.Key == customer.StatusKey);
+            Domain.Entities.EntrySubType customerEntrySubType = await _entrySubTypeReadRepository.GetSingleAsync(x => x.Key == customer.StatusKey);
 
             Domain.Entities.EntrySubType entrySubType = await _entrySubTypeReadRepository.GetByIdAsync(request.EntrySubTypeId);
             Domain.Entities.EntryType entryType = await _entryTypeReadRepository.GetByIdAsync(entrySubType.EntryTypeId);
-            if (entryType != null)
-            {
-                if (entrySubType.Key == "DOWN" && entryType.Id > 1)
-                {
-                    customer.StatusKey = (await _entryTypeReadRepository.GetByIdAsync(entryType.Id - 1)).Key;
-                }
-                else if (entrySubType.Key =="GDOWN")
-                {
-                    customer.StatusKey = "GRSM";
-                }
-                else if (entrySubType.Key == "PDOWN")
-                {
-                    customer.StatusKey = "PTNSYL";
-                }
-                else if (customerEntryType != null && customerEntryType.Id < entryType.Id)
-                {
 
-                    customer.StatusKey = entryType.Key;
-                }
-                else if (string.IsNullOrEmpty(customer.StatusKey) || customer.StatusKey == "YENI")
-                {
-                    customer.StatusKey = entryType.Key;
-                }
+            if(customerEntrySubType is null)
+                customerEntrySubType = new Domain.Entities.EntrySubType{Id = 0};
+
+            switch (entrySubType.Key)
+            {
+                case "TAKIP":
+                    customer.StatusKey = customerEntrySubType.Id > entrySubType.Id ? customer.StatusKey : entrySubType.Key;
+                    break;
+                case "GIRME":
+                    customer.StatusKey = customerEntrySubType.Id > entrySubType.Id ? customer.StatusKey : entrySubType.Key;
+                    break;
+                case "YETKI":
+                    customer.StatusKey = customerEntrySubType.Id > entrySubType.Id ? customer.StatusKey : entrySubType.Key;
+                    break;
+                case "YETKISIZ":
+                    customer.StatusKey = customerEntrySubType.Id > entrySubType.Id ? customer.StatusKey : entrySubType.Key;
+                    break;
+                case "PDOWN":
+                    customer.StatusKey = customerEntrySubType.Id > entrySubType.Id ? customer.StatusKey : "TAKIP";
+                    break;
+                case "DOWN":
+                    customer.StatusKey = customerEntrySubType.Id > entrySubType.Id ? customer.StatusKey : "";
+                    break;
+                case "ULSLMD":
+                    customer.StatusKey = customerEntrySubType.Id == 0 ? entrySubType.Key : customer.StatusKey ;
+                    break;  
+                default:
+                    customer.StatusKey = "";
+                    break;
             }
+
 
             await _customerWriteRepository.SaveAsync();
 

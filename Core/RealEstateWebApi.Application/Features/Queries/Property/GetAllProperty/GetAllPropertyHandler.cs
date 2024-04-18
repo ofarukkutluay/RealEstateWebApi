@@ -15,7 +15,7 @@ namespace RealEstateWebApi.Application.Features.Queries.Property.GetAllProperty
 
         public async Task<GetAllPropertyResponse> Handle(GetAllPropertyRequest request, CancellationToken cancellationToken)
         {
-            IEnumerable<Domain.Entities.Property> propertyes = _propertyReadRepository.GetAll().OrderByDescending(e=>e.CreatedDate);
+            IEnumerable<Domain.Entities.Property> propertyes = _propertyReadRepository.GetAll(false).OrderByDescending(e=>e.CreatedDate);
             return await Task.FromResult(new GetAllPropertyResponse()
             {
                 Message = $"{propertyes.Count()} adet data getirildi",
