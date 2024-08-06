@@ -25,9 +25,9 @@ namespace RealEstateWebApi.Infrastructure.Services.Scraping
         public async Task<Domain.Entities.OuterPropertyListing> GetListingDetail(string url, string document, string directoryPath)
         {
             var result = await _shScraping.GetListingDetail(document);
-            
+
             Domain.Entities.OuterPropertyListing listingDetail = _mapper.Map<Domain.Entities.OuterPropertyListing>(result);
-            
+
             List<PropertyListingPhoto> photoPaths = new List<PropertyListingPhoto>();
 
             int thmbImgIndex = 0;
@@ -37,23 +37,16 @@ namespace RealEstateWebApi.Infrastructure.Services.Scraping
                 Uri uri = new Uri(megaLink);
                 string fileNameAndExtension = uri.Segments.Last();
 
-                string fullDirectory = Path.Combine(directoryPath,result.Id);
-                string finalFileName = $"{thmbImgIndex}_{fileNameAndExtension}";
+                string fullDirectory = Path.Combine(directoryPath, result.Id);
 
-                if (_storageService.HasFile(Path.Combine(Environment.CurrentDirectory,"wwwroot",fullDirectory), finalFileName))
+                string finalFileName = $"{fileNameAndExtension}";
+
+                if (!_storageService.HasFile(Path.Combine(Environment.CurrentDirectory, "wwwroot", fullDirectory), finalFileName))
                 {
-                    photoPaths.Add(new PropertyListingPhoto
+                    if (Directory.Exists(Path.Combine(Environment.CurrentDirectory, "wwwroot", fullDirectory)))
                     {
-                        Path = fullDirectory,
-                        FileName = fileNameAndExtension,
-                        SortIndex = thmbImgIndex,
-                        OuterPropertyListingId = listingDetail.Id,
-                        Storage = _storageService.StorageName,
-                    });
-
-                }
-                else
-                {
+                        thmbImgIndex = Directory.GetFiles(Path.Combine(Environment.CurrentDirectory, "wwwroot", fullDirectory)).Count() - 1;
+                    }
                     using (HttpClient httpClient = new HttpClient())
                     {
                         var imageBytes = await httpClient.GetByteArrayAsync(uri);

@@ -74,6 +74,7 @@ namespace RealEstateWebApi.Application.Features.Commands.Customer.UpdateCustomer
             customer.NeighborhoodId = request.NeighborhoodId;
             customer.RegisterUserId = request.RegisterUserId == default ? customer.RegisterUserId : request.RegisterUserId;
             customer.AssignedUserId = request.AssignedUserId == default ? customer.AssignedUserId : request.AssignedUserId;
+            customer.StatusKey= request.StatusKey;
             customer.IsActive = request.IsActive;
 
             var result = await _customerWriteRepository.SaveAsync();

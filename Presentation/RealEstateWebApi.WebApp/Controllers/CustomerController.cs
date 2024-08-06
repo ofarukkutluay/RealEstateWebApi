@@ -48,6 +48,7 @@ public class CustomerController : BaseController
 
         QueryBuilder paginationQuery = new QueryBuilder(queries.SkipWhile((KeyValuePair<string, string> arg) => arg.Key == "PageIndex"));
 
+        ViewData.Add("totalDataCount",obj.TotalDataCount);
         ViewData.Add("totalPage",Math.Ceiling(page));
         ViewData.Add("page",pagination.PageIndex);
         ViewData.Add("filterquery", paginationQuery.ToString());
@@ -278,8 +279,8 @@ public class CustomerController : BaseController
         DangerAlert(rtnObj.Message);
         return Redirect(Request.Headers["Referer"].ToString());
     }
-
-
+    
+    
 
 
     async Task SelectItemInitilazeAddPage()
@@ -487,7 +488,12 @@ public class CustomerController : BaseController
         _dbContext.SaveChanges();
     }
     
-    
+    public IActionResult Popup(string outerId){
+        var outer = new OuterPropertyListing{
+            Id = outerId,
+        };
+        return PartialView("~/Views/Customer/Modal/_OwnedPropertyDetailModal.cshtml", Tuple.Create(outer,Enumerable.Empty<PropertyListingPhoto>()));
+    }
 
 
 }

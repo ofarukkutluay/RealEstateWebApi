@@ -18,7 +18,7 @@
 
 <section class="section">
 
-    @*{ await Html.RenderPartialAsync("~/Views/Customer/_OwnedPropertiesFilterForm.cshtml",new OwnedPropertiesFilter());}*@
+    @*@{await Html.RenderPartialAsync("~/Views/Customer/_OwnedPropertiesFilterForm.cshtml",new OwnedPropertiesFilter());}*@
 
     <!-- Table -->
     <div class="row">
@@ -34,6 +34,7 @@
                             <tr>
                                 <th scope="col">#</th>
                                 <th scope="col">İlan Tarihi</th>
+                                <th scope="col">Kategori</th>
                                 <th scope="col">Tipi</th>
                                 <th scope="col">Statüsü</th>
                                 <th scope="col">Oda</th>
@@ -54,6 +55,7 @@
                                     @if (item.OuterPropertyListing != null)
                                     {
                                         <td class="@((DateTime.Today - TimeSpan.FromDays(30)).Date >= item.OuterPropertyListing.ListingDate.GetValueOrDefault().Date ? "text-danger" : "" ) ">@item.OuterPropertyListing.ListingDate.GetValueOrDefault().Date.ToString("dd-MM-yyyy")</td>
+                                        <td>@item.OuterPropertyListing.PropertyCategory</td>
                                         <td>
                                             @item.OuterPropertyListing?.PropertyType
 
@@ -72,6 +74,7 @@
                                     else
                                     {
                                         <td>@item.CreatedDate.Date.ToString("dd-MM-yyyy")</td>
+                                        <td>@item.PropertyCategory</td>
                                         <td>@item.PropertyType</td>
                                         <td>@item.PropertyStatus</td>
                                         <td>@item.RoomCount + @item.LivingRoomCount</td>
@@ -96,18 +99,18 @@
                                                 <button id="@IdString" class="btn btn-sm btn-info" type="button" data-bs-toggle="modal"
                                                         data-bs-target="@IdString">
                                                     Detay
-                                                </button>
+                                                </button> 
+
                                             }
 
                                         </div>
                                     </td>
                                 </tr>
                             }
-
+                        
                         </tbody>
                     </table>
                     <!-- End Table with stripped rows -->
-
                 </div>
                 <div class="card-footer">
                     <nav class="pagination-a d-flex justify-content-end">

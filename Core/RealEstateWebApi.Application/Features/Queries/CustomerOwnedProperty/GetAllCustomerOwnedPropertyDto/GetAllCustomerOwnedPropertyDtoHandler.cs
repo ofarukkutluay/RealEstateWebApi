@@ -19,7 +19,7 @@ namespace RealEstateWebApi.Application.Features.Queries.CustomerOwnedProperty.Ge
         {
             IQueryable<CustomerOwnedPropertyDto> ownedPropertyDtos = _customerOwnedPropertyReadRepository.GetAllCustomerOwnedPropertyDto();
             IEnumerable<CustomerOwnedPropertyDto> sizedOwnedPropertyDtos = ownedPropertyDtos.AsNoTracking().Skip(request.PageIndex * request.PageSize).Take(request.PageSize);
-            return Task.FromResult(new GetAllCustomerOwnedPropertyDtoResponse()
+            return Task.FromResult(new GetAllCustomerOwnedPropertyDtoResponse() 
             {
                 Data = sizedOwnedPropertyDtos,
                 TotalDataCount = ownedPropertyDtos.Count(),

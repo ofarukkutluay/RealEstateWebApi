@@ -15,18 +15,14 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Serilog.AspNetCore" Version="8.0.1" />
     <PackageReference Include="Serilog.Sinks.PostgreSQL" Version="2.3.0" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Infrastructure\RealEstateWebApi.Infrastructure\RealEstateWebApi.Infrastructure.csproj" />
     <ProjectReference Include="..\..\Infrastructure\RealEstateWebApi.Persistence\RealEstateWebApi.Persistence.csproj" />
+    <ProjectReference Include="..\..\Core\RealEstateWebApi.Application\RealEstateWebApi.Application.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Content Remove="wwwroot\ShScraping\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="wwwroot\ShScraping\" />
-  </ItemGroup>
+
 </Project>

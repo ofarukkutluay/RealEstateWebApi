@@ -3,6 +3,7 @@
     public class CustomerSearchProperty
     {
         public uint CustomerId { get; set; }
+        public uint PropertyCategoryId { get; set; }
 
         public uint PropertyTypeId { get; set; }
         public uint PropertyStatusId { get; set; }

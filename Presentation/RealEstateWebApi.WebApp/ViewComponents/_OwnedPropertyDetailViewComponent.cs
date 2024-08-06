@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RealEstateWebApi.WebApp.Models;
 
-namespace RealEstateWebApi.WebApp;
+namespace RealEstateWebApi.WebApp.ViewComponents;
 
 public class _OwnedPropertyDetailViewComponent : ViewComponent
 {

@@ -24,6 +24,7 @@ namespace RealEstateWebApi.Application.Features.Commands.Customer.UpdateCustomer
         public long? CitizenNumber { get; set; }
         public uint RegisterUserId { get; set; }
         public uint AssignedUserId { get; set; }
+        public string? StatusKey { get; set; }
         public bool IsActive { get; set; }
     }
 }

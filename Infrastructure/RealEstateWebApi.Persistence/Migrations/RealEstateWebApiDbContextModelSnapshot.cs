@@ -17,7 +17,7 @@ namespace RealEstateWebApi.Persistence.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.4")
+                .HasAnnotation("ProductVersion", "8.0.6")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -445,6 +445,9 @@ namespace RealEstateWebApi.Persistence.Migrations
                     b.Property<double?>("Price")
                         .HasColumnType("double precision");
 
+                    b.Property<long?>("PropertyCategoryId")
+                        .HasColumnType("bigint");
+
                     b.Property<long?>("PropertyId")
                         .HasColumnType("bigint");
 
@@ -513,6 +516,9 @@ namespace RealEstateWebApi.Persistence.Migrations
 
                     b.Property<double>("Price")
                         .HasColumnType("double precision");
+
+                    b.Property<long?>("PropertyCategoryId")
+                        .HasColumnType("bigint");
 
                     b.Property<long>("PropertyStatusId")
                         .HasColumnType("bigint");

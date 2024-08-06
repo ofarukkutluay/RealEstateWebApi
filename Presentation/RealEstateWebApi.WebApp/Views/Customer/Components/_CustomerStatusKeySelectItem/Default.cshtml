@@ -1,0 +1,8 @@
+<div class="col-md-4">
+    @Html.DropDownList("StatusKey", (IEnumerable<SelectListItem>)ViewData["selectStatusKey"]!, "Durum..", new
+        {
+            @class = "form-select",
+            @id = "inputChangeStatusKey"
+        })
+
+</div>

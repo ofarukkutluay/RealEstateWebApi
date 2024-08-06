@@ -2,6 +2,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RealEstateWebApi.Application.Features.Commands.Customer.ChangeActivateCustomer;
+using RealEstateWebApi.Application.Features.Commands.Customer.ChangeStatusKeyCustomer;
 using RealEstateWebApi.Application.Features.Commands.Customer.CreateCustomer;
 using RealEstateWebApi.Application.Features.Commands.Customer.DeleteCustomer;
 using RealEstateWebApi.Application.Features.Commands.Customer.UpdateCustomer;
@@ -13,6 +14,7 @@ using RealEstateWebApi.Application.Features.Queries.Customer.GetAllCustomerDtoBy
 using RealEstateWebApi.Application.Features.Queries.Customer.GetCustomerById;
 using RealEstateWebApi.Application.Features.Queries.Customer.GetCustomerDtoById;
 using RealEstateWebApi.Application.Features.Queries.Customer.GetRecentCustomerDtoList;
+using RealEstateWebApi.Application.Features.Queries.GetAllCustomerStatusKey;
 using System.Data;
 
 namespace RealEstateWebApi.WebApi.Controllers
@@ -53,6 +55,16 @@ namespace RealEstateWebApi.WebApi.Controllers
         public async Task<IActionResult> ChangeActivate(ChangeActivateCustomerRequest request)
         {
             ChangeActivateCustomerResponse response = await _mediator.Send(request);
+            if (response.Success)
+                return Ok(response);
+            return BadRequest(response);
+        }
+
+        [HttpPut("[action]")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> ChangeStatusKey(ChangeStatusKeyCustomerRequest request)
+        {
+            ChangeStatusKeyCustomerResponse response = await _mediator.Send(request);
             if (response.Success)
                 return Ok(response);
             return BadRequest(response);
@@ -131,6 +143,16 @@ namespace RealEstateWebApi.WebApi.Controllers
         public async Task<IActionResult> GetAllCustomerDtoByStatusKey([FromQuery] GetAllCustomerDtoByStatusKeyRequest request)
         {
             GetAllCustomerDtoByStatusKeyResponse response = await _mediator.Send(request);
+            if (response.Success)
+                return Ok(response);
+            return BadRequest(response);
+        }
+
+        [HttpGet("statuskeys")]
+        [Authorize]
+        public async Task<IActionResult> GetAllCustomerStatusKey([FromQuery] GetAllCustomerStatusKeyRequest request)
+        {
+            GetAllCustomerStatusKeyResponse response = await _mediator.Send(request);
             if (response.Success)
                 return Ok(response);
             return BadRequest(response);

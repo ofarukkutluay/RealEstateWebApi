@@ -10,6 +10,8 @@ namespace RealEstateWebApi.Domain.Entities
     public class CustomerSearchProperty : BaseEntity
     {
         public uint CustomerId { get; set; }
+        public uint? PropertyCategoryId { get; set; }
+
         public uint PropertyTypeId { get; set; }
         public uint PropertyStatusId { get; set; }
         public ushort? RoomCount { get; set; }

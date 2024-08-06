@@ -8,6 +8,7 @@
         public string? EjLink { get; set; }
         public string? HeLink { get; set; }
         public string? OtherLink { get; set; }
+        public uint PropertyCategoryId { get; set; }
         public uint PropertyTypeId { get; set; }
         public uint PropertyStatusId { get; set; }
         public double? RoomCount { get; set; }

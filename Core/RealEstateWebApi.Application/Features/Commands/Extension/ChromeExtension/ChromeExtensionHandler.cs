@@ -5,6 +5,9 @@ using RealEstateWebApi.Application.Repositories;
 using RealEstateWebApi.Domain.Entities;
 using System.Globalization;
 using System.Security.Claims;
+using System.Text.Json;
+using System.Text.Json.Nodes;
+using System.Text.Json.Serialization;
 
 namespace RealEstateWebApi.Application.Features.Commands.Extension.ChromeExtension
 {
@@ -23,6 +26,8 @@ namespace RealEstateWebApi.Application.Features.Commands.Extension.ChromeExtensi
         private readonly IPropertyTypeWriteRepository _propertyTypeWriteRepository;
         private readonly IPropertyStatusReadRepository _propertyStatusReadRepository;
         private readonly IPropertyStatusWriteRepository _propertyStatusWriteRepository;
+        private readonly IPropertyCategoryReadRepository _propertyCategoryReadRepository;
+        private readonly IPropertyCategoryWriteRepository _propertyCategoryWriteRepository;
         private readonly IOuterPropertyListingReadRepository _outerPropertyListingReadRepository;
         private readonly IOuterPropertyListingWriteRepository _outerPropertyListingWriteRepository;
         private readonly IHttpContextAccessor _httpContextAccessor;
@@ -42,7 +47,9 @@ namespace RealEstateWebApi.Application.Features.Commands.Extension.ChromeExtensi
         IPropertyStatusWriteRepository propertyStatusWriteRepository,
         IPropertyTypeWriteRepository propertyTypeWriteRepository,
         IOuterPropertyListingReadRepository outerPropertyListingReadRepository,
-        IOuterPropertyListingWriteRepository outerPropertyListingWriteRepository)
+        IOuterPropertyListingWriteRepository outerPropertyListingWriteRepository,
+        IPropertyCategoryReadRepository propertyCategoryReadRepository,
+        IPropertyCategoryWriteRepository propertyCategoryWriteRepository)
         {
             _shScrapingService = shScrapingService;
             _customerOwnedPropertyWriteRepository = customerOwnedPropertyWriteRepository;
@@ -60,6 +67,8 @@ namespace RealEstateWebApi.Application.Features.Commands.Extension.ChromeExtensi
             _propertyTypeWriteRepository = propertyTypeWriteRepository;
             _outerPropertyListingReadRepository = outerPropertyListingReadRepository;
             _outerPropertyListingWriteRepository = outerPropertyListingWriteRepository;
+            _propertyCategoryReadRepository = propertyCategoryReadRepository;
+            _propertyCategoryWriteRepository = propertyCategoryWriteRepository;
         }
         public async Task<ChromeExtensionResponse> Handle(ChromeExtensionRequest request, CancellationToken cancellationToken)
         {
@@ -70,6 +79,11 @@ namespace RealEstateWebApi.Application.Features.Commands.Extension.ChromeExtensi
             if (pldResult is null)
             {
                 pldResult = await _outerPropertyListingWriteRepository.AddAndSaveAsync(propertyListingDetail);
+
+            }
+
+            if (pldResult.PhotoPaths?.Count() > 0)
+            {
                 await _propertyListingPhotoWriteRepository.AddRangeAsync(propertyListingDetail.PropertyListingPhotos.AsEnumerable());
                 await _propertyListingPhotoWriteRepository.SaveAsync();
             }
@@ -131,6 +145,18 @@ namespace RealEstateWebApi.Application.Features.Commands.Extension.ChromeExtensi
             var cospResult = await _customerOwnedPropertyReadRepository.GetSingleAsync(x => x.OuterPropertyListingId == pldResult.Id);
             if (cospResult is not null)
             {
+                if (customer.Id == cospResult.CustomerId && pldResult.ListingDate != propertyListingDetail.ListingDate)
+                {
+                    descriptionStart = $"{DateTime.Now.Date} itibariyle tarih {pldResult.ListingDate.Value.Date.ToString("dd/MM/yyyy")} -> {propertyListingDetail.ListingDate.Value.Date.ToString("dd/MM/yyyy")} olarak güncellenmiştir. \n\n";
+                    cospResult.Description = descriptionStart + cospResult.Description;
+                    await _customerOwnedPropertyWriteRepository.SaveAsync();
+                    return new ChromeExtensionResponse()
+                    {
+                        Message = $"{customer.Id} id müşterinin ilanı ile aynı, ilan tarihi güncellemesi yapıldı.",
+                        Success = true,
+                    };
+                }
+
                 if (customer.Id == cospResult.CustomerId && pldResult.Price != propertyListingDetail.Price)
                 {
                     descriptionStart = $"{DateTime.Now.Date} itibariyle fiyat {pldResult.Price} -> {propertyListingDetail.Price} olarak güncellenmiştir. \n\n";
@@ -155,14 +181,20 @@ namespace RealEstateWebApi.Application.Features.Commands.Extension.ChromeExtensi
 
 
 
-            // property type ve status database den alma yoksa ekleme
-            var propertyType = await _propertyTypeReadRepository.GetSingleAsync(x => x.Title.Trim() == propertyListingDetail.PropertyType.Trim());
-            if (propertyType == null)
-                propertyType = await _propertyTypeWriteRepository.AddAndSaveAsync(new Domain.Entities.PropertyType() { Title = propertyListingDetail.PropertyType.Trim() });
+            // property category, property type ve status database den alma yoksa ekleme
+            var propertyCategory = await _propertyCategoryReadRepository.GetSingleAsync(x => x.Title.Trim() == propertyListingDetail.PropertyCategory.Trim());
+            if (propertyCategory == null)
+                propertyCategory = await _propertyCategoryWriteRepository.AddAndSaveAsync(new Domain.Entities.PropertyCategory() { Title = propertyListingDetail.PropertyCategory.Trim() });
 
-            var propertyStatus = await _propertyStatusReadRepository.GetSingleAsync(x => x.Title.Trim() == propertyListingDetail.PropertyStatus.Trim());
+            var propertyStatus = await _propertyStatusReadRepository.GetSingleAsync(x => x.PropertyCategoryId == propertyCategory.Id && x.Title.Trim() == propertyListingDetail.PropertyStatus.Trim());
             if (propertyStatus == null)
-                propertyStatus = await _propertyStatusWriteRepository.AddAndSaveAsync(new Domain.Entities.PropertyStatus() { Title = propertyListingDetail.PropertyStatus.Trim() });
+                propertyStatus = await _propertyStatusWriteRepository.AddAndSaveAsync(new Domain.Entities.PropertyStatus() { PropertyCategoryId = propertyCategory.Id, Title = propertyListingDetail.PropertyStatus.Trim() });
+
+
+            var propertyType = await _propertyTypeReadRepository.GetSingleAsync(x => x.PropertyStatusId == propertyStatus.Id && x.Title.Trim() == propertyListingDetail.PropertyType.Trim());
+            if (propertyType == null)
+                propertyType = await _propertyTypeWriteRepository.AddAndSaveAsync(new Domain.Entities.PropertyType() { PropertyStatusId = propertyStatus.Id, Title = propertyListingDetail.PropertyType.Trim() });
+
 
 
             cospResult = await _customerOwnedPropertyWriteRepository.AddAndSaveAsync(new Domain.Entities.CustomerOwnedProperty()
@@ -174,6 +206,7 @@ namespace RealEstateWebApi.Application.Features.Commands.Extension.ChromeExtensi
                 CityId = city.Id,
                 DistrictId = district.Id,
                 NeighborhoodId = neighborhood.Id,
+                PropertyCategoryId = propertyCategory.Id,
                 PropertyTypeId = propertyType.Id,
                 PropertyStatusId = propertyStatus.Id,
                 ShLink = request.Url,

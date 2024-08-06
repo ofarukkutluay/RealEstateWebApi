@@ -12,6 +12,7 @@ namespace RealEstateWebApi.Domain.Entities
         public uint CustomerId { get; set; }
         public uint? PropertyId { get; set; }
         public string? OuterPropertyListingId { get; set; }
+        public uint? PropertyCategoryId { get; set; }
         public uint? PropertyTypeId { get; set; }
         public uint? PropertyStatusId { get; set; }
         public double? RoomCount { get; set; }

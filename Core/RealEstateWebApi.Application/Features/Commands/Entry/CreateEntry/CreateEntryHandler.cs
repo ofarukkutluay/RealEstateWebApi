@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using MediatR;
 using RealEstateWebApi.Application.Repositories;
+using RealEstateWebApi.Domain;
+using RealEstateWebApi.Domain.Enums;
 
 
 namespace RealEstateWebApi.Application.Features.Commands.Entry.CreateEntry
@@ -38,34 +40,37 @@ namespace RealEstateWebApi.Application.Features.Commands.Entry.CreateEntry
             Domain.Entities.EntrySubType customerEntrySubType = await _entrySubTypeReadRepository.GetSingleAsync(x => x.Key == customer.StatusKey);
 
             Domain.Entities.EntrySubType entrySubType = await _entrySubTypeReadRepository.GetByIdAsync(request.EntrySubTypeId);
-            Domain.Entities.EntryType entryType = await _entryTypeReadRepository.GetByIdAsync(entrySubType.EntryTypeId);
+            //Domain.Entities.EntryType entryType = await _entryTypeReadRepository.GetByIdAsync(entrySubType.EntryTypeId);
+
 
             if(customerEntrySubType is null)
                 customerEntrySubType = new Domain.Entities.EntrySubType{Id = 0};
 
             switch (entrySubType.Key)
             {
-                case "TAKIP":
-                    customer.StatusKey = customerEntrySubType.Id > entrySubType.Id ? customer.StatusKey : entrySubType.Key;
+                case CustomerStatusKey.TAKIP:
+                    customer.StatusKey = entrySubType.Key;
                     break;
-                case "GIRME":
-                    customer.StatusKey = customerEntrySubType.Id > entrySubType.Id ? customer.StatusKey : entrySubType.Key;
+                case CustomerStatusKey.GIRME:
+                    customer.StatusKey = entrySubType.Key;
                     break;
-                case "YETKI":
-                    customer.StatusKey = customerEntrySubType.Id > entrySubType.Id ? customer.StatusKey : entrySubType.Key;
+                case CustomerStatusKey.YETKI:
+                    customer.StatusKey = entrySubType.Key;
                     break;
-                case "YETKISIZ":
-                    customer.StatusKey = customerEntrySubType.Id > entrySubType.Id ? customer.StatusKey : entrySubType.Key;
+                case CustomerStatusKey.YETKISIZ:
+                    customer.StatusKey = entrySubType.Key;
                     break;
                 case "PDOWN":
-                    customer.StatusKey = customerEntrySubType.Id > entrySubType.Id ? customer.StatusKey : "TAKIP";
+                    customer.StatusKey = CustomerStatusKey.TAKIP;
                     break;
                 case "DOWN":
-                    customer.StatusKey = customerEntrySubType.Id > entrySubType.Id ? customer.StatusKey : "";
+                    customer.StatusKey = "";
                     break;
-                case "ULSLMD":
+                case CustomerStatusKey.ULSLMD:
                     customer.StatusKey = customerEntrySubType.Id == 0 ? entrySubType.Key : customer.StatusKey ;
                     break;  
+                case "TLFN" or "ZYRT":
+                    break;
                 default:
                     customer.StatusKey = "";
                     break;

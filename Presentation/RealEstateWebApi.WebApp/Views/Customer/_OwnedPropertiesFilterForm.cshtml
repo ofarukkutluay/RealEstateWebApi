@@ -2,57 +2,8 @@
 
 @section Scripts {
 
-    <script type="text/javascript">
-        $(function () {
-            var cityIdVal = $("#inputCity").val();
-            var districtIdVal = $("#inputDistrict").val();
-            var neighborhoodIdVal = $("#inputNeighborhood").val();
-            if (cityIdVal) {
+} 
 
-                $.get("@Url.Action("SelectItemDistrict", "Customer")", { cityId: cityIdVal }, function (data, status) {
-                    var dSubItems = "<option value='' selected>İlçe...</option>";
-                    $.each(data, function (index, item) {
-                        dSubItems += "<option value='" + item.value + "'>" + item.text + "</option>"
-                    });
-                    $("#inputDistrict").html(dSubItems);
-                }).done(function () {
-                    var nSubItems = "<option value='' selected>Mahalle...</option>";
-                    $.get("@Url.Action("SelectItemNeighborhood", "Customer")", { districtId: districtIdVal }, function (data, status) {
-                        $.each(data, function (index, item) {
-                            nSubItems += "<option value='" + item.value + "'>" + item.text + "</option>"
-                        });
-                        $("#inputNeighborhood").html(nSubItems)
-                    });
-                });
-            }
-
-
-            $("#inputCity").change(function () {
-                var val = $(this).val();
-                //console.log("City : " + val)
-                var subItems = "<option selected>İlçe...</option>";
-                $.get("@Url.Action("SelectItemDistrict", "Customer")", { cityId: val }, function (data, status) {
-                    $.each(data, function (index, item) {
-                        subItems += "<option value='" + item.value + "'>" + item.text + "</option>"
-                    });
-                    $("#inputDistrict").html(subItems)
-                });
-            });
-            $("#inputDistrict").change(function () {
-                var val = $(this).val();
-                //console.log("District : " + val)
-                var subItems = "<option selected>Mahalle...</option>";
-                $.get("@Url.Action("SelectItemNeighborhood", "Customer")", { districtId: val }, function (data, status) {
-                    $.each(data, function (index, item) {
-                        subItems += "<option value='" + item.value + "'>" + item.text + "</option>"
-                    });
-                    $("#inputNeighborhood").html(subItems)
-                });
-            });
-
-        });
-    </script>
-}
 <!-- Filter form -->
 <div class="row">
 
@@ -65,7 +16,7 @@
 
                 <!-- Custom Styled Validation -->
                 <form class="row g-3" asp-controller="Customer" asp-action="OwnedProperties" method="get">
-                    <div class="col-md-2">
+                    @* <div class="col-md-2">
                         <label for="inputPropertyType" class="form-label">Tipi</label>
                         @Html.DropDownList("PropertyTypeId", (IEnumerable<SelectListItem>)ViewData["PropertyTypes"]!,
                                  "Seçiniz...", new { @class = "form-select", @id = "inputPropertyType" })
@@ -75,21 +26,17 @@
                         @Html.DropDownList("PropertyStatusId",
                                  (IEnumerable<SelectListItem>)ViewData["PropertyStatuses"]!, "Seçiniz...", new
                                  {
-                                     @class =
-                                 "form-select",
+                                     @class ="form-select",
                                      @id = "inputPropertyStatus"
                                  })
-                    </div>
+                    </div> *@
                     <div class="col-md-2">
                         <label for="inputCity" class="form-label">Şehir</label>
-                        @Html.DropDownList("CityId", (IEnumerable<SelectListItem>)ViewData["Cities"]!, "Seçiniz...", new
-                            { @class = "form-select", @id = "inputCity" })
+                            @await Component.InvokeAsync("_CitySelectItem")
                     </div>
                     <div class="col-md-2">
                         <label for="inputDistrict" class="form-label">İlçe</label>
-                        <select class="form-select" id="inputDistrict">
-                            <option selected>Seçiniz...</option>
-                        </select>
+                            @await Component.InvokeAsync("_DistrictSelectItem",new {CityKey = 34})
                     </div>
                     <div class="col-md-2">
                         <label for="inputNeighborhood" class="form-label">Mahalle</label>

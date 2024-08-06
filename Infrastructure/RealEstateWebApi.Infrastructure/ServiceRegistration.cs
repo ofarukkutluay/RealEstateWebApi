@@ -11,6 +11,8 @@ using RealEstateWebApi.Infrastructure.Services.Security;
 using RealEstateWebApi.Infrastructure.Services.Storage;
 using RealEstateWebApi.Infrastructure.Services.Token;
 using ListingWebsiteScrapingLibrary;
+using RealEstateWebApi.Infrastructure.Services.Zip;
+using RealEstateWebApi.Application;
 
 namespace RealEstateWebApi.Infrastructure
 {
@@ -25,6 +27,7 @@ namespace RealEstateWebApi.Infrastructure
             services.AddScoped<IShScrapingService, ShScrapingService>();
             services.AddAutoMapper(typeof(InfrastructureMapingProfile));
             services.AddScoped<ShScraping>();
+            services.AddScoped<IZipService,ZipService>();
         }
         public static void AddStorage<T>(this IServiceCollection services) where T : Storage, IStorage
         {

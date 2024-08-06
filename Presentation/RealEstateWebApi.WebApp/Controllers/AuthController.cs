@@ -110,7 +110,7 @@ namespace RealEstateWebApi.WebApp.Controllers
         public IActionResult Logout()
         {
             HttpContext.SignOutAsync();
-            HttpContext.Session.Remove("Token");
+            //HttpContext.Session.Remove("Token");
             return RedirectToAction("Login");
         }
     }

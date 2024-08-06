@@ -47,6 +47,9 @@
                         @if (Context.User.Claims.FirstOrDefault(e => e.Type ==
                         System.Security.Claims.ClaimTypes.Role)?.Value == "Admin")
                         {
+                            
+
+
                             <div class="btn-group" role="group">
                                 @if (!Model.Item1.IsActive)
                                 {
@@ -210,13 +213,14 @@
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
+                                <th scope="col">Kategori</th>
                                 <th scope="col">Tipi</th>
                                 <th scope="col">Statüsü</th>
                                 <th scope="col">Oda</th>
                                 <th scope="col">Adres</th>
                                 <th scope="col">Fiyat</th>
-                                <th scope="col">Açıklama</th>
-                                <th scope="col">Mülk Id</th>
+                                <th scope="col">Oluşturma</th>
+                                <th scope="col">İlan Tarihi</th>
                                 <th scope="col">Linkler</th>
                                 <th scope="col">-</th>
 
@@ -239,7 +243,7 @@
                                         Tuple.Create(item.OuterPropertyListing, item.PropertyListingPhotos));
 
                                     }
-
+                                    <td>@item.PropertyCategory</td>
                                     <td>@item.PropertyType</td>
                                     <td>@item.PropertyStatus</td>
                                     <td>@item.RoomCount + @item.LivingRoomCount</td>
@@ -250,12 +254,10 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <div class="overflow-hidden" style="max-height:150px;max-width:250px">
-                                            @item.Description
-                                        </div>
+                                        @item.CreatedDate
                                     </td>
 
-                                    <td>@item.PropertyId</td>
+                                    <td>@item.OuterPropertyListing?.ListingDate.GetValueOrDefault().Date.ToString("dd/MM/yyy")</td>
                                     <td>
                                         @if (!String.IsNullOrWhiteSpace(item.ShLink))
                                         {
@@ -339,6 +341,7 @@
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
+                                <th scope="col">Kategori</th>
                                 <th scope="col">Tipi</th>
                                 <th scope="col">Statüsü</th>
                                 <th scope="col">Oda</th>
@@ -357,6 +360,7 @@
                                         @item.Id
 
                                     </th>
+                                    <td>@item.PropertyCategory</td>
                                     <td>@item.PropertyType</td>
                                     <td>@item.PropertyStatus</td>
                                     <td>@item.RoomCount + @item.LivingRoomCount</td>

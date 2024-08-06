@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using NpgsqlTypes;
@@ -10,6 +11,7 @@ using RealEstateWebApi.Infrastructure;
 using RealEstateWebApi.Infrastructure.Services.Storage.Aws;
 using RealEstateWebApi.Infrastructure.Services.Storage.Local;
 using RealEstateWebApi.Persistence;
+using RealEstateWebApi.Persistence.Contexts;
 using RealEstateWebApi.WebApi.Configurations.ColumWriters;
 using RealEstateWebApi.WebApi.Extensions;
 using Serilog;
@@ -132,6 +134,15 @@ app.UseSerilogRequestLogging();
 app.UseHttpLogging();
 
 app.UseCustomExceptionMiddleware();
+
+
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<RealEstateWebApiDbContext>();
+    db.Database.Migrate();
+
+}
+
 
 app.UseStaticFiles();
 app.UseCors();

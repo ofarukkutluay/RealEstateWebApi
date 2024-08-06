@@ -4,6 +4,8 @@
     {
         public uint Id { get; set; }
         public uint CustomerId { get; set; }
+        public string? PropertyCategory { get; set; }
+
         public string PropertyType { get; set; }
         public string PropertyStatus { get; set; }
         public ushort? RoomCount { get; set; }
