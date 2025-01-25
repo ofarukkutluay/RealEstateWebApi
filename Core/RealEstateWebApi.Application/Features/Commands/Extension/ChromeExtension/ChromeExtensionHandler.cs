@@ -150,11 +150,6 @@ namespace RealEstateWebApi.Application.Features.Commands.Extension.ChromeExtensi
                     descriptionStart = $"{DateTime.Now.Date} itibariyle tarih {pldResult.ListingDate.Value.Date.ToString("dd/MM/yyyy")} -> {propertyListingDetail.ListingDate.Value.Date.ToString("dd/MM/yyyy")} olarak güncellenmiştir. \n\n";
                     cospResult.Description = descriptionStart + cospResult.Description;
                     await _customerOwnedPropertyWriteRepository.SaveAsync();
-                    return new ChromeExtensionResponse()
-                    {
-                        Message = $"{customer.Id} id müşterinin ilanı ile aynı, ilan tarihi güncellemesi yapıldı.",
-                        Success = true,
-                    };
                 }
 
                 if (customer.Id == cospResult.CustomerId && pldResult.Price != propertyListingDetail.Price)

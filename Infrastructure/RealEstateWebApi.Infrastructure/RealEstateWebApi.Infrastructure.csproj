@@ -8,11 +8,11 @@
 
   <ItemGroup>
     <PackageReference Include="AWSSDK.Extensions.NETCore.Setup" Version="3.7.301" />
-    <PackageReference Include="AWSSDK.S3" Version="3.7.400" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.7" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.1" />
-    <PackageReference Include="HtmlAgilityPack" Version="1.11.61" />
-    <PackageReference Include="Riok.Mapperly" Version="3.6.0" />
+    <PackageReference Include="AWSSDK.S3" Version="3.7.412.4" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.12" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.1" />
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.72" />
+    <PackageReference Include="Riok.Mapperly" Version="4.1.1" />
 
   </ItemGroup>
 
@@ -29,7 +29,7 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="ListingWebsiteScrapingLibrary">
-      <HintPath>..\..\..\ListingWebsiteScraping\ListingWebsiteScrapingLibrary\bin\Debug\net7.0\ListingWebsiteScrapingLibrary.dll</HintPath>
+      <HintPath>..\..\..\ListingWebsiteScraping\ListingWebsiteScrapingLibrary\bin\Debug\net8.0\ListingWebsiteScrapingLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
 </Project>
