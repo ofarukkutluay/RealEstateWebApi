@@ -18,6 +18,7 @@ namespace RealEstateWebApi.Application.Features.Commands.CustomerOwnedProperty.C
         public string? HeLink { get; set; }
         public string? OtherLink { get; set; }
 
+        public uint PropertyCategoryId { get; set; }
         public uint PropertyTypeId { get; set; }
         public uint PropertyStatusId { get; set; }
         public ushort? RoomCount { get; set; }

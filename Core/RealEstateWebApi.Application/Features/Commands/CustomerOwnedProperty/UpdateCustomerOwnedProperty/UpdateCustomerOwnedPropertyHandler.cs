@@ -26,6 +26,7 @@ namespace RealEstateWebApi.Application.Features.Commands.CustomerOwnedProperty.U
                 return new UpdateCustomerOwnedPropertyResponse() { Message="Data bulunamadı",Success=false };
 
             customerOwnedShortProperty.PropertyId = request.PropertyId;
+            customerOwnedShortProperty.PropertyCategoryId = request.PropertyCategoryId;
             customerOwnedShortProperty.IsActive = request.IsActive;
             var result = await _customerOwnedShortPropertyWriteRepository.SaveAsync();
             if(result<0)

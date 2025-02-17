@@ -10,6 +10,7 @@ namespace RealEstateWebApi.Application.Features.Commands.CustomerSearchProperty.
     public class CreateCustomerSearchPropertyRequest : IRequest<CreateCustomerSearchPropertyResponse>
     {
         public uint CustomerId { get; set; }
+        public uint PropertyCategoryId { get; set; }
         public uint PropertyTypeId { get; set; }
         public uint PropertyStatusId { get; set; }
         public ushort? RoomCount { get; set; }

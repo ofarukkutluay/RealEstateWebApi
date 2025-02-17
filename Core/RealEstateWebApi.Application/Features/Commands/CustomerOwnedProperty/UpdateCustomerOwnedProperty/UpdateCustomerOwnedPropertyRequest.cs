@@ -11,6 +11,7 @@ namespace RealEstateWebApi.Application.Features.Commands.CustomerOwnedProperty.U
     {
         public uint Id { get; set; }
         public uint? PropertyId { get; set; }
+        public uint? PropertyCategoryId { get; set; }
         public bool IsActive { get; set; }
     }
 }

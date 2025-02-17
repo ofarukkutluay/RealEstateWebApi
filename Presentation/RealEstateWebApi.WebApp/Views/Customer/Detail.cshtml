@@ -247,15 +247,15 @@
                                     <td>@item.PropertyCategory</td>
                                     <td>@item.PropertyType</td>
                                     <td>@item.PropertyStatus</td>
-                                    <td>@item.RoomCount + @item.LivingRoomCount</td>
+                                    <td>@($"{item.RoomCount}+{item.LivingRoomCount}")</td>
                                     <td>@item.City / @item.District / @item.Neighborhood</td>
                                     <td>
                                         <div class="d-inline">
-                                            @item.Price?.ToString("##,#") <span>₺</span>
+                                            @item.Price?.ToString("##,#₺")
                                         </div>
                                     </td>
                                     <td>
-                                        @item.CreatedDate.UtcToLocalTR().ToString("dd-MM-yyyy HH:mm")
+                                        @item.CreatedDate.UtcToLocalTR().ToString("dd/MM/yyyy HH:mm")
                                     </td>
 
                                     <td>@item.OuterPropertyListing?.ListingDate.GetValueOrDefault().Date.ToString("dd/MM/yyy")</td>
@@ -365,9 +365,9 @@
                                     <td>@item.PropertyCategory</td>
                                     <td>@item.PropertyType</td>
                                     <td>@item.PropertyStatus</td>
-                                    <td>@item.RoomCount + @item.LivingRoomCount</td>
+                                    <td>@($"{item.RoomCount}+{item.LivingRoomCount}")</td>
                                     <td>@item.City / @item.District / @item.Neighborhood / @item.Street</td>
-                                    <td>@item.Price.ToString("##,#")</td>
+                                    <td>@item.Price.ToString("##,#₺")</td>
                                     <td>@item.Description</td>
                                     @if (Context.User.Claims.FirstOrDefault(e => e.Type ==
                                    System.Security.Claims.ClaimTypes.Role)?.Value == "Admin")
