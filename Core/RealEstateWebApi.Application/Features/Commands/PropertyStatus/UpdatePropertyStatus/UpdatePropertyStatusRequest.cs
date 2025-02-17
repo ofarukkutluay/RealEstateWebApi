@@ -7,6 +7,7 @@ namespace RealEstateWebApi.Application.Features.Commands.PropertyStatus.UpdatePr
     {
         public uint Id { get; set; }
         public string Title { get; set; } 
+        public uint PropertyCategoryId { get; set; }
         public bool IsActive { get; set; }
     }
 }

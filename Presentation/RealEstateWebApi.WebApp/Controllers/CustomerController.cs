@@ -194,12 +194,13 @@ public class CustomerController : BaseController
         DataResult<Customer> customer = await _requestService.Get<DataResult<Customer>>("customer", "/" + customerId);
         DataResult<IEnumerable<CustomerOwnedPropertyDto>> ownedProperties = await _requestService.Get<DataResult<IEnumerable<CustomerOwnedPropertyDto>>>("CustomerOwnedProperty", "/" + customerId);
         DataResult<IEnumerable<CustomerSearchPropertyDto>> searchProperties = await _requestService.Get<DataResult<IEnumerable<CustomerSearchPropertyDto>>>("CustomerSearchProperty", "/" + customerId);
+        DataResult<IEnumerable<Reminder>> reminders = await _requestService.Get<DataResult<IEnumerable<Reminder>>>("reminder/customer", "?CustomerId=" + customerId);
 
         ViewData.Add("host", _configuration.GetSection("PhotoHost").Value);
 
         await SelectItemInitilazeDetailPage();
 
-        return View(Tuple.Create(customerDto.Data, entries.Data, searchProperties.Data, ownedProperties.Data, customer.Data));
+        return View(Tuple.Create(customerDto.Data, entries.Data, searchProperties.Data, ownedProperties.Data, customer.Data, reminders.Data));
 
 
     }
@@ -307,8 +308,7 @@ public class CustomerController : BaseController
         }
 
         var entryTypes = await _requestService.Get<DataResult<IEnumerable<EntryType>>>("entryType");
-        var propertyTypes = await _requestService.Get<DataResult<IEnumerable<TitleModel>>>("propertyType");
-        var propertyStatuses = await _requestService.Get<DataResult<IEnumerable<TitleModel>>>("propertyStatus");
+        var propertyCategories = await _requestService.Get<DataResult<IEnumerable<TitleModel>>>("propertyCategory");
         var usernamelist = await _requestService.Get<DataResult<IEnumerable<User>>>("user/namelist");
 
 
@@ -325,17 +325,12 @@ public class CustomerController : BaseController
             Text = x.Title
         });
 
-        IEnumerable<SelectListItem> selectPropertTypes = propertyTypes.Data.Select(x => new SelectListItem
+        IEnumerable<SelectListItem> selectPropertCategories = propertyCategories.Data.Select(x => new SelectListItem
         {
             Value = x.Id.ToString(),
             Text = x.Title
         });
-        IEnumerable<SelectListItem> selectPropertyStatuses = propertyStatuses.Data.Select(x => new SelectListItem
-        {
-            Value = x.Id.ToString(),
-            Text = x.Title
-        });
-
+        
         IEnumerable<SelectListItem> selectUsernamelist = usernamelist.Data.Select(x => new SelectListItem
         {
             Value = x.Id.ToString(),
@@ -344,10 +339,33 @@ public class CustomerController : BaseController
 
         ViewData.Add("Cities", selectCities);
         ViewData.Add("EntryTypes", selectEntryTypes);
-        ViewData.Add("PropertyTypes", selectPropertTypes);
-        ViewData.Add("PropertyStatuses", selectPropertyStatuses);
+        ViewData.Add("PropertyCategories", selectPropertCategories);
         ViewData.Add("UserNameList", selectUsernamelist);
 
+    }
+
+    [HttpGet("/customer/SelectItemPropertyTypes")]
+    public async Task<IActionResult> SelectItemPropertyTypes([FromQuery] uint id)
+    {
+        var propertyTypes = await _requestService.Get<DataResult<IEnumerable<TitleModel>>>("propertyType", "?PropertyStatusId=", id.ToString());
+        IEnumerable<SelectListItem> selectPropertTypes = propertyTypes.Data.Select(x => new SelectListItem
+        {
+            Value = x.Id.ToString(),
+            Text = x.Title
+        });
+        return Json(selectPropertTypes);
+    }
+
+    [HttpGet("/customer/SelectItemPropertyStatuses")]
+    public async Task<IActionResult> SelectItemPropertyStatuses([FromQuery] uint id)
+    {
+        var propertyStatuses = await _requestService.Get<DataResult<IEnumerable<TitleModel>>>("propertyStatus", "?PropertyCategoryId=", id.ToString());
+        IEnumerable<SelectListItem> selectPropertyStatuses = propertyStatuses.Data.Select(x => new SelectListItem
+        {
+            Value = x.Id.ToString(),
+            Text = x.Title
+        });
+        return Json(selectPropertyStatuses);
     }
     
     

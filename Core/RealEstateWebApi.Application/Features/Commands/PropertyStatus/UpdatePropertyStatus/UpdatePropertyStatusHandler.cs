@@ -24,6 +24,7 @@ namespace RealEstateWebApi.Application.Features.Commands.PropertyStatus.UpdatePr
                     Success = false
                 };
             propertyStatus.Title = String.IsNullOrEmpty(request.Title) ? propertyStatus.Title : request.Title;
+            propertyStatus.PropertyCategoryId = request.PropertyCategoryId;
             propertyStatus.IsActive = request.IsActive;
             var result = await _propertyStatusWriteRepository.SaveAsync();
             if(result<0)

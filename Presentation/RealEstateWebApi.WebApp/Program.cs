@@ -38,20 +38,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddCo
 });
 
 builder.Services.AddHttpContextAccessor();
-//.AddJwtBearer(opt =>
-// {
-//     opt.TokenValidationParameters = new TokenValidationParameters
-//     {
-//         ValidateAudience = true,
-//         ValidateIssuer = true,
-//         ValidateLifetime = true,
-//         ValidateIssuerSigningKey = true,
-//         ValidIssuer = tokenOptions.Issuer,
-//         ValidAudience = tokenOptions.Audience,
-//         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenOptions.SecurityKey)),
-//         ClockSkew = TimeSpan.Zero
-//     };
-// });
 
 Logger log = new LoggerConfiguration()
     .WriteTo.Console()
@@ -163,6 +149,9 @@ app.Use(async (context, next) =>
     var userid = context.User?.Identity?.IsAuthenticated == true ? context.User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier)?.Value : null;
     LogContext.PushProperty("user_id", userid);
     await next();
+
+    var remoteIpAddress = context.Connection.RemoteIpAddress?.ToString();
+    LogContext.PushProperty("remote_ip", remoteIpAddress);
 });
 
 app.MapControllerRoute(

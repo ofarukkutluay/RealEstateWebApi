@@ -4,8 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using RealEstateWebApi.Application.Features.Commands.Reminder.CreateReminder;
 using RealEstateWebApi.Application.Features.Commands.Reminder.DeleteReminder;
 using RealEstateWebApi.Application.Features.Commands.Reminder.UpdateReminder;
-using RealEstateWebApi.Application.Features.Queries.Reminder.GetAllReminderByUserId;
 using RealEstateWebApi.Application.Features.Queries.Reminder.GetAllReminderDtoByUserId;
+using RealEstateWebApi.Application.Features.Queries.Reminder.GetAllReminderDtoByCustomerId;
 
 namespace RealEstateWebApi.WebApi.Controllers
 {
@@ -52,6 +52,15 @@ namespace RealEstateWebApi.WebApi.Controllers
         public async Task<IActionResult> GetAllReminderDtoByUserId([FromQuery]GetAllReminderDtoByUserIdRequest request)
         {
             GetAllReminderDtoByUserIdResponse response = await _mediator.Send(request);
+            if (response.Success)
+                return Ok(response);
+            return BadRequest(response);
+        }
+
+        [HttpGet("customer")]
+        public async Task<IActionResult> GetAllReminderDtoByCustomerId([FromQuery]GetAllReminderDtoByCustomerIdRequest request)
+        {
+            GetAllReminderDtoByCustomerIdResponse response = await _mediator.Send(request);
             if (response.Success)
                 return Ok(response);
             return BadRequest(response);

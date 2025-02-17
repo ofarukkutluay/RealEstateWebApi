@@ -1,4 +1,5 @@
-﻿@model Tuple<OuterPropertyListing,IEnumerable<PropertyListingPhoto>>
+﻿@using System.Text.Json
+@model Tuple<OuterPropertyListing,IEnumerable<PropertyListingPhoto>>
 
 @{
     string modalIdString = $"modal{Model.Item1.Id.ToString()}";
@@ -19,6 +20,9 @@
             <div class="modal-header">
                 <h5 class="modal-title">İlan Tüm Detaylar</h5>
                 <a type="button" class="btn btn-primary ms-5" target="_blank" rel="noopener noreferrer"
+    using System.Text.Json;
+    using System.Text.Json.Serialization;
+    using System.Text.Json;
                                         asp-action="DownloadFiles" asp-controller="Download"
                                         asp-route-outerPropertyListingId="@Model.Item1.Id">Fotoğrafları
                                         İndir</a>
@@ -189,6 +193,12 @@
                         </li>
                         <li class="list-group-item d-flex ">
                             <div class="col-2">
+                                <h5>Mutfak</h5>
+                            </div>
+                            <div class="col-10">@Model.Item1.Kitchen</div>
+                        </li>
+                        <li class="list-group-item d-flex ">
+                            <div class="col-2">
                                 <h5>Banyo sayısı</h5>
                             </div>
                             <div class="col-10">@Model.Item1.BathroomCount</div>
@@ -259,6 +269,38 @@
                                 <h5>Takas</h5>
                             </div>
                             <div class="col-10">@Model.Item1.IsFurnished</div>
+                        </li>
+                        <li class="list-group-item d-flex ">
+                            <div class="col-2">
+                                <h5>Özellikler</h5>
+                            </div>
+                            <div class="col-10">
+                               @{ 
+                                if (!string.IsNullOrEmpty(Model.Item1.Features))
+                                {
+                                    try
+                                    {
+                                        Dictionary<string, string[]> features = JsonSerializer.Deserialize<Dictionary<string, string[]>>(Model.Item1.Features);
+                                        foreach (var item in features)
+                                        {
+                                            <div>
+                                                <h6>@item.Key</h6>
+                                                <ul>
+                                                    @foreach (var value in item.Value)
+                                                    {
+                                                        <li>@value</li>
+                                                    }
+                                                </ul>
+                                            </div>
+                                        }
+                                    }
+                                    catch (JsonException)
+                                    {
+                                        <div>Invalid features data</div>
+                                    }
+                                }
+                                }
+                            </div>
                         </li>
                         <li class="list-group-item d-flex ">
                             <div class="col-2">

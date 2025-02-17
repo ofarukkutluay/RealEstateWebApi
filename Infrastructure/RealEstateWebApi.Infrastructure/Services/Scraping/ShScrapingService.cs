@@ -5,6 +5,9 @@ using RealEstateWebApi.Domain.Entities;
 using ListingWebsiteScrapingLibrary;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
+using System.Text.Json.Nodes;
+using System.Text.Json.Serialization;
+using System.Text.Json;
 
 
 namespace RealEstateWebApi.Infrastructure.Services.Scraping
@@ -75,8 +78,9 @@ namespace RealEstateWebApi.Infrastructure.Services.Scraping
             }
 
             listingDetail.PropertyListingPhotos = photoPaths;
-            listingDetail.PhotoPaths = photoPaths.ToArray().ToString();
-            listingDetail.PhotoLinks = result.PhotoLinks.ToArray().ToString();
+            listingDetail.PhotoPaths = JsonSerializer.Serialize(photoPaths);
+            listingDetail.PhotoLinks = JsonSerializer.Serialize(result.PhotoLinks);
+            listingDetail.Features = JsonSerializer.Serialize(result.Features);
 
             return listingDetail;
 

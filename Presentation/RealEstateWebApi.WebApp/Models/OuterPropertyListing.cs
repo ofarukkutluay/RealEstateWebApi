@@ -43,6 +43,8 @@ public class OuterPropertyListing
     public string? BuildingFloor { get; set; }
     public string? HeatingType { get; set; }
     public ushort? BathroomCount { get; set; }
+    public string? Kitchen { get; set; } 
+
     public bool? IsBalcony { get; set; }
     public bool? IsElevator { get; set; }
     public string? Garage { get; set; }
@@ -132,5 +134,8 @@ public class OuterPropertyListing
 
     //Kamp Yeri
     public int? TotalLandAcres { get; set; }
+
+    public string? Features { get; set; }
+
 
 }

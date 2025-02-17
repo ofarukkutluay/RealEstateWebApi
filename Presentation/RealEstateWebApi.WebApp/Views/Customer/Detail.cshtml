@@ -3,7 +3,7 @@
     ViewData["Title"] = "Müşteri Detayı";
 }
 
-@model Tuple<CustomerDto, IEnumerable<EntryDto>, IEnumerable<CustomerSearchPropertyDto>,IEnumerable<CustomerOwnedPropertyDto>, Customer>
+@model Tuple<CustomerDto, IEnumerable<EntryDto>, IEnumerable<CustomerSearchPropertyDto>,IEnumerable<CustomerOwnedPropertyDto>, Customer,IEnumerable<Reminder>>
 
 
 
@@ -221,6 +221,7 @@
                                 <th scope="col">Fiyat</th>
                                 <th scope="col">Oluşturma</th>
                                 <th scope="col">İlan Tarihi</th>
+                                <th scope="col">Açıklama</th>
                                 <th scope="col">Linkler</th>
                                 <th scope="col">-</th>
 
@@ -254,10 +255,11 @@
                                         </div>
                                     </td>
                                     <td>
-                                        @item.CreatedDate
+                                        @item.CreatedDate.UtcToLocalTR().ToString("dd-MM-yyyy HH:mm")
                                     </td>
 
                                     <td>@item.OuterPropertyListing?.ListingDate.GetValueOrDefault().Date.ToString("dd/MM/yyy")</td>
+                                    <td class="text-wrap" style="max-width: 26rem; max-height: 4.5rem;" >@item.Description?.Substring(0, Math.Min(150, @item.Description.Length))@(item.Description?.Length > 150 ? "..." : "")</td>
                                     <td>
                                         @if (!String.IsNullOrWhiteSpace(item.ShLink))
                                         {
@@ -372,6 +374,52 @@
                                     {
                                         <td><a class="btn btn-danger btn-sm" asp-controller="Admin"
                                                 asp-action="DeleteSearchProperty" asp-route-csspId="@item.Id"><i
+                                                    class="bi bi-trash"></i></a></td>
+                                    }
+                                </tr>
+                            }
+
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="card overflow-auto">
+                <div class=card-body>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="card-title">Hatırlatmalar</h5>
+                    </div>
+                    <table class="table table-striped datatableMini">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Kayıt Günü</th>
+                                <th scope="col">Açıklama</th>
+                                <th scope="col">Hatırlatma Günü</th>
+                                <th scope="col">-</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.Item6)
+                            {
+
+                                <tr>
+                                    <th scope="row">
+                                        @item.Id
+
+                                    </th>
+                                    <td>@item.CreatedDate.UtcToLocalTR().ToString("dd-MM-yyyy HH:mm")</td>
+                                    <td>@item.Description</td>
+                                    <td>@item.ReminderDate.UtcToLocalTR().ToString("dd-MM-yyyy")</td>
+                                    @if (Context.User.Claims.FirstOrDefault(e => e.Type ==
+                                   System.Security.Claims.ClaimTypes.Role)?.Value == "Admin")
+                                    {
+                                        <td><a class="btn btn-danger btn-sm" asp-controller="Customer"
+                                                asp-action="ReminderCheck" asp-route-reminderId="@item.Id"><i
                                                     class="bi bi-trash"></i></a></td>
                                     }
                                 </tr>

@@ -23,10 +23,5 @@
     <ProjectReference Include="..\..\Core\RealEstateWebApi.Application\RealEstateWebApi.Application.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Remove="Repositories\Reminder\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Repositories\Reminder\" />
-  </ItemGroup>
+
 </Project>

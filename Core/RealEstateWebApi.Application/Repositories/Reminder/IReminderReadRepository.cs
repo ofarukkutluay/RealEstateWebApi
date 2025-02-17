@@ -6,7 +6,8 @@ namespace RealEstateWebApi.Application.Repositories
 {
 	public interface IReminderReadRepository : IReadRepository<Reminder>
 	{
-		IQueryable<ReminderDto> GetReminderDtosByUserId(uint userId);
+        IQueryable<ReminderDto> GetAllReminderDtoByCustomerId(uint customerId);
+        IQueryable<ReminderDto> GetReminderDtosByUserId(uint userId);
 	}
 }
 

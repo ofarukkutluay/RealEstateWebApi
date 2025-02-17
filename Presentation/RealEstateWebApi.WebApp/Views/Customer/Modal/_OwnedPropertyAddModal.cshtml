@@ -35,6 +35,28 @@
                 $("#inputStreet2").html(subItems)
             });
         });
+         $("#inputPropertyCategory2").change(function () {
+            var val = $(this).val();
+            console.log("Category : " + val)
+            var subItems = "<option selected disabled>Seçiniz...</option>";
+            $.get("@Url.Action("SelectItemPropertyTypes","Customer")", { id: val }, function (data, status) {
+                $.each(data, function (index, item) {
+                    subItems += "<option value='" + item.value + "'>" + item.text + "</option>"
+                });
+                $("#inputPropertyType2").html(subItems) 
+            });
+        });
+        $("#inputPropertyType2").change(function () {
+            var val = $(this).val();
+            console.log("Types : " + val)
+            var subItems = "<option selected disabled>Seçiniz...</option>";
+            $.get("@Url.Action("SelectItemPropertyStatuses","Customer")", { id: val }, function (data, status) {
+                $.each(data, function (index, item) {
+                    subItems += "<option value='" + item.value + "'>" + item.text + "</option>"
+                });
+                $("#inputPropertyStatus2").html(subItems)
+            });
+        });
 
     });
 
@@ -56,21 +78,26 @@
                 <div class="modal-body">
                     <input asp-for="CustomerId" value="@Model.CustomerId" hidden />
                     <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label">Kategori</label>
+                        <div class="col-sm-10">
+                            @Html.DropDownList("PropertyCategoryId",(IEnumerable<SelectListItem>)ViewData["PropertyCategories"]!,"Seçiniz...",new {@class="form-select",@id="inputPropertyCategory2",@required=""})
+                            
+                        </div>
+                    </div>
+                    <div class="row mb-3">
                         <label class="col-sm-2 col-form-label">Tipi</label>
                         <div class="col-sm-10">
-                            @Html.DropDownList("PropertyTypeId",(IEnumerable<SelectListItem>)ViewData["PropertyTypes"]!,"Seçiniz...",new {@class="form-select",@required=""})
-                            @*<select class="form-select" asp-for="PropertyTypeId" asp-items="@ViewData["PropertyTypes"] as IEnumerable<SelectListItem>" required>
+                            <select asp-for="PropertyTypeId" class="form-select" id="inputPropertyType2">
                                 <option selected disabled>Seçiniz...</option>
-                            </select>*@
+                            </select>
                         </div>
                     </div>
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label">Statüsü</label>
                         <div class="col-sm-10">
-                            @Html.DropDownList("PropertyStatusId",(IEnumerable<SelectListItem>)ViewData["PropertyStatuses"]!,"Seçiniz...",new {@class="form-select",@required=""})
-                            @*<select class="form-select" asp-for="PropertyStatusId" asp-items="@ViewData["PropertyStatuses"] as IEnumerable<SelectListItem>" required>
+                            <select asp-for="PropertyStatusId" class="form-select" id="inputPropertyStatus2">
                                 <option selected disabled>Seçiniz...</option>
-                            </select>*@
+                            </select>
                         </div>
                     </div>
 

@@ -17,7 +17,7 @@ namespace RealEstateWebApi.Persistence.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.6")
+                .HasAnnotation("ProductVersion", "9.0.1")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -996,7 +996,7 @@ namespace RealEstateWebApi.Persistence.Migrations
 
                     b.ToTable("Files");
 
-                    b.HasDiscriminator<string>("Discriminator").HasValue("File");
+                    b.HasDiscriminator().HasValue("File");
 
                     b.UseTphMappingStrategy();
                 });
@@ -1629,6 +1629,9 @@ namespace RealEstateWebApi.Persistence.Migrations
                     b.Property<bool?>("ExchangeForBuilding")
                         .HasColumnType("boolean");
 
+                    b.Property<string>("Features")
+                        .HasColumnType("text");
+
                     b.Property<double?>("Fees")
                         .HasColumnType("double precision");
 
@@ -1679,6 +1682,9 @@ namespace RealEstateWebApi.Persistence.Migrations
 
                     b.Property<bool?>("IsOnSite")
                         .HasColumnType("boolean");
+
+                    b.Property<string>("Kitchen")
+                        .HasColumnType("text");
 
                     b.Property<int?>("LayoutNo")
                         .HasColumnType("integer");
@@ -1908,7 +1914,7 @@ namespace RealEstateWebApi.Persistence.Migrations
 
                     b.ToTable("Properties");
 
-                    b.HasDiscriminator<string>("Discriminator").HasValue("Property");
+                    b.HasDiscriminator().HasValue("Property");
 
                     b.UseTphMappingStrategy();
                 });

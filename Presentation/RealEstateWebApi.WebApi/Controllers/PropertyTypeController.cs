@@ -51,9 +51,9 @@ namespace RealEstateWebApi.WebApi.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllPropertyType()
+        public async Task<IActionResult> GetAllPropertyType([FromQuery] GetAllPropertyTypeRequest request)
         {
-            GetAllPropertyTypeResponse response = await _mediator.Send(new GetAllPropertyTypeRequest());
+            GetAllPropertyTypeResponse response = await _mediator.Send(request);
             if (response.Success)
                 return Ok(response);
             return BadRequest(response);

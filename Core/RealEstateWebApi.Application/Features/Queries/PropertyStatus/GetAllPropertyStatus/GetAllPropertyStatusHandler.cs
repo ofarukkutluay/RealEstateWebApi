@@ -15,7 +15,7 @@ namespace RealEstateWebApi.Application.Features.Queries.PropertyStatus.GetAllPro
 
         public async Task<GetAllPropertyStatusResponse> Handle(GetAllPropertyStatusRequest request, CancellationToken cancellationToken)
         {
-            IEnumerable<Domain.Entities.PropertyStatus> propertyStatuses = _propertyStatusReadRepository.GetAll(false).OrderBy(e=>e.Title);
+            IEnumerable<Domain.Entities.PropertyStatus> propertyStatuses = _propertyStatusReadRepository.GetWhere(x=>x.PropertyCategoryId == request.PropertyCategoryId);
             return await Task.FromResult(new GetAllPropertyStatusResponse()
             {
                 Message = $"{propertyStatuses.Count()} adet data getirildi",

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.Json;
 using AutoMapper;
 
 namespace RealEstateWebApi.Infrastructure.Mapper
@@ -7,7 +8,7 @@ namespace RealEstateWebApi.Infrastructure.Mapper
     {
         public InfrastructureMapingProfile()
         {
-            CreateMap<ListingWebsiteScrapingLibrary.Models.v3.PropertyListing, Domain.Entities.OuterPropertyListing>();           
+            CreateMap<ListingWebsiteScrapingLibrary.Models.v3.PropertyListing, Domain.Entities.OuterPropertyListing>();
         }
     }
 }

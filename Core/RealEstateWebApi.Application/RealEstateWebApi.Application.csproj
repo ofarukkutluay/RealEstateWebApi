@@ -6,33 +6,7 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Compile Remove="Features\Commands\Customer\UpdateCustomer\UpdateCustomerResponse.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Exceptions\" />
-    <Folder Include="ViewModels\" />
-    <Folder Include="Repositories\Reminder\" />
-    <Folder Include="Features\Commands\Reminder\" />
-    <Folder Include="Features\Commands\Reminder\CreateReminder\" />
-    <Folder Include="Features\Commands\Reminder\DeleteReminder\" />
-    <Folder Include="Features\Commands\Reminder\UpdateReminder\" />
-    <Folder Include="Features\Queries\Reminder\" />
-    <Folder Include="Features\Queries\Reminder\GetAllReminderByUserId\" />
-    <Folder Include="Features\Queries\Reminder\GetAllReminderDtoByUserId\" />
-    <Folder Include="Features\Commands\Property\" />
-    <Folder Include="Features\Commands\Property\CreateProperty\" />
-    <Folder Include="Features\Commands\Property\DeleteProperty\" />
-    <Folder Include="Features\Commands\Property\UpdateProperty\" />
-    <Folder Include="Features\Queries\Property\" />
-    <Folder Include="Features\Queries\Property\GetAllProperty\" />
-    <Folder Include="Features\Queries\Customer\GetAllCustomerDtoByStatusKey\" />
-    <Folder Include="Features\Queries\Entry\GetCountEntryByUserId\" />
-    <Folder Include="Features\Queries\CustomerOwnedProperty\GetAllCustomerOwnedPropertyDto\" />
-    <Folder Include="Extensions\" />
-    <Folder Include="Features\Queries\CustomerOwnedProperty\GetAllCustomerOwnedPropertyDtoByWhere\" />
-  </ItemGroup>
+  
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="13.0.1" />
@@ -47,25 +21,5 @@
     <ProjectReference Include="..\RealEstateWebApi.Domain\RealEstateWebApi.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Remove="Repositories\Reminder\" />
-    <None Remove="Features\Commands\Reminder\" />
-    <None Remove="Features\Commands\Reminder\CreateReminder\" />
-    <None Remove="Features\Commands\Reminder\DeleteReminder\" />
-    <None Remove="Features\Commands\Reminder\UpdateReminder\" />
-    <None Remove="Features\Queries\Reminder\" />
-    <None Remove="Features\Queries\Reminder\GetAllReminderByUserId\" />
-    <None Remove="Features\Queries\Reminder\GetAllReminderDtoByUserId\" />
-    <None Remove="Features\Commands\Property\" />
-    <None Remove="Features\Commands\Property\CreateProperty\" />
-    <None Remove="Features\Commands\Property\DeleteProperty\" />
-    <None Remove="Features\Commands\Property\UpdateProperty\" />
-    <None Remove="Features\Queries\Property\" />
-    <None Remove="Features\Queries\Property\GetAllProperty\" />
-    <None Remove="Features\Queries\Customer\GetAllCustomerDtoByStatusKey\" />
-    <None Remove="Features\Queries\Entry\GetCountEntryByUserId\" />
-    <None Remove="Features\Queries\CustomerOwnedProperty\GetAllCustomerOwnedPropertyDto\" />
-    <None Remove="Extensions\" />
-    <None Remove="Features\Queries\CustomerOwnedProperty\GetAllCustomerOwnedPropertyDtoByWhere\" />
-  </ItemGroup>
+  
 </Project>

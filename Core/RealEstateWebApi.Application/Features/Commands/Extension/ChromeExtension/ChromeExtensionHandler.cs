@@ -141,15 +141,18 @@ namespace RealEstateWebApi.Application.Features.Commands.Extension.ChromeExtensi
             }
 
             // herhangi bir sahip olunan mülk de kayıtlımı kontrolü
-            string descriptionStart = String.Empty;
+            
             var cospResult = await _customerOwnedPropertyReadRepository.GetSingleAsync(x => x.OuterPropertyListingId == pldResult.Id);
             if (cospResult is not null)
             {
+                string descriptionStart = $"{customer.Id} id müşterinin ilanı ile aynı, ";
+                string firstControlMessage = string.Empty;
                 if (customer.Id == cospResult.CustomerId && pldResult.ListingDate != propertyListingDetail.ListingDate)
                 {
                     descriptionStart = $"{DateTime.Now.Date} itibariyle tarih {pldResult.ListingDate.Value.Date.ToString("dd/MM/yyyy")} -> {propertyListingDetail.ListingDate.Value.Date.ToString("dd/MM/yyyy")} olarak güncellenmiştir. \n\n";
                     cospResult.Description = descriptionStart + cospResult.Description;
                     await _customerOwnedPropertyWriteRepository.SaveAsync();
+                    firstControlMessage += $" tarih güncellemesi yapıldı.";
                 }
 
                 if (customer.Id == cospResult.CustomerId && pldResult.Price != propertyListingDetail.Price)
@@ -158,9 +161,10 @@ namespace RealEstateWebApi.Application.Features.Commands.Extension.ChromeExtensi
                     cospResult.Price = propertyListingDetail.Price;
                     cospResult.Description = descriptionStart + cospResult.Description;
                     await _customerOwnedPropertyWriteRepository.SaveAsync();
+                    firstControlMessage += $" fiyat güncellemesi yapıldı.";
                     return new ChromeExtensionResponse()
                     {
-                        Message = $"{customer.Id} id müşterinin ilanı ile aynı, fiyat güncellemesi yapıldı.",
+                        Message = firstControlMessage,
                         Success = true,
                     };
                 }
@@ -206,7 +210,7 @@ namespace RealEstateWebApi.Application.Features.Commands.Extension.ChromeExtensi
                 PropertyStatusId = propertyStatus.Id,
                 ShLink = request.Url,
                 Price = pldResult.Price,
-                Description = pldResult.Description
+                //Description = pldResult.Description
             });
 
             if (cospResult is null)

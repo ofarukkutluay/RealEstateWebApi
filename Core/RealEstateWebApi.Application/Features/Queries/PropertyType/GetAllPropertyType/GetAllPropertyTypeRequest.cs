@@ -5,5 +5,6 @@ namespace RealEstateWebApi.Application.Features.Queries.PropertyType.GetAllPrope
 {
     public class GetAllPropertyTypeRequest : IRequest<GetAllPropertyTypeResponse>
     {
+        public uint PropertyStatusId { get; set; }
     }
 }

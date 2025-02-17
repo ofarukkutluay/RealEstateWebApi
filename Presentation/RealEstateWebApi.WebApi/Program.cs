@@ -136,12 +136,12 @@ app.UseHttpLogging();
 app.UseCustomExceptionMiddleware();
 
 
-using (var scope = app.Services.CreateScope())
-{
-    var db = scope.ServiceProvider.GetRequiredService<RealEstateWebApiDbContext>();
-    db.Database.Migrate();
+// using (var scope = app.Services.CreateScope())
+// {
+//     var db = scope.ServiceProvider.GetRequiredService<RealEstateWebApiDbContext>();
+//     db.Database.Migrate();
 
-}
+// }
 
 
 app.UseStaticFiles();

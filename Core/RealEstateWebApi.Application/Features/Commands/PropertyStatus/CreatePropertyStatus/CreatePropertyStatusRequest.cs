@@ -6,5 +6,7 @@ namespace RealEstateWebApi.Application.Features.Commands.PropertyStatus.CreatePr
     public class CreatePropertyStatusRequest : IRequest<CreatePropertyStatusResponse>
     {
         public string Title { get; set; } 
+        public uint PropertyCategoryId { get; set; }
+
     }
 }

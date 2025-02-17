@@ -51,9 +51,9 @@ namespace RealEstateWebApi.WebApi.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllPropertyStatus()
+        public async Task<IActionResult> GetAllPropertyStatus([FromQuery] GetAllPropertyStatusRequest request)
         {
-            GetAllPropertyStatusResponse response = await _mediator.Send(new GetAllPropertyStatusRequest());
+            GetAllPropertyStatusResponse response = await _mediator.Send(request);
             if (response.Success)
                 return Ok(response);
             return BadRequest(response);
