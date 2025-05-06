@@ -14,11 +14,11 @@ namespace RealEstateWebApi.WebApp.Controllers
     [AllowAnonymous]
     public class AuthController : BaseController
     {
-        private readonly IConfiguration _configuration;
+        private readonly HttpClient _httpClient;
 
-        public AuthController(IConfiguration configuration)
+        public AuthController(IHttpClientFactory httpClientFactory)
         {
-            _configuration = configuration;
+            _httpClient = httpClientFactory.CreateClient("ApiClient");
         }
 
         [Route("/login")]
@@ -30,11 +30,10 @@ namespace RealEstateWebApi.WebApp.Controllers
         [HttpPost("/login")]
         public async Task<IActionResult> Login(LoginUser loginUser)
         {
-            using HttpClient client = new HttpClient();
-
+            
             var content = JsonContent.Create(loginUser);
 
-            var response = await client.PostAsync(_configuration["ApiUrl"] + "user/login", content);
+            var response = await _httpClient.PostAsync("/user/login", content);
 
             JObject json = JObject.Parse(await response.Content.ReadAsStringAsync());
 
@@ -63,7 +62,6 @@ namespace RealEstateWebApi.WebApp.Controllers
                     await HttpContext.SignInAsync(JwtBearerDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProps);
                     //HttpContext.Session.SetString("Token",responseToken);
                     SuccessAlert(json["message"].ToString());
-                    client.Dispose();
                     return RedirectToAction("Index", "Home");
                 }
 
@@ -71,7 +69,6 @@ namespace RealEstateWebApi.WebApp.Controllers
 
             DangerAlert(json["message"].ToString());
 
-            client.Dispose();
             return RedirectToAction("Login");
 
         }
@@ -85,24 +82,22 @@ namespace RealEstateWebApi.WebApp.Controllers
         [HttpPost("/register")]
         public async Task<IActionResult> Register(RegisterUser registerUser)
         {
-            using HttpClient client = new HttpClient();
+            
 
             var content = JsonContent.Create(registerUser);
 
-            var response = await client.PostAsync(_configuration["ApiUrl"] + "user/register", content);
+            var response = await _httpClient.PostAsync("/user/register", content);
 
             JObject json = JObject.Parse(await response.Content.ReadAsStringAsync());
 
             if ((bool)json["success"] == true)
             {
                 SuccessAlert(json["message"].ToString());
-                client.Dispose();
                 return RedirectToAction("Login");
             }
 
             DangerAlert(json["message"].ToString());
 
-            client.Dispose();
             return RedirectToAction("Register");
         }
 

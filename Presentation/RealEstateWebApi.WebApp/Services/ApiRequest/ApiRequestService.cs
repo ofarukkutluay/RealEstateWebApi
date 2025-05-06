@@ -7,167 +7,116 @@ namespace RealEstateWebApi.WebApp.Services.ApiRequest
 {
     public class ApiRequestService
     {
-        private readonly IConfiguration Configuration;
-        private readonly IHttpContextAccessor _httpContextAccessor;
-        public ApiRequestService(IConfiguration configuration, IHttpContextAccessor httpContextAccessor)
+ 
+        private readonly HttpClient httpClient;
+        public ApiRequestService(IHttpClientFactory httpClientFactory)
         {
-            Configuration = configuration;
-            _httpContextAccessor = httpContextAccessor;
+            httpClient = httpClientFactory.CreateClient("ApiClient");
         }
-
-        private string apiUrl { get => Configuration["ApiUrl"]; }
-        public string? Token => _httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(x => x.Type == "realestatetoken")?.Value;
-
 
         public async Task<ApiResult<object>> GetApiStatus()
         {
-            using (HttpClient client = new HttpClient())
-            {
-                if (!string.IsNullOrEmpty(Token))
-                {
-                    client.DefaultRequestHeaders.Add("Authorization", $"Bearer {Token}");
-                }
 
-                var response = await client.GetStringAsync(apiUrl);
+            var response = await httpClient.GetStringAsync("/");
 
-                return JsonConvert.DeserializeObject<ApiResult<object>>(response);
+            return JsonConvert.DeserializeObject<ApiResult<object>>(response);
 
-            }
         }
 
         public async Task<TResult> Get<TResult>(string path)
         {
-            using (HttpClient client = new HttpClient())
-            {
-                if (!string.IsNullOrEmpty(Token))
-                {
-                    
-                    client.DefaultRequestHeaders.Add("Authorization", $"Bearer {Token}");
-                }
 
-                var response = await client.GetStringAsync(apiUrl + path);
+            var response = await httpClient.GetFromJsonAsync<TResult>(path);
 
-                return JsonConvert.DeserializeObject<TResult>(response);
-
-            }
+            return response;
         }
 
         public async Task<TResult> Get<TResult>(string path, params string[] keys)
         {
-            using (HttpClient client = new HttpClient())
+
+
+            foreach (var key in keys)
             {
-                var url = apiUrl + path;
-                foreach (var key in keys)
-                {
-                    url += key;
-                }
-                
-                if (!string.IsNullOrEmpty(Token))
-                {
-
-                    client.DefaultRequestHeaders.Add("Authorization", $"Bearer {Token}");
-                }
-
-                var response = await client.GetStringAsync(url);
-
-                return JsonConvert.DeserializeObject<TResult>(response);
-
+                path += key;
             }
+
+            var response = await httpClient.GetFromJsonAsync<TResult>(path);
+
+            return response;
+
+
         }
 
         public async Task<TResult> Post<TResult>(string path, object content)
         {
-            using (HttpClient client = new HttpClient())
-            {
-                var jsonContent = JsonContent.Create(content);
 
-                if (!string.IsNullOrEmpty(Token))
-                {
-                    client.DefaultRequestHeaders.Add("Authorization", $"Bearer {Token}");
-                }
+            var jsonContent = JsonContent.Create(content);
 
-                var response = await client.PostAsync(apiUrl + path, jsonContent);
 
-                return JsonConvert.DeserializeObject<TResult>(await response.Content.ReadAsStringAsync());
-            }
+            var response = await httpClient.PostAsync(path, jsonContent);
+
+            return JsonConvert.DeserializeObject<TResult>(await response.Content.ReadAsStringAsync());
+
 
         }
 
         public async Task<TResult> PostForm<TResult>(string path, object content)
         {
-            using (HttpClient client = new HttpClient())
+
+
+            using (var multipartContent = new MultipartFormDataContent())
             {
 
-                using (var multipartContent = new MultipartFormDataContent())
+                foreach (var prop in content.GetType().GetProperties())
                 {
-
-                    foreach (var prop in content.GetType().GetProperties())
+                    var value = prop.GetValue(content);
+                    if (value is IFormFile)
                     {
-                        var value = prop.GetValue(content);
-                        if (value is IFormFile)
-                        {
-                            var file = value as IFormFile;
-                            multipartContent.Add(new StreamContent(file.OpenReadStream()), prop.Name, file.FileName);
-                            multipartContent.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data") { Name = prop.Name, FileName = file.FileName };
-                        }
-                        else
-                        {
-                            multipartContent.Add(new StringContent(JsonConvert.SerializeObject(value)), prop.Name);
-                        }
+                        var file = value as IFormFile;
+                        multipartContent.Add(new StreamContent(file.OpenReadStream()), prop.Name, file.FileName);
+                        multipartContent.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data") { Name = prop.Name, FileName = file.FileName };
                     }
-
-
-                    if (!string.IsNullOrEmpty(Token))
+                    else
                     {
-                        client.DefaultRequestHeaders.Add("Authorization", $"Bearer {Token}");
+                        multipartContent.Add(new StringContent(JsonConvert.SerializeObject(value)), prop.Name);
                     }
-
-                    var response = await client.PostAsync(apiUrl + path, multipartContent);
-
-                    return JsonConvert.DeserializeObject<TResult>(await response.Content.ReadAsStringAsync());
                 }
+
+                var response = await httpClient.PostAsync(path, multipartContent);
+
+                return JsonConvert.DeserializeObject<TResult>(await response.Content.ReadAsStringAsync());
             }
+
 
         }
 
         public async Task<TResult> Put<TResult>(string path, object content)
         {
-            using (HttpClient client = new HttpClient())
-            {
-                var jsonContent = JsonContent.Create(content);
 
-                if (!string.IsNullOrEmpty(Token))
-                {
-                    client.DefaultRequestHeaders.Add("Authorization", $"Bearer {Token}");
-                }
+            var jsonContent = JsonContent.Create(content);
 
-                var response = await client.PutAsync(apiUrl + path, jsonContent);
 
-                return JsonConvert.DeserializeObject<TResult>(await response.Content.ReadAsStringAsync());
-            }
+            var response = await httpClient.PutAsync(path, jsonContent);
+
+            return JsonConvert.DeserializeObject<TResult>(await response.Content.ReadAsStringAsync());
+
 
         }
 
         public async Task<TResult> Delete<TResult>(string path, object content)
         {
-            using (HttpClient client = new HttpClient())
-            {
-                var jsonContent = JsonContent.Create(content);
 
-                if (!string.IsNullOrEmpty(Token))
+            var jsonContent = JsonContent.Create(content);
+
+            var result = httpClient.SendAsync(
+                new HttpRequestMessage(HttpMethod.Delete, path)
                 {
-                    client.DefaultRequestHeaders.Add("Authorization", $"Bearer {Token}");
-                }
+                    Content = jsonContent
+                })
+                .Result;
 
-                var result = client.SendAsync(
-                    new HttpRequestMessage(HttpMethod.Delete, apiUrl + path)
-                    {
-                        Content = jsonContent
-                    })
-                    .Result;
-
-                return JsonConvert.DeserializeObject<TResult>(await result.Content.ReadAsStringAsync());
-            }
+            return JsonConvert.DeserializeObject<TResult>(await result.Content.ReadAsStringAsync());
         }
     }
 }
+

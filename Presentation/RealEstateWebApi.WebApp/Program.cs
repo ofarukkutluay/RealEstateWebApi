@@ -22,9 +22,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<WebAppLocalDbContext>(opt => opt.UseInMemoryDatabase("LocalDb"));
 
 builder.Services.AddSingleton<ILoggerService, ConsoleLogger>();
-builder.Services.AddSingleton<ApiRequestService>();
+builder.Services.AddScoped<ApiRequestService>();
 
-var tokenOptions = builder.Configuration.GetSection("ApiTokenOptions").Get<ApiTokenOption>();
+//var tokenOptions = builder.Configuration.GetSection("ApiTokenOptions").Get<ApiTokenOption>();
+
+
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddCookie(JwtBearerDefaults.AuthenticationScheme, opt =>
 {
@@ -38,6 +40,20 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddCo
 });
 
 builder.Services.AddHttpContextAccessor();
+
+
+builder.Services.AddHttpClient("ApiClient", (serviceProvider, client) =>
+{
+    var httpContextAccessor = serviceProvider.GetRequiredService<IHttpContextAccessor>();
+    string? Token = httpContextAccessor.HttpContext?.User.Claims.FirstOrDefault(x => x.Type == "realestatetoken")?.Value;
+    client.BaseAddress = new Uri(builder.Configuration["ApiUrl"]);
+    client.DefaultRequestHeaders.Add("Accept", "application/json");
+    client.DefaultRequestHeaders.Add("User-Agent", "RealEstateWebApp");
+    if (!string.IsNullOrEmpty(Token))
+    {
+        client.DefaultRequestHeaders.Add("Authorization", $"Bearer {Token}");
+    }
+});
 
 Logger log = new LoggerConfiguration()
     .WriteTo.Console()
@@ -148,10 +164,11 @@ app.Use(async (context, next) =>
 {
     var userid = context.User?.Identity?.IsAuthenticated == true ? context.User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier)?.Value : null;
     LogContext.PushProperty("user_id", userid);
-    await next();
+    
 
     var remoteIpAddress = context.Connection.RemoteIpAddress?.ToString();
     LogContext.PushProperty("remote_ip", remoteIpAddress);
+    await next();
 });
 
 app.MapControllerRoute(

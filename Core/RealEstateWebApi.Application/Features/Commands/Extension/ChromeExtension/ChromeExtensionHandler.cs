@@ -72,7 +72,17 @@ namespace RealEstateWebApi.Application.Features.Commands.Extension.ChromeExtensi
         }
         public async Task<ChromeExtensionResponse> Handle(ChromeExtensionRequest request, CancellationToken cancellationToken)
         {
+            if(!request.Url.Contains("sahibinden"))
+            {
+                return new ChromeExtensionResponse()
+                {
+                    Message = "Şimdilik Sh dışında bir link gönderemezsiniz.",
+                    Success = false
+                };
+            }
+
             OuterPropertyListing propertyListingDetail = await _shScrapingService.GetListingDetail(request.Url, request.OuterHTML, Path.Combine("ShScraping"));
+        
 
             // shscrapingden dönen datayı kontrol ve kayıt
             OuterPropertyListing pldResult = await _outerPropertyListingReadRepository.GetSingleAsync(x => x.Id == propertyListingDetail.Id);

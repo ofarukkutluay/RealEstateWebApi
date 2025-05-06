@@ -35,7 +35,7 @@ namespace RealEstateWebApi.WebApp.Controllers
         public async Task<IActionResult> Users()
         {
             var homeResult = await _apiRequestService.GetApiStatus();
-            DataResult<IEnumerable<User>> users = await _apiRequestService.Get<DataResult<IEnumerable<User>>>("user", "?TempPass=", homeResult.InternalMessage);
+            DataResult<IEnumerable<User>> users = await _apiRequestService.Get<DataResult<IEnumerable<User>>>("/user", "?TempPass=", homeResult.InternalMessage);
             uint loginUserId = uint.Parse(HttpContext.User.Claims.FirstOrDefault(e => ClaimTypes.NameIdentifier == e.Type).Value);
             await SelectItemInitilazeRolesModalPage();
 
@@ -45,7 +45,7 @@ namespace RealEstateWebApi.WebApp.Controllers
         public async Task<IActionResult> ActivateUser(uint userId)
         {
             var homeResult = await _apiRequestService.GetApiStatus();
-            Result result = await _apiRequestService.Put<Result>("user/changeActivate", new { TempPass = homeResult.InternalMessage, UserId = userId, Activate = true });
+            Result result = await _apiRequestService.Put<Result>("/user/changeActivate", new { TempPass = homeResult.InternalMessage, UserId = userId, Activate = true });
             if (result.Success)
             {
                 SuccessAlert(result.Message);
@@ -60,7 +60,7 @@ namespace RealEstateWebApi.WebApp.Controllers
         public async Task<IActionResult> DeactivateUser(uint userId)
         {
             var homeResult = await _apiRequestService.GetApiStatus();
-            Result result = await _apiRequestService.Put<Result>("user/changeActivate", new { TempPass = homeResult.InternalMessage, UserId = userId, Activate = false });
+            Result result = await _apiRequestService.Put<Result>("/user/changeActivate", new { TempPass = homeResult.InternalMessage, UserId = userId, Activate = false });
             if (result.Success)
             {
                 SuccessAlert(result.Message);
@@ -74,14 +74,14 @@ namespace RealEstateWebApi.WebApp.Controllers
 
         public async Task<IActionResult> UserUpdate(uint userId)
         {
-            DataResult<User> user = await _apiRequestService.Get<DataResult<User>>("user", "/", userId.ToString());
+            DataResult<User> user = await _apiRequestService.Get<DataResult<User>>("/user", "/", userId.ToString());
             return View(user.Data);
         }
 
         [HttpPost]
         public async Task<IActionResult> UpdateUser(User user)
         {
-            Result result = await _apiRequestService.Put<Result>("user", user);
+            Result result = await _apiRequestService.Put<Result>("/user", user);
             if (result.Success)
             {
                 SuccessAlert(result.Message);
@@ -95,7 +95,7 @@ namespace RealEstateWebApi.WebApp.Controllers
         [HttpPost]
         public async Task<IActionResult> UploadPhoto(UserPhoto userPhoto)
         {
-            Result result = await _apiRequestService.PostForm<Result>("user/uploadPhoto", userPhoto);
+            Result result = await _apiRequestService.PostForm<Result>("/user/uploadPhoto", userPhoto);
             if (result.Success)
             {
                 SuccessAlert(result.Message);
@@ -109,7 +109,7 @@ namespace RealEstateWebApi.WebApp.Controllers
         public async Task<IActionResult> CreatePassword(uint userId)
         {
             var homeResult = await _apiRequestService.GetApiStatus();
-            DataResult<string> result = await _apiRequestService.Post<DataResult<string>>("user/createAndChangePassword", new { TempPass = homeResult.InternalMessage, UserId = userId });
+            DataResult<string> result = await _apiRequestService.Post<DataResult<string>>("/user/createAndChangePassword", new { TempPass = homeResult.InternalMessage, UserId = userId });
             if (result.Success)
             {
                 SuccessAlert(result.Message + ". Şifre : " + result.Data);
@@ -123,7 +123,7 @@ namespace RealEstateWebApi.WebApp.Controllers
         [HttpPost]
         public async Task<IActionResult> UpdateUserRole(UserRole userRole)
         {
-            Result result = await _apiRequestService.Post<Result>("UserOperationClaim", new { UserId = userRole.UserId, OperationClaimId = userRole.OperationClaimId });
+            Result result = await _apiRequestService.Post<Result>("/UserOperationClaim", new { UserId = userRole.UserId, OperationClaimId = userRole.OperationClaimId });
             if (result.Success)
             {
                 SuccessAlert(result.Message);
@@ -137,12 +137,12 @@ namespace RealEstateWebApi.WebApp.Controllers
         [HttpPost]
         public async Task<IActionResult> DeleteUserRoles(UserRole userRole)
         {
-            var userRoles = await _apiRequestService.Get<DataResult<IEnumerable<UserRole>>>("UserOperationClaim", "/", userRole.UserId.ToString());
+            var userRoles = await _apiRequestService.Get<DataResult<IEnumerable<UserRole>>>("/UserOperationClaim", "/", userRole.UserId.ToString());
             Result result = new Result();
             
             foreach (var item in userRoles.Data)
             {
-                result = await _apiRequestService.Delete<Result>("UserOperationClaim", new { UserId = userRole.UserId, OperationClaimId = item.OperationClaimId});
+                result = await _apiRequestService.Delete<Result>("/UserOperationClaim", new { UserId = userRole.UserId, OperationClaimId = item.OperationClaimId});
             }
 
             if (result.Success)
@@ -158,7 +158,7 @@ namespace RealEstateWebApi.WebApp.Controllers
         [HttpPost]
         public async Task<IActionResult> DeleteCustomer(Customer customer)
         {
-            var rtnObj = await _apiRequestService.Delete<Result>("customer", new { Id = customer.Id});
+            var rtnObj = await _apiRequestService.Delete<Result>("/customer", new { Id = customer.Id});
 
             if (rtnObj.Success == true)
             {
@@ -173,7 +173,7 @@ namespace RealEstateWebApi.WebApp.Controllers
         [HttpPost]
         public async Task<IActionResult> UpdateCustomer(Customer customer)
         {
-            var rtnObj = await _apiRequestService.Put<Result>("customer", customer);
+            var rtnObj = await _apiRequestService.Put<Result>("/customer", customer);
 
             if (rtnObj.Success == true)
             {
@@ -187,7 +187,7 @@ namespace RealEstateWebApi.WebApp.Controllers
 
         public async Task<IActionResult> ActivateCustomer(uint customerId)
         {
-            var rtnObj = await _apiRequestService.Put<Result>("customer/ChangeActivate", new {CustomerId = customerId , Activate = true});
+            var rtnObj = await _apiRequestService.Put<Result>("/customer/ChangeActivate", new {CustomerId = customerId , Activate = true});
 
             if (rtnObj.Success == true)
             {
@@ -201,7 +201,7 @@ namespace RealEstateWebApi.WebApp.Controllers
 
         public async Task<IActionResult> DeleteOwnedProperty(uint cospId)
         {
-            var rtnObj = await _apiRequestService.Delete<Result>("CustomerOwnedProperty", new { Id = cospId });
+            var rtnObj = await _apiRequestService.Delete<Result>("/CustomerOwnedProperty", new { Id = cospId });
 
             if (rtnObj.Success == true)
             {
@@ -215,7 +215,7 @@ namespace RealEstateWebApi.WebApp.Controllers
 
         public async Task<IActionResult> DeleteSearchProperty(uint csspId)
         {
-            var rtnObj = await _apiRequestService.Delete<Result>("CustomerSearchProperty", new { Id = csspId });
+            var rtnObj = await _apiRequestService.Delete<Result>("/CustomerSearchProperty", new { Id = csspId });
 
             if (rtnObj.Success == true)
             {
@@ -232,7 +232,7 @@ namespace RealEstateWebApi.WebApp.Controllers
         async Task SelectItemInitilazeRolesModalPage()
         {
 
-            var result = await _apiRequestService.Get<DataResult<IEnumerable<OperationClaim>>>("OperationClaim");
+            var result = await _apiRequestService.Get<DataResult<IEnumerable<OperationClaim>>>("/OperationClaim");
 
             IEnumerable<SelectListItem> selectRoles = result.Data.Select(x => new SelectListItem
             {
